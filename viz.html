@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>viz</title>
+    <style>
+      
+    </style>
+  </head>
+  <body>
+    
+    <script src="viz.js"></script>
+    <script>
+    
+      var dot = "\
+digraph { \
+  graph [rankdir=LR]; \
+  node [shape=record]; \
+  \
+  s0 [label=\"0 | &bull; A\\nA &rarr; &bull; ( A )\\nA &rarr; &bull; a\"]; \
+  s1 [label=\"1 | A &bull;\"]; \
+  s2 [label=\"2 | A &rarr; a &bull;\"]; \
+  s3 [label=\"3 | A &rarr; ( &bull; A )\\nA &rarr; &bull; ( A )\\nA &rarr; &bull; a\"]; \
+  s4 [label=\"4 | A &rarr; ( A &bull; )\"]; \
+  s5 [label=\"5 | A &rarr; ( A ) &bull;\"]; \
+  \
+  s0 -> s1 [label=\"A\"]; \
+  s0 -> s2 [label=\"a\"]; \
+  s0 -> s3 [label=\"(\"]; \
+  s3 -> s3 [label=\"(\"]; \
+  s3 -> s4 [label=\"A\"]; \
+  s4 -> s5 [label=\")\"]; \
+}";
+      
+      document.body.innerHTML += Viz(dot);
+      
+    </script>
+    
+  </body>
+</html>

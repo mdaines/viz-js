@@ -1,5 +1,4 @@
-Viz = function(src, format) {
-  format = format || "svg";
+Viz = function(src) {
   var Module = {};
   Module["return"] = "";
   Module["print"] = function(text) {

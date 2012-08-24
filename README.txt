@@ -3,7 +3,7 @@ Viz.js
 
 Simple Graphviz for the web, compiled with Emscripten.
 
-To render as SVG (produces XML text):
+To render as SVG (produces an XML string):
 
   svg = Viz("digraph { a -> b; }", "svg");
 

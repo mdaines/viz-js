@@ -37,10 +37,10 @@ graphviz-src.tar.gz:
 	curl "http://www.graphviz.org/pub/graphviz/stable/SOURCES/graphviz-2.28.0.tar.gz" -o graphviz-src.tar.gz
 
 clean:
-	rm -rf $(SRCDIR)
 	rm -f $(SRCDIR)/lib/*/*.bc
 	rm -f $(SRCDIR)/plugin/*/*.bc
 	rm -f viz.js
 
 clobber: clean
+	rm -rf $(SRCDIR)
 	rm -f graphviz-src.tar.gz

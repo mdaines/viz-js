@@ -1,4 +1,4 @@
-Viz = function(src) {
+Viz = function(src, format) {
   var Module = {};
   Module["return"] = "";
   Module["print"] = function(text) {

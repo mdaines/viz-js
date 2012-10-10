@@ -271,22 +271,35 @@ id = 16
         return document.getElementById(id).innerHTML;
       }
       
+      function example(id, format) {
+        var result;
+        try {
+          result = Viz(src(id), format);
+          if (format === "svg")
+            return result;
+          else
+            return inspect(result);
+        } catch(e) {
+          return inspect(e.toString());
+        }
+      }
+      
       document.body.innerHTML += "<p>Examples from the <a href=\"http://graphviz.org/Gallery.php\">Graphviz gallery</a>.</p>"
       
       document.body.innerHTML += "<h1>Cluster (svg output)</h1>";
-      document.body.innerHTML += Viz(src("cluster"), "svg");
+      document.body.innerHTML += example("cluster", "svg");
       
       document.body.innerHTML += "<h1>Crazy (svg output)</h1>";
-      document.body.innerHTML += Viz(src("crazy"), "svg");
+      document.body.innerHTML += example("crazy", "svg");
       
       document.body.innerHTML += "<h1>Data Structures (svg output)</h1>";
-      document.body.innerHTML += Viz(src("data"), "svg");
+      document.body.innerHTML += example("data", "svg");
       
       document.body.innerHTML += "<h1>Cluster (plain output)</h1>";
-      document.body.innerHTML += inspect(Viz(src("cluster"), "plain"));
+      document.body.innerHTML += example("cluster", "plain");
       
       document.body.innerHTML += "<h1>Cluster (xdot output)</h1>";
-      document.body.innerHTML += inspect(Viz(src("cluster"), "xdot"));
+      document.body.innerHTML += example("cluster", "xdot");
       
     </script>
     

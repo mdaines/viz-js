@@ -259,6 +259,17 @@ id = 16
 ];
 }
 </script>
+
+    <script type="text/vnd.graphviz" id="gradients">
+digraph G { bgcolor="purple:pink" label="agraph" fontcolor="white"
+  subgraph cluster1 {fillcolor="blue:cyan" label="acluster" fontcolor="white" style="filled" gradientangle="270"
+		node [shape=box fillcolor="red:yellow" style="filled" gradientangle=90]
+		anode;
+	}
+
+} 
+
+</script>
     
     <script src="viz.js"></script>
     <script>
@@ -294,6 +305,9 @@ id = 16
       
       document.body.innerHTML += "<h1>Data Structures (svg output)</h1>";
       document.body.innerHTML += example("data", "svg");
+      
+      document.body.innerHTML += "<h1>Gradients (svg output)</h1>";
+      document.body.innerHTML += example("gradients", "svg");
       
       document.body.innerHTML += "<h1>Cluster (plain output)</h1>";
       document.body.innerHTML += example("cluster", "plain");

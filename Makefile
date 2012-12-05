@@ -9,7 +9,7 @@ $(SRCDIR)/lib/cdt/libcdt-em.bc:
 	cd $(SRCDIR)/lib/cdt; $(EMCC) -o libcdt-em.bc -I. dtclose.c dtdisc.c dtextract.c dtflatten.c dthash.c dtlist.c dtmethod.c dtopen.c dtsize.c dtstrhash.c dttree.c dttreeset.c dtrestore.c dtview.c dtwalk.c
 
 $(SRCDIR)/lib/common/libcommon-em.bc:
-	cd $(SRCDIR)/lib/common; $(EMCC) -o libcommon-em.bc -I. -I.. -I../.. -I../../.. -I../gvc -I../pathplan -I../cdt -I../graph -I../xdot -DHAVE_CONFIG_H arrows.c emit.c utils.c labels.c memory.c fontmetrics.c geom.c globals.c htmllex.c htmlparse.c htmltable.c ns.c postproc.c routespl.c shapes.c splines.c colxlate.c psusershape.c input.c xdot.c timing.c output.c
+	cd $(SRCDIR)/lib/common; $(EMCC) -o libcommon-em.bc -I. -I.. -I../.. -I../../.. -I../gvc -I../pathplan -I../cdt -I../graph -I../xdot -DHAVE_CONFIG_H arrows.c emit.c utils.c labels.c memory.c fontmetrics.c geom.c globals.c htmllex.c htmlparse.c htmltable.c ns.c postproc.c routespl.c shapes.c splines.c colxlate.c psusershape.c input.c timing.c output.c
 
 $(SRCDIR)/lib/gvc/libgvc-em.bc:
 	cd $(SRCDIR)/lib/gvc; $(EMCC) -o libgvc-em.bc -I. -I.. -I../.. -I../../.. -I../common -I../pathplan -I../cdt -I../graph -DHAVE_CONFIG_H gvc.c gvconfig.c gvcontext.c gvdevice.c gvlayout.c gvevent.c gvjobs.c gvplugin.c gvrender.c gvusershape.c gvloadimage.c gvtextlayout.c

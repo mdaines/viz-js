@@ -1,4 +1,3 @@
-EMSCRIPTEN_ROOT=$(shell python find_emscripten.py)
 EMCC=$(EMSCRIPTEN_ROOT)/emcc
 SRCDIR=graphviz-src
 

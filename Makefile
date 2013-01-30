@@ -1,4 +1,4 @@
-EMCC=$(EMSCRIPTEN_ROOT)/emcc
+EMCC=$(shell if which emcc > /dev/null; then echo "emcc"; else echo "$EMSCRIPTEN_ROOT/emcc"; fi)
 SRCDIR=graphviz-src
 
 viz.js: $(SRCDIR) viz.c $(SRCDIR)/lib/cdt/libcdt-em.bc $(SRCDIR)/lib/common/libcommon-em.bc $(SRCDIR)/lib/gvc/libgvc-em.bc $(SRCDIR)/lib/pathplan/libpathplan-em.bc $(SRCDIR)/lib/graph/libgraph-em.bc $(SRCDIR)/lib/dotgen/libdotgen-em.bc $(SRCDIR)/plugin/core/libgvplugin_core-em.bc $(SRCDIR)/plugin/dot_layout/libgvplugin_dot_layout-em.bc post.js pre.js

@@ -31,7 +31,7 @@ $(SRCDIR)/plugin/dot_layout/libgvplugin_dot_layout-em.bc:
 
 $(SRCDIR): | graphviz-src.tar.gz
 	mkdir -p $(SRCDIR)
-	tar xzf graphviz-src.tar.gz -C $(SRCDIR) --strip=1
+	tar xf graphviz-src.tar.gz -C $(SRCDIR) --strip=1
 
 graphviz-src.tar.gz:
 	curl "http://www.graphviz.org/pub/graphviz/stable/SOURCES/graphviz-2.28.0.tar.gz" -o graphviz-src.tar.gz

@@ -1,3 +1,4 @@
+# To compile, emcc must be in your path or EMSCRIPTEN_ROOT must be set.
 EMCC:=$(shell if command -v emcc > /dev/null; then echo "emcc"; else echo "$(EMSCRIPTEN_ROOT)/emcc"; fi)
 SRCDIR=graphviz-src
 

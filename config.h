@@ -12,9 +12,6 @@
 #define HAVE_BOOL 1
 #undef ENABLE_LTDL
 
-#undef HAVE_EXPAT
-#undef HAVE_EXPAT_H
-
 #define HAVE_ERRNO_H 1
 
 #define DEFAULT_DPI 96

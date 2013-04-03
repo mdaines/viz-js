@@ -3,7 +3,7 @@ EMCC:=$(shell if command -v emcc > /dev/null; then echo "emcc"; else echo "$(EMS
 SRCDIR=graphviz-src
 EPSRCDIR=libexpat-src
 
-viz.js: $(SRCDIR) viz.c $(EPSRCDIR)/lib/lib-em.bc $(SRCDIR)/lib/cdt/libcdt-em.bc $(SRCDIR)/lib/common/libcommon-em.bc $(SRCDIR)/lib/gvc/libgvc-em.bc $(SRCDIR)/lib/pathplan/libpathplan-em.bc $(SRCDIR)/lib/graph/libgraph-em.bc $(SRCDIR)/lib/dotgen/libdotgen-em.bc $(SRCDIR)/plugin/core/libgvplugin_core-em.bc $(SRCDIR)/plugin/dot_layout/libgvplugin_dot_layout-em.bc post.js pre.js
+viz.js: $(SRCDIR) $(EPSRCDIR) viz.c $(EPSRCDIR)/lib/lib-em.bc $(SRCDIR)/lib/cdt/libcdt-em.bc $(SRCDIR)/lib/common/libcommon-em.bc $(SRCDIR)/lib/gvc/libgvc-em.bc $(SRCDIR)/lib/pathplan/libpathplan-em.bc $(SRCDIR)/lib/graph/libgraph-em.bc $(SRCDIR)/lib/dotgen/libdotgen-em.bc $(SRCDIR)/plugin/core/libgvplugin_core-em.bc $(SRCDIR)/plugin/dot_layout/libgvplugin_dot_layout-em.bc post.js pre.js
 	$(EMCC) -v -O2 -s EXPORTED_FUNCTIONS='["_vizRenderFromString"]' -o viz.js -I$(SRCDIR)/lib/gvc -I$(SRCDIR)/lib/common -I$(SRCDIR)/lib/pathplan -I$(SRCDIR)/lib/cdt -I$(SRCDIR)/lib/graph -I$(EPSRCDIR)/lib viz.c $(SRCDIR)/lib/cdt/libcdt-em.bc $(SRCDIR)/lib/common/libcommon-em.bc $(SRCDIR)/lib/gvc/libgvc-em.bc $(SRCDIR)/lib/pathplan/libpathplan-em.bc $(SRCDIR)/lib/graph/libgraph-em.bc $(SRCDIR)/lib/dotgen/libdotgen-em.bc $(SRCDIR)/plugin/dot_layout/libgvplugin_dot_layout-em.bc $(SRCDIR)/plugin/core/libgvplugin_core-em.bc $(EPSRCDIR)/lib/lib-em.bc --pre-js pre.js --post-js post.js --closure 1
 
 $(SRCDIR)/lib/cdt/libcdt-em.bc:
@@ -33,10 +33,12 @@ $(SRCDIR)/plugin/core/libgvplugin_core-em.bc:
 $(SRCDIR)/plugin/dot_layout/libgvplugin_dot_layout-em.bc:
 	cd $(SRCDIR)/plugin/dot_layout; $(EMCC) -o libgvplugin_dot_layout-em.bc -I. -I.. -I../.. -I../../.. -I../../lib -I../../lib/common -I../../lib/gvc -I../../lib/pathplan -I../../lib/cdt -I../../lib/graph -DHAVE_CONFIG_H gvplugin_dot_layout.c gvlayout_dot_layout.c
 
-$(SRCDIR): | libexpat-src.tar.gz graphviz-src.tar.gz
+$(SRCDIR): | graphviz-src.tar.gz
 	mkdir -p $(SRCDIR)
-	mkdir -p $(EPSRCDIR)
 	tar xf graphviz-src.tar.gz -C $(SRCDIR) --strip=1
+
+$(EPSRCDIR): | libexpat-src.tar.gz
+	mkdir -p $(EPSRCDIR)
 	tar xf libexpat-src.tar.gz -C $(EPSRCDIR) --strip=1
 
 graphviz-src.tar.gz:
@@ -44,7 +46,6 @@ graphviz-src.tar.gz:
 
 libexpat-src.tar.gz:
 	curl -L "http://sourceforge.net/projects/expat/files/expat/2.1.0/expat-2.1.0.tar.gz/download" -o libexpat-src.tar.gz
-
 
 clean:
 	rm -f $(SRCDIR)/lib/*/*.bc

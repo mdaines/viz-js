@@ -266,9 +266,24 @@ digraph G { bgcolor="purple:pink" label="agraph" fontcolor="white"
 		node [shape=box fillcolor="red:yellow" style="filled" gradientangle=90]
 		anode;
 	}
+}
+</script>
 
-} 
-
+    <script type="text/vnd.graphviz" id="tables">
+digraph G {
+  node [shape=plaintext]
+  a [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+              <TR><TD PORT="1">one</TD><TD PORT="2" ROWSPAN="2">two</TD></TR>
+              <TR><TD PORT="3">three</TD></TR>
+            </TABLE>>];
+  b [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+              <TR><TD PORT="1">one</TD><TD PORT="2">two</TD></TR>
+              <TR><TD PORT="3" COLSPAN="2">three</TD></TR>
+            </TABLE>>];
+  a:1 -> b:2;
+  b:1 -> a:2;
+  b:3 -> a:3;
+}
 </script>
     
     <script src="viz.js"></script>
@@ -305,6 +320,9 @@ digraph G { bgcolor="purple:pink" label="agraph" fontcolor="white"
       
       document.body.innerHTML += "<h1>Data Structures (svg output)</h1>";
       document.body.innerHTML += example("data", "svg");
+      
+      document.body.innerHTML += "<h1>Tables (svg output)</h1>";
+      document.body.innerHTML += example("tables", "svg");
       
       document.body.innerHTML += "<h1>Gradients (svg output)</h1>";
       document.body.innerHTML += example("gradients", "svg");

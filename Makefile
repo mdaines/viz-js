@@ -42,7 +42,7 @@ $(EPSRCDIR): | libexpat-src.tar.gz
 	tar xf libexpat-src.tar.gz -C $(EPSRCDIR) --strip=1
 
 graphviz-src.tar.gz:
-	curl "http://www.graphviz.org/pub/graphviz/stable/SOURCES/graphviz-2.30.1.tar.gz" -o graphviz-src.tar.gz
+	curl "http://www.graphviz.org/pub/graphviz/stable/SOURCES/graphviz-2.28.0.tar.gz" -o graphviz-src.tar.gz
 
 libexpat-src.tar.gz:
 	curl -L "http://sourceforge.net/projects/expat/files/expat/2.1.0/expat-2.1.0.tar.gz/download" -o libexpat-src.tar.gz

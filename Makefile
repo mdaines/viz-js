@@ -1,6 +1,6 @@
 # To compile, emcc must be in your path or EMSCRIPTEN_ROOT must be set.
 EMCC:=$(shell if command -v emcc > /dev/null; then echo "emcc"; else echo "$(EMSCRIPTEN_ROOT)/emcc"; fi)
-EMFLAGS=-v -g -O1 -s ASM_JS=1 -s USE_TYPED_ARRAYS=0 -s DISABLE_EXCEPTION_CATCHING=0 -s TOTAL_MEMORY=67108864
+EMFLAGS=-v -g -O3 -s ASM_JS=1
 SRCDIR=graphviz-src
 EPSRCDIR=libexpat-src
 
@@ -13,7 +13,7 @@ viz.js: $(SRCDIR) $(EPSRCDIR) viz.c $(EPSRCDIR)/lib/lib-em.bc $(SRCDIR)/lib/cdt/
 	$(SRCDIR)/lib/sparse/libsparse-em.bc $(SRCDIR)/lib/dotgen/libdotgen-em.bc $(SRCDIR)/lib/neatogen/libneatogen-em.bc \
 	$(SRCDIR)/lib/twopigen/libtwopigen-em.bc $(SRCDIR)/plugin/dot_layout/libgvplugin_dot_layout-em.bc \
 	$(SRCDIR)/plugin/neato_layout/libgvplugin_neato_layout-em.bc $(SRCDIR)/plugin/core/libgvplugin_core-em.bc $(EPSRCDIR)/lib/lib-em.bc \
-	--pre-js pre.js --post-js post.js --closure 0
+	--pre-js pre.js --post-js post.js --closure 1
 
 $(SRCDIR)/lib/cdt/libcdt-em.bc:
 	cd $(SRCDIR)/lib/cdt; $(EMCC) $(EMFLAGS) -o libcdt-em.bc -I. dtclose.c dtdisc.c dtextract.c dtflatten.c dthash.c dtlist.c dtmethod.c dtopen.c dtsize.c dtstrhash.c dttree.c dttreeset.c dtrestore.c dtview.c dtwalk.c
@@ -80,7 +80,7 @@ $(EPSRCDIR): | libexpat-src.tar.gz
 	tar xf libexpat-src.tar.gz -C $(EPSRCDIR) --strip=1
 
 graphviz-src.tar.gz:
-	curl "http://www.graphviz.org/pub/graphviz/stable/SOURCES/graphviz-2.28.0.tar.gz" -o graphviz-src.tar.gz
+	curl "http://www.graphviz.org/pub/graphviz/stable/SOURCES/graphviz-2.30.1.tar.gz" -o graphviz-src.tar.gz
 
 libexpat-src.tar.gz:
 	curl -L "http://sourceforge.net/projects/expat/files/expat/2.1.0/expat-2.1.0.tar.gz/download" -o libexpat-src.tar.gz

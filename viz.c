@@ -16,8 +16,8 @@ __attribute__((used)) void vizRenderFromString(char *string, char *layout, char 
   gvLayout(context, graph, layout);
   gvRender(context, graph, format, stdout);
   
-  gvFreeLayout(context, graph);
-  agclose(graph);
-  gvFreeContext(context);
+  //gvFreeLayout(context, graph);
+  //agclose(graph);
+  //gvFreeContext(context);
   
 }

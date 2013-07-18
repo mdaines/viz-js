@@ -28,7 +28,8 @@ $(SRCDIR)/lib/gvc/libgvc-em.bc:
 	cd $(SRCDIR)/lib/gvc; $(EMCC) $(EMFLAGS) -o libgvc-em.bc -I. -I.. -I../.. -I../../.. -I../common -I../pathplan -I../cdt -I../graph -DHAVE_CONFIG_H gvc.c gvconfig.c gvcontext.c gvdevice.c gvlayout.c gvevent.c gvjobs.c gvplugin.c gvrender.c gvusershape.c gvloadimage.c gvtextlayout.c
 
 $(SRCDIR)/lib/pathplan/libpathplan-em.bc:
-	cd $(SRCDIR)/lib/pathplan; $(EMCC) $(EMFLAGS) -o libpathplan-em.bc -I. cvt.c inpoly.c route.c shortest.c solvers.c triang.c util.c visibility.c
+	cd $(SRCDIR)/lib/pathplan; $(EMCC) $(EMFLAGS) -o libpathplan-em.bc -I. cvt.c inpoly.c route.c shortest.c shortestpth.c solvers.c triang.c util.c visibility.c
+
 
 $(SRCDIR)/lib/pack/libpack-em.bc:
 	cd $(SRCDIR)/lib/pack; $(EMCC) $(EMFLAGS) -o libpack-em.bc -I. -I../common -I../neatogen -I../pathplan -I../graph -I../cdt -I../gvc ccomps.c pack.c

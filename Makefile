@@ -1,6 +1,6 @@
 # To compile, emcc must be in your path or EMSCRIPTEN_ROOT must be set.
 EMCC:=$(shell if command -v emcc > /dev/null; then echo "emcc"; else echo "$(EMSCRIPTEN_ROOT)/emcc"; fi)
-EMFLAGS=-v -g -O3 -s ASM_JS=1
+EMFLAGS=-v -g -O3 -s ASM_JS=1 -s EXPORTED_FUNCTIONS="['_zmalloc']"
 SRCDIR=graphviz-src
 EPSRCDIR=libexpat-src
 
@@ -30,9 +30,8 @@ $(SRCDIR)/lib/gvc/libgvc-em.bc:
 $(SRCDIR)/lib/pathplan/libpathplan-em.bc:
 	cd $(SRCDIR)/lib/pathplan; $(EMCC) $(EMFLAGS) -o libpathplan-em.bc -I. cvt.c inpoly.c route.c shortest.c shortestpth.c solvers.c triang.c util.c visibility.c
 
-
 $(SRCDIR)/lib/pack/libpack-em.bc:
-	cd $(SRCDIR)/lib/pack; $(EMCC) $(EMFLAGS) -o libpack-em.bc -I. -I../common -I../neatogen -I../pathplan -I../graph -I../cdt -I../gvc ccomps.c pack.c
+	cd $(SRCDIR)/lib/pack; $(EMCC) $(EMFLAGS) -o libpack-em.bc -I. -I../common -I../neatogen -I../pathplan -I../graph -I../cdt -I../gvc ccomps.c pack.c ../common/arith.h
 
 $(SRCDIR)/lib/osage/libosage-em.bc:
 	cd $(SRCDIR)/lib/osage; $(EMCC) $(EMFLAGS) -o libosage-em.bc -I. -I../common -I../gvc -I../neatogen -I../fdpgen -I../pack -I../pathplan -I../sparse -I../graph -I../cdt osageinit.c
@@ -55,13 +54,11 @@ $(SRCDIR)/lib/neatogen/libneatogen-em.bc:
 $(SRCDIR)/lib/fdpgen/libfdpgen-em.bc:
 	cd $(SRCDIR)/lib/fdpgen; $(EMCC) $(EMFLAGS) -o libfdpgen-em.bc -I. -I.. -I../.. -I../../.. -I../common -I../gvc -I../neatogen -I../pack -I../sparse -I../pathplan -I../cdt -I../graph -DHAVE_CONFIG_H  comp.c dbg.c grid.c fdpinit.c layout.c tlayout.c xlayout.c clusteredges.c
 
-
 $(SRCDIR)/lib/circogen/libcircogen-em.bc:
 	cd $(SRCDIR)/lib/circogen; $(EMCC) $(EMFLAGS) -o libcircogen-em.bc -I. -I.. -I../.. -I../../.. -I../common -I../gvc -I../neatogen -I../pack -I../sparse -I../pathplan -I../cdt -I../graph -DHAVE_CONFIG_H  circularinit.c nodelist.c block.c edgelist.c circular.c deglist.c blocktree.c blockpath.c circpos.c nodeset.c
 
-
 $(SRCDIR)/lib/twopigen/libtwopigen-em.bc:
-	cd $(SRCDIR)/lib/twopigen; $(EMCC) $(EMFLAGS) -o libtwopigen-em.bc -I. -I.. -I../.. -I../../.. -I../common -I../gvc -I../neatogen -I../pack -I../sparse -I../pathplan -I../cdt -I../graph -DHAVE_CONFIG_H circle.c twopiinit.c
+	cd $(SRCDIR)/lib/twopigen; $(EMCC) $(EMFLAGS) -o libtwopigen-em.bc -I. -I.. -I../.. -I../../.. -I../common -I../gvc -I../neatogen -I../pack -I../sparse -I../pathplan -I../cdt -I../graph -DHAVE_CONFIG_H circle.c twopiinit.c ../pack/ccomps.c ../pack/pack.c
 
 $(SRCDIR)/plugin/core/libgvplugin_core-em.bc:
 	cd $(SRCDIR)/plugin/core; $(EMCC) $(EMFLAGS) -o libgvplugin_core-em.bc -I. -I.. -I../.. -I../../.. -I../../lib -I../../lib/common -I../../lib/gvc -I../../lib/pathplan -I../../lib/cdt -I../../lib/graph -DHAVE_CONFIG_H gvplugin_core.c gvrender_core_dot.c gvrender_core_fig.c gvrender_core_map.c gvrender_core_ps.c gvrender_core_svg.c gvrender_core_tk.c gvrender_core_vml.c gvloadimage_core.c

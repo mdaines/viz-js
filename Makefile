@@ -33,19 +33,19 @@ $(SRCDIR)/plugin/core/libgvplugin_core-em.bc:
 $(SRCDIR)/plugin/dot_layout/libgvplugin_dot_layout-em.bc:
 	cd $(SRCDIR)/plugin/dot_layout; $(EMCC) -o libgvplugin_dot_layout-em.bc -I. -I.. -I../.. -I../../.. -I../../lib -I../../lib/common -I../../lib/gvc -I../../lib/pathplan -I../../lib/cdt -I../../lib/graph -DHAVE_CONFIG_H gvplugin_dot_layout.c gvlayout_dot_layout.c
 
-$(SRCDIR): | graphviz-src.tar.gz
+$(SRCDIR): | graphviz-2.28.0.tar.gz
 	mkdir -p $(SRCDIR)
-	tar xf graphviz-src.tar.gz -C $(SRCDIR) --strip=1
+	tar xf graphviz-2.28.0.tar.gz -C $(SRCDIR) --strip=1
 
-$(EPSRCDIR): | libexpat-src.tar.gz
+$(EPSRCDIR): | expat-2.1.0.tar.gz
 	mkdir -p $(EPSRCDIR)
-	tar xf libexpat-src.tar.gz -C $(EPSRCDIR) --strip=1
+	tar xf expat-2.1.0.tar.gz -C $(EPSRCDIR) --strip=1
 
-graphviz-src.tar.gz:
-	curl "http://www.graphviz.org/pub/graphviz/stable/SOURCES/graphviz-2.28.0.tar.gz" -o graphviz-src.tar.gz
+graphviz-2.28.0.tar.gz:
+	curl "http://www.graphviz.org/pub/graphviz/stable/SOURCES/graphviz-2.28.0.tar.gz" -o graphviz-2.28.0.tar.gz
 
-libexpat-src.tar.gz:
-	curl -L "http://sourceforge.net/projects/expat/files/expat/2.1.0/expat-2.1.0.tar.gz/download" -o libexpat-src.tar.gz
+expat-2.1.0.tar.gz:
+	curl -L "http://sourceforge.net/projects/expat/files/expat/2.1.0/expat-2.1.0.tar.gz/download" -o expat-2.1.0.tar.gz
 
 clean:
 	rm -f $(SRCDIR)/lib/*/*.bc
@@ -56,5 +56,3 @@ clean:
 clobber: clean
 	rm -rf $(SRCDIR)
 	rm -rf $(EPSRCDIR)
-	rm -f graphviz-src.tar.gz
-	rm -f libexpat-src.tar.gz

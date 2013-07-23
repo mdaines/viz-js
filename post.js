@@ -1,5 +1,4 @@
-  Module["ccall"]("vizRenderFromString", "number", ["string", "string"], [src, format]);
-  return Module["return"];
+  return Module["ccall"]("vizRenderFromString", "string", ["string", "string"], [src, format]);
 };
 
 // export both as package namespace and as function directly

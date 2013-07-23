@@ -10,10 +10,17 @@
 #define VERSION "2.28.0"
 
 #define HAVE_BOOL 1
-#undef ENABLE_LTDL
 
-#define HAVE_ERRNO_H 1
+#undef ENABLE_LTDL
 
 #define DEFAULT_DPI 96
 
-#define HAVE_STRDUP 1
+#define HAVE_EXPAT 1
+
+#define HAVE_STRING_H 1
+#define HAVE_STRCASECMP 1
+#define HAVE_STRNCASECMP 1
+
+#define HAVE_ERRNO_H 1
+
+#define HAVE_LIBZ 1

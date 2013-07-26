@@ -286,6 +286,25 @@ digraph G {
 }
 </script>
     
+    <script type="text/vnd.graphviz" id="process">
+graph G {
+    graph [layout=neato];
+    run -- intr;
+    intr -- runbl;
+    runbl -- run;
+    run -- kernel;
+    kernel -- zombie;
+    kernel -- sleep;
+    kernel -- runmem;
+    sleep -- swap;
+    swap -- runswap;
+    runswap -- new;
+    runswap -- runmem;
+    new -- runmem;
+    sleep -- runmem;
+}
+</script>
+    
     <script src="viz.js"></script>
     <script>
       
@@ -310,7 +329,7 @@ digraph G {
         }
       }
       
-      document.body.innerHTML += "<p>Examples from the <a href=\"http://graphviz.org/Gallery.php\">Graphviz gallery</a>.</p>"
+      document.body.innerHTML += "<p>dot examples from the <a href=\"http://graphviz.org/Gallery.php\">Graphviz gallery</a>. neato example from the NEATO User's Manual.</p>"
       
       document.body.innerHTML += "<h1>Cluster (svg output)</h1>";
       document.body.innerHTML += example("cluster", "svg");
@@ -332,6 +351,9 @@ digraph G {
       
       document.body.innerHTML += "<h1>Cluster (xdot output)</h1>";
       document.body.innerHTML += example("cluster", "xdot");
+      
+      document.body.innerHTML += "<h1>Process States (svg output, neato layout)</h1>";
+      document.body.innerHTML += example("process", "svg", "neato");
       
     </script>
     

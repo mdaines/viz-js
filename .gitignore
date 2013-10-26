@@ -1,4 +1,5 @@
 graphviz-src
 libexpat-src
 *.tar.gz
+viz.js
 viz.js.map

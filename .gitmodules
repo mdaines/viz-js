@@ -1,3 +1,6 @@
 [submodule "emscripten"]
 	path = emscripten
-	url = git@github.com:kripken/emscripten.git
+	url = https://github.com/kripken/emscripten
+[submodule "zlib"]
+	path = zlib
+	url = https://github.com/madler/zlib

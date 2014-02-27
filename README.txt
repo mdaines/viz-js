@@ -14,7 +14,8 @@ This project is based on work by Satoshi Ueyama and Brenton Partridge:
 
 Thanks to the following contributors:
 
-  KylePDavis
-  srathbun
   jbogard
+  KylePDavis
   siefkenj
+  srathbun
+  vmarkovtsev

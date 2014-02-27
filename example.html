@@ -300,7 +300,7 @@ digraph G {
       function example(id, format) {
         var result;
         try {
-          result = Viz(src(id), format);
+          result = Viz(src(id), format, "dot");
           if (format === "svg")
             return result;
           else

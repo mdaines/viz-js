@@ -1,2 +1,2 @@
-  return Module["ccall"]("vizRenderFromString", "string", ["string", "string"], [src, format]);
+  return Module["ccall"]("vizRenderFromString", "string", ["string", "string", "string"], [src, format, engine]);
 }

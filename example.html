@@ -285,6 +285,24 @@ digraph G {
   b:3 -> a:3;
 }
 </script>
+
+    <script type="text/vnd.graphviz" id="process">
+graph G {
+    run -- intr;
+    intr -- runbl;
+    runbl -- run;
+    run -- kernel;
+    kernel -- zombie;
+    kernel -- sleep;
+    kernel -- runmem;
+    sleep -- swap;
+    swap -- runswap;
+    runswap -- new;
+    runswap -- runmem;
+    new -- runmem;
+    sleep -- runmem;
+}
+</script>
     
     <script src="viz.js"></script>
     <script>
@@ -297,10 +315,10 @@ digraph G {
         return document.getElementById(id).innerHTML;
       }
       
-      function example(id, format) {
+      function example(id, format, engine) {
         var result;
         try {
-          result = Viz(src(id), format, "dot");
+          result = Viz(src(id), format, engine);
           if (format === "svg")
             return result;
           else
@@ -310,7 +328,7 @@ digraph G {
         }
       }
       
-      document.body.innerHTML += "<p>dot examples from the <a href=\"http://graphviz.org/Gallery.php\">Graphviz gallery</a>.</p>"
+      document.body.innerHTML += "<p>Dot examples from the <a href=\"http://graphviz.org/Gallery.php\">Graphviz gallery</a>. Neato example from <a href=\"http://www.graphviz.org/pdf/neatoguide.pdf\">NEATO User's Manual</a>.</p>"
       
       document.body.innerHTML += "<h1>Cluster (svg output)</h1>";
       document.body.innerHTML += example("cluster", "svg");
@@ -326,6 +344,9 @@ digraph G {
       
       document.body.innerHTML += "<h1>Gradients (svg output)</h1>";
       document.body.innerHTML += example("gradients", "svg");
+      
+      document.body.innerHTML += "<h1>Process States (svg output, neato engine)</h1>";
+      document.body.innerHTML += example("process", "svg", "neato");
       
       document.body.innerHTML += "<h1>Cluster (plain output)</h1>";
       document.body.innerHTML += example("cluster", "plain");

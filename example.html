@@ -297,10 +297,10 @@ digraph G {
         return document.getElementById(id).innerHTML;
       }
       
-      function example(id, format) {
+      function example(id, format, engine) {
         var result;
         try {
-          result = Viz(src(id), format, "dot");
+          result = Viz(src(id), format, engine);
           if (format === "svg")
             return result;
           else

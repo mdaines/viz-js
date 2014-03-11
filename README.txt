@@ -1,7 +1,10 @@
 Viz.js
 ======
 
-Simple Graphviz for the web, compiled with Emscripten.
+A hack to put Graphviz on the web. You should probably check out dagre, though:
+
+  https://github.com/cpettitt/dagre
+  https://github.com/cpettitt/dagre-d3
 
 To render as SVG (produces an XML string):
 

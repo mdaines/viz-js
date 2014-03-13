@@ -30,6 +30,11 @@ LIBOPTS=-O2
 viz.js: $(SRCDIR) viz.c $(LIBSBC) post.js pre.js
 	$(EMCC) $(VIZOPTS) -s EXPORTED_FUNCTIONS='["_vizRenderFromString"]' -o viz.js -I$(SRCDIR)/lib/gvc -I$(SRCDIR)/lib/common -I$(SRCDIR)/lib/pathplan -I$(SRCDIR)/lib/cdt -I$(SRCDIR)/lib/cgraph -I$(EPSRCDIR)/lib viz.c $(LIBSBC) --pre-js pre.js --post-js post.js
 
+set_verbose_emscripten:
+	$(eval VIZOPTS += -s VERBOSE=1)
+
+verbose: set_verbose_emscripten viz.js
+
 $(EPSRCDIR)/lib/lib-em.bc: $(EPSRCDIR)
 	cd $(EPSRCDIR)/lib; $(EMCC) $(LIBOPTS) -o lib-em.bc -I. -I.. -DHAVE_BCOPY -DHAVE_CONFIG_H xmlparse.c xmlrole.c xmltok.c
 	

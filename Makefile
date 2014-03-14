@@ -101,7 +101,7 @@ $(SRCDIR)/plugin/neato_layout/libgvplugin_neato_layout-em.bc:
 $(SRCDIR): | graphviz-2.36.0.tar.gz
 	mkdir -p $(SRCDIR)
 	tar xf graphviz-2.36.0.tar.gz -C $(SRCDIR) --strip=1
-	patch --input=../../../scan.c.patch --directory=$(SRCDIR)/lib/cgraph
+	patch --input=../../../cgraph.patch --directory=$(SRCDIR)/lib/cgraph
 
 $(EPSRCDIR): | expat-2.1.0.tar.gz
 	mkdir -p $(EPSRCDIR)

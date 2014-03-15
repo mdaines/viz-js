@@ -30,6 +30,11 @@ LIBOPTS=-O2
 viz.js: $(SRCDIR) viz.c $(LIBSBC) post.js pre.js
 	$(EMCC) $(VIZOPTS) -s EXPORTED_FUNCTIONS='["_vizRenderFromString"]' -o viz.js -I$(SRCDIR)/lib/gvc -I$(SRCDIR)/lib/common -I$(SRCDIR)/lib/pathplan -I$(SRCDIR)/lib/cdt -I$(SRCDIR)/lib/cgraph -I$(EPSRCDIR)/lib viz.c $(LIBSBC) --pre-js pre.js --post-js post.js
 
+set_verbose_emscripten:
+	$(eval VIZOPTS += -s VERBOSE=1)
+
+verbose: set_verbose_emscripten viz.js
+
 $(EPSRCDIR)/lib/lib-em.bc: $(EPSRCDIR)
 	cd $(EPSRCDIR)/lib; $(EMCC) $(LIBOPTS) -o lib-em.bc -I. -I.. -DHAVE_BCOPY -DHAVE_CONFIG_H xmlparse.c xmlrole.c xmltok.c
 	
@@ -96,7 +101,7 @@ $(SRCDIR)/plugin/neato_layout/libgvplugin_neato_layout-em.bc:
 $(SRCDIR): | graphviz-2.36.0.tar.gz
 	mkdir -p $(SRCDIR)
 	tar xf graphviz-2.36.0.tar.gz -C $(SRCDIR) --strip=1
-	patch --input=../../../scan.c.patch --directory=$(SRCDIR)/lib/cgraph
+	patch --input=../../../cgraph.patch --directory=$(SRCDIR)/lib/cgraph
 
 $(EPSRCDIR): | expat-2.1.0.tar.gz
 	mkdir -p $(EPSRCDIR)

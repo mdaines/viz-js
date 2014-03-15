@@ -1,0 +1,38 @@
+attr.c:
+--- attr.c	2014-01-12 02:59:44.000000000 +0400
++++ attr.c.patched	2014-03-14 09:34:12.083086872 +0400
+@@ -517,7 +517,7 @@
+     Agedge_t *e;
+ 
+     root = agroot(g);
+-    agapply(root, (Agobj_t *) root, (agobjfn_t) agraphattr_init,
++    agapply(root, (Agobj_t *) root, (agobjfn_t) agraphattr_init_agobjfn,
+ 	    NIL(Agdisc_t *), TRUE);
+     for (n = agfstnode(root); n; n = agnxtnode(root, n)) {
+ 	agnodeattr_init(g, n);
+cghdr.h:
+--- cghdr.h	2014-01-12 02:59:44.000000000 +0400
++++ cghdr.h.patched	2014-03-14 09:34:34.263086385 +0400
+@@ -131,6 +131,10 @@
+ Agattr_t *agattrrec(void *obj);
+ 
+ void agraphattr_init(Agraph_t * g);
++inline static void agraphattr_init_agobjfn(Agraph_t * g, Agobj_t * obj,
++                                           void *arg) {
++    agraphattr_init(g);
++}
+ int agraphattr_delete(Agraph_t * g);
+ void agnodeattr_init(Agraph_t *g, Agnode_t * n);
+ void agnodeattr_delete(Agnode_t * n);
+scan.c:
+--- scan.c	2014-01-12 03:16:34.000000000 +0400
++++ scan.c.patched	2014-02-23 10:26:08.153641159 +0400
+@@ -573,7 +573,7 @@
+  */
+ void aglexinit(Agdisc_t *disc, void *ifile) { Disc = disc; Ifile = ifile; graphType = 0;}
+ 
+-#define isatty(x) 0
++// #define isatty(x) 0
+ #ifndef YY_INPUT
+ #define YY_INPUT(buf,result,max_size) \
+ 	if ((result = Disc->io->afread(Ifile, buf, max_size)) < 0) \

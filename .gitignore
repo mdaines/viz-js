@@ -1,0 +1,6 @@
+build/
+prefix/
+sources/
+viz.js
+viz.js.map
+viz.js.mem

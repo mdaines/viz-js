@@ -1,0 +1,45 @@
+/* : : generated from ../../../lib/sfio/features/sfio by iffe version 2004-08-11 : : */
+#ifndef _def_time_Sfio_f
+#define _def_time_Sfio_f	1
+#define _sys_types	1	/* #include <sys/types.h> ok */
+#define _hdr_time	1	/* #include <time.h> ok */
+#define _sys_time	1	/* #include <sys/time.h> ok */
+#define _hdr_string	1	/* #include <string.h> ok */
+#define _hdr_math	1	/* #include <math.h> ok */
+#define _hdr_unistd	1	/* #include <unistd.h> ok */
+#define _hdr_float	1	/* #include <float.h> ok */
+#define _hdr_limits	1	/* #include <limits.h> ok */
+#define _lib_atexit	1	/* atexit() in default lib(s) */
+#define _lib_ftruncate	1	/* ftruncate() in default lib(s) */
+#define _lib_stat64	1	/* stat64() in default lib(s) */
+#define _sys_times	1	/* #include <sys/times.h> ok */
+#define _hdr_stddef	1	/* #include <stddef.h> ok */
+#define _hdr_stdlib	1	/* #include <stdlib.h> ok */
+#define _typ_struct_stat64	1	/* compile{\ passed */
+#define _lib_bcopy	1	/* bcopy() in default lib(s) */
+#define _lib_bzero	1	/* bzero() in default lib(s) */
+#define _lib_memcpy	1	/* memcpy() in default lib(s) */
+#define _lib_memset	1	/* memset() in default lib(s) */
+#define _lib_memchr	1	/* see if memchr is fast */
+#define _lib_memccpy	1	/* see if memccpy is fast */
+#define _sys_stat	1	/* stat() in default lib(s) */
+#define _sys_mman	1	/* #include <sys/mman.h> ok */
+#define _lib_vfork	1	/* vfork() in default lib(s) */
+#define _sys_filio	1	/* #include <sys/filio.h> ok */
+#define _sys_ioctl	1	/* #include <sys/ioctl.h> ok */
+#define _lib_remove	1	/* remove() in default lib(s) */
+#define _lib_unlink	1	/* unlink() in default lib(s) */
+#define _lib_waitpid	1	/* waitpid() in default lib(s) */
+#define _lib_getpagesize	1	/* getpagesize() in default lib(s) */
+#define _more_void_int	1	/* voidptr is larger than int */
+#define _more_long_int	1	/* long is larger than int */
+#define _stat_blksize	1	/* st_blksize is a field in struct stat */
+#define _proto_open	1	/* open() has a vararg prototype */
+#define _proto_bcopy	1	/* bcopy() has prototype */
+#define _proto_bzero	1	/* bzero() has prototype */
+#define _lib_poll_fd_1	1	/* fd is first arg to poll() */
+#define _lib_select	1	/* select() has standard 5 arg interface */
+#define _socket_peek	1	/* recv(MSG_PEEK) works */
+#define _lib_strtod	1	/* strtod() in default lib(s) */
+#define _lib_locale	1	/* Check for localeconv */
+#endif

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Viz.js</title>
+    <style>
+      #output svg { width: 100%; }
+    </style>
+  </head>
+  <body>
+
+    <div id="output"></div>
+    <pre><code id="source"></code></pre>
+    
+    <script src="viz.js"></script>
+    <script>
+
+    function get (url, callback) {
+      var xhr = window.ActiveXObject ? new ActiveXObject('Microsoft.XMLHTTP') : new XMLHttpRequest();
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+          if (callback) {
+            return callback(xhr.responseText);
+          }
+        }
+      };
+      xhr.open('GET', url, true);
+      return xhr.send();
+    }
+
+    var pairs = (location.hash || location.search).substr(1).split('&')
+    var args = {}
+    pairs.forEach(function (pair) {
+      var p = pair.split('=')
+      args[p[0]] = p[1]
+    })
+
+    function render (input, format, engine) {
+      if (!input) {
+        input = 'digraph { you -> got -> no -> input }'
+      }
+
+      var result = Viz(input, format, engine);
+      
+      if (format == "svg") {
+        document.getElementById("output").innerHTML = result;
+      } else {
+        document.getElementById("output").innerHTML = "";
+      }
+
+      document.getElementById("source").innerHTML = input
+    }
+
+    var format = args.format || 'svg'
+    var engine = args.engine || 'dot'
+
+    if (args.url) {
+      get(args.url, function (input) {
+        render(input, format, engine)
+      })
+    }
+    else if (args.src) {
+      render(args.src, format, engine)
+    }
+    else { render(null, format, engine) }
+
+    if (args.title) {
+      document.title = 'dot: ' + args.title
+    }
+    else if (args.url) {
+      document.title = 'dot: ' + args.url.split('/').filter(function (x) { return x }).slice(-1)[0]
+    }
+      
+    </script>
+    
+  </body>
+</html>

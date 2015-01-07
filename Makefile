@@ -1,6 +1,6 @@
 PREFIX = $(abspath ./prefix)
 
-.PHONY: all graphviz expat zlib
+.PHONY: all clean clobber expat zlib graphviz
 
 
 all: expat zlib graphviz viz.js

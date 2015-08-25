@@ -26,7 +26,7 @@ expat: | build/expat-2.1.0 $(PREFIX)
 graphviz: | build/graphviz-2.38.0 $(PREFIX)
 	cd build/graphviz-2.38.0 && ./configure
 	cd build/graphviz-2.38.0/lib/gvpr && make mkdefs
-	mkdir build/graphviz-2.38.0/FEATURE
+	mkdir -p build/graphviz-2.38.0/FEATURE
 	cp hacks/FEATURE/sfio hacks/FEATURE/vmalloc build/graphviz-2.38.0/FEATURE
 	cd build/graphviz-2.38.0 && emconfigure ./configure --disable-ltdl --enable-static --disable-shared --prefix=$(PREFIX)
 	cd build/graphviz-2.38.0 && emmake make CFLAGS="-fno-common -Wno-implicit-function-declaration -Wno-warn-absolute-paths"

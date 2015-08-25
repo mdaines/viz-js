@@ -2,6 +2,11 @@
 
 This project is a wrapper and Makefile for building Graphviz with Emscripten.
 
+## API
+
+    var viz = Viz();
+    var svg = viz.render("digraph g { a -> b; }");
+
 ## Build
 
 Generally you won't need to do this. Releases are available from the [releases page](https://github.com/mdaines/viz.js/releases).
@@ -13,10 +18,6 @@ To build from source, you will need to install the Emscripten SDK:
 To download the sources and build everything:
 
     make
-
-To test using node:
-
-    node test.js graphs/tiny.dot
 
 ## License
 

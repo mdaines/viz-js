@@ -34,7 +34,7 @@ digraph G {
 	start [shape=Mdiamond];
 	end [shape=Msquare];
 }
-</script>
+    </script>
     
     <script type="text/vnd.graphviz" id="crazy">
 digraph "unix" {
@@ -141,7 +141,174 @@ digraph "unix" {
 	"System V.0" -> "System V.2";
 	"System V.2" -> "System V.3";
 }
-</script>
+    </script>
+
+    <script type="text/vnd.graphviz" id="data">
+digraph g {
+graph [
+rankdir = "LR"
+];
+node [
+fontsize = "16"
+shape = "ellipse"
+];
+edge [
+];
+"node0" [
+label = "<f0> 0x10ba8| <f1>"
+shape = "record"
+];
+"node1" [
+label = "<f0> 0xf7fc4380| <f1> | <f2> |-1"
+shape = "record"
+];
+"node2" [
+label = "<f0> 0xf7fc44b8| | |2"
+shape = "record"
+];
+"node3" [
+label = "<f0> 3.43322790286038071e-06|44.79998779296875|0"
+shape = "record"
+];
+"node4" [
+label = "<f0> 0xf7fc4380| <f1> | <f2> |2"
+shape = "record"
+];
+"node5" [
+label = "<f0> (nil)| | |-1"
+shape = "record"
+];
+"node6" [
+label = "<f0> 0xf7fc4380| <f1> | <f2> |1"
+shape = "record"
+];
+"node7" [
+label = "<f0> 0xf7fc4380| <f1> | <f2> |2"
+shape = "record"
+];
+"node8" [
+label = "<f0> (nil)| | |-1"
+shape = "record"
+];
+"node9" [
+label = "<f0> (nil)| | |-1"
+shape = "record"
+];
+"node10" [
+label = "<f0> (nil)| <f1> | <f2> |-1"
+shape = "record"
+];
+"node11" [
+label = "<f0> (nil)| <f1> | <f2> |-1"
+shape = "record"
+];
+"node12" [
+label = "<f0> 0xf7fc43e0| | |1"
+shape = "record"
+];
+"node0":f0 -> "node1":f0 [
+id = 0
+];
+"node0":f1 -> "node2":f0 [
+id = 1
+];
+"node1":f0 -> "node3":f0 [
+id = 2
+];
+"node1":f1 -> "node4":f0 [
+id = 3
+];
+"node1":f2 -> "node5":f0 [
+id = 4
+];
+"node4":f0 -> "node3":f0 [
+id = 5
+];
+"node4":f1 -> "node6":f0 [
+id = 6
+];
+"node4":f2 -> "node10":f0 [
+id = 7
+];
+"node6":f0 -> "node3":f0 [
+id = 8
+];
+"node6":f1 -> "node7":f0 [
+id = 9
+];
+"node6":f2 -> "node9":f0 [
+id = 10
+];
+"node7":f0 -> "node3":f0 [
+id = 11
+];
+"node7":f1 -> "node1":f0 [
+id = 12
+];
+"node7":f2 -> "node8":f0 [
+id = 13
+];
+"node10":f1 -> "node11":f0 [
+id = 14
+];
+"node10":f2 -> "node12":f0 [
+id = 15
+];
+"node11":f2 -> "node1":f0 [
+id = 16
+];
+}
+    </script>
+    
+    <script type="text/vnd.graphviz" id="gradients">
+digraph G { bgcolor="purple:pink" label="agraph" fontcolor="white"
+  subgraph cluster1 {fillcolor="blue:cyan" label="acluster" fontcolor="white" style="filled" gradientangle="270"
+		node [shape=box fillcolor="red:yellow" style="filled" gradientangle=90]
+		anode;
+	}
+}
+    </script>
+    
+    <script type="text/vnd.graphviz" id="process">
+graph G {
+    layout="neato"
+
+    run -- intr;
+    intr -- runbl;
+    runbl -- run;
+    run -- kernel;
+    kernel -- zombie;
+    kernel -- sleep;
+    kernel -- runmem;
+    sleep -- swap;
+    swap -- runswap;
+    runswap -- new;
+    runswap -- runmem;
+    new -- runmem;
+    sleep -- runmem;
+}
+    </script>
+    
+    <script type="text/vnd.graphviz" id="tables">
+digraph G {
+  node [shape=plaintext]
+  a [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+              <TR><TD PORT="1">one</TD><TD PORT="2" ROWSPAN="2">two</TD></TR>
+              <TR><TD PORT="3">three</TD></TR>
+            </TABLE>>];
+  b [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+              <TR><TD PORT="1">one</TD><TD PORT="2">two</TD></TR>
+              <TR><TD PORT="3" COLSPAN="2">three</TD></TR>
+            </TABLE>>];
+  a:1 -> b:2;
+  b:1 -> a:2;
+  b:3 -> a:3;
+}
+    </script>
+    
+    <script type="text/vnd.graphviz" id="tiny">
+digraph { a -> b; }
+    </script>
 
     <script src="./viz.js"></script>
     <script>
@@ -150,6 +317,11 @@ digraph "unix" {
     
     document.body.innerHTML += viz.render(document.querySelector("#cluster").textContent);
     document.body.innerHTML += viz.render(document.querySelector("#crazy").textContent);
+    document.body.innerHTML += viz.render(document.querySelector("#data").textContent);
+    document.body.innerHTML += viz.render(document.querySelector("#gradients").textContent);
+    document.body.innerHTML += viz.render(document.querySelector("#process").textContent);
+    document.body.innerHTML += viz.render(document.querySelector("#tables").textContent);
+    document.body.innerHTML += viz.render(document.querySelector("#tiny").textContent);
     
     </script>
     

@@ -1,15 +1,12 @@
 # Viz.js
 
-This project is a wrapper and Makefile for building Graphviz with Emscripten.
+This project is a Makefile for building Graphviz 2.38.0 with Emscripten and a simple wrapper for using it in the browser.
 
 ## API
 
-    var viz = Viz();
-    var svg = viz.render("digraph g { a -> b; }");
+    var svg = Viz("digraph g { a -> b; }");
 
 ## Build
-
-Generally you won't need to do this. Releases are available from the [releases page](https://github.com/mdaines/viz.js/releases).
 
 To build from source, you will need to install the Emscripten SDK:
 
@@ -21,4 +18,4 @@ To download the sources and build everything:
 
 ## License
 
-Viz.js itself is [BSD licensed](./LICENSE).
+Viz.js itself (the Makefile and wrapper) is [BSD licensed](./LICENSE).

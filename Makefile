@@ -12,8 +12,8 @@ clobber: | clean
 	rm -rf build prefix
 
 
-viz.js: src/viz.c src/pre.js
-	emcc -v -g4 -O2 --memory-init-file 0 -s MODULARIZE=1 -s EXPORT_NAME="'Viz'" --pre-js src/pre.js -s USE_ZLIB=1 -s ASSERTIONS=2 -s EXPORTED_FUNCTIONS="['_vizRenderFromString', '_dtextract', '_Dtqueue']" -o $@ $< -I$(PREFIX)/include -I$(PREFIX)/include/graphviz -L$(PREFIX)/lib -L$(PREFIX)/lib/graphviz -lgvplugin_core -lgvplugin_dot_layout -lgvplugin_neato_layout -lcdt -lcgraph -lgvc -lgvpr -lpathplan -lexpat -lxdot -lz
+viz.js: src/viz.c src/pre.js src/post.js
+	emcc -v -Oz --memory-init-file 0 --pre-js src/pre.js --post-js src/post.js -s USE_ZLIB=1 -s ASSERTIONS=2 -s EXPORTED_FUNCTIONS="['_vizRenderFromString', '_dtextract', '_Dtqueue']" -o $@ $< -I$(PREFIX)/include -I$(PREFIX)/include/graphviz -L$(PREFIX)/lib -L$(PREFIX)/lib/graphviz -lgvplugin_core -lgvplugin_dot_layout -lgvplugin_neato_layout -lcdt -lcgraph -lgvc -lgvpr -lpathplan -lexpat -lxdot -lz
 
 
 $(PREFIX):

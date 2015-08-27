@@ -313,15 +313,13 @@ digraph { a -> b; }
     <script src="./viz.js"></script>
     <script>
 
-    var viz = Viz();
-    
-    document.body.innerHTML += viz.render(document.querySelector("#cluster").textContent);
-    document.body.innerHTML += viz.render(document.querySelector("#crazy").textContent);
-    document.body.innerHTML += viz.render(document.querySelector("#data").textContent);
-    document.body.innerHTML += viz.render(document.querySelector("#gradients").textContent);
-    document.body.innerHTML += viz.render(document.querySelector("#process").textContent);
-    document.body.innerHTML += viz.render(document.querySelector("#tables").textContent);
-    document.body.innerHTML += viz.render(document.querySelector("#tiny").textContent);
+    document.body.innerHTML += Viz(document.querySelector("#cluster").textContent);
+    document.body.innerHTML += Viz(document.querySelector("#crazy").textContent);
+    document.body.innerHTML += Viz(document.querySelector("#data").textContent);
+    document.body.innerHTML += Viz(document.querySelector("#gradients").textContent);
+    document.body.innerHTML += Viz(document.querySelector("#process").textContent);
+    document.body.innerHTML += Viz(document.querySelector("#tables").textContent);
+    document.body.innerHTML += Viz(document.querySelector("#tiny").textContent);
     
     </script>
     

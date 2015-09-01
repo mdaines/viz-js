@@ -2,6 +2,10 @@
 
 This project is a Makefile for building Graphviz with Emscripten and a simple wrapper for using it in the browser.
 
+## Getting Viz.js
+
+Download the `viz.js` "binary" from the [https://github.com/mdaines/viz.js/releases](releases page).
+
 ## API
 
 There is one function, `Viz`.

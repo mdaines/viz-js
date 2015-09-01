@@ -18,6 +18,9 @@ These engines are supported:
 
 - dot
 - neato
+- circo
+- twopi
+- fdp
 
 These formats are known to be supported:
 

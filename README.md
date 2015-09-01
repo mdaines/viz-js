@@ -4,9 +4,9 @@ This project is a Makefile for building Graphviz with Emscripten and a simple wr
 
 ## API
 
-The sole function, Viz, returns a string.
+There is one function, `Viz`.
 
-    Viz(src:string, options={ format="svg", engine="dot" }):string
+    Viz(src, options={ format="svg", engine="dot" })
 
 Some examples:
 
@@ -19,7 +19,7 @@ These engines are supported:
 - dot
 - neato
 
-These output formats are known to be supported:
+These formats are known to be supported:
 
 - xdot
 - plain

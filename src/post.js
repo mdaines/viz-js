@@ -1,11 +1,18 @@
-  var module;
-  return function(src, options) {
-    options = options || {};
-    var format = options.format || "svg";
-    var engine = options.engine || "dot";
-    if (typeof module === "undefined") {
-      module = Module();
+  var graphviz;
+  
+  return function(src) {
+    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+    var format = options.format === undefined ? "svg" : options.format;
+    var engine = options.engine === undefined ? "dot" : options.engine;
+    
+    if (typeof graphviz === "undefined") {
+      graphviz = Module();
     }
-    return module["ccall"]("vizRenderFromString", "string", ["string", "string", "string"], [src, format, engine]);
+    
+    return graphviz["ccall"]("vizRenderFromString", "string", ["string", "string", "string"], [src, format, engine]);
   }
 })();
+
+if (typeof module !== "undefined" && typeof module.exports !== 'undefined') {
+  module.exports = Viz;
+}

@@ -39,4 +39,4 @@ To download the sources and build everything:
 
 ## License
 
-Viz.js itself (the Makefile and wrapper) is [BSD licensed](./LICENSE).
+Viz.js itself (the Makefile and the contents of src/) is [BSD licensed](./LICENSE).

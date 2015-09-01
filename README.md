@@ -22,8 +22,9 @@ These engines are supported:
 - twopi
 - fdp
 
-These formats are known to be supported:
+These formats are supported:
 
+- svg
 - xdot
 - plain
 - ps

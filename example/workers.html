@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>test</title>
+    <title>Workers example</title>
   </head>
   <body>
     
@@ -2537,18 +2537,24 @@ digraph G {
 }
     </script>
     
-    <script src="./viz.js"></script>
     <script>
     
     var scripts = document.querySelectorAll("script[type='text/vnd.graphviz']");
+    var worker = new Worker("./worker.js");
     var parser = new DOMParser();
     
-    for (var i = 0; i < scripts.length; i++) {
-      var src = scripts[i].textContent;
-      var out = Viz(src, { engine: scripts[i].dataset.engine });
-      var doc = parser.parseFromString(out, "image/svg+xml");
-      
+    worker.onmessage = function(e) {
+      var doc = parser.parseFromString(e.data, "image/svg+xml");
       document.body.appendChild(doc.documentElement);
+    }
+    
+    for (var i = 0; i < scripts.length; i++) {
+      worker.postMessage({
+        src: scripts[i].textContent,
+        options: {
+          engine: scripts[i].dataset.engine
+        }
+      });
     }
     
     </script>

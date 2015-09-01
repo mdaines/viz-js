@@ -1,1 +1,1 @@
-window["Viz"] = (function() {
+var Viz = (function() {

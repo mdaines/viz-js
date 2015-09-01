@@ -6,14 +6,17 @@ PREFIX = $(abspath ./prefix)
 all: expat graphviz viz.js
 
 clean:
-	rm -rf viz.js viz.js.map
+	rm -f module.js viz.js
 
 clobber: | clean
 	rm -rf build prefix
 
 
-viz.js: src/viz.c src/pre.js src/post.js
-	emcc -v -Oz --memory-init-file 0 --pre-js src/pre.js --post-js src/post.js -s USE_ZLIB=1 -s ASSERTIONS=2 -s EXPORTED_FUNCTIONS="['_vizRenderFromString', '_dtextract', '_Dtqueue']" -o $@ $< -I$(PREFIX)/include -I$(PREFIX)/include/graphviz -L$(PREFIX)/lib -L$(PREFIX)/lib/graphviz -lgvplugin_core -lgvplugin_dot_layout -lgvplugin_neato_layout -lcdt -lcgraph -lgvc -lgvpr -lpathplan -lexpat -lxdot -lz
+viz.js: src/pre.js module.js src/post.js
+	cat $^ > $@
+
+module.js: src/viz.c
+	emcc -v -Oz --memory-init-file 0  -s USE_ZLIB=1 -s MODULARIZE=1 -s ASSERTIONS=2 -s EXPORTED_FUNCTIONS="['_vizRenderFromString', '_dtextract', '_Dtqueue']" -o $@ $< -I$(PREFIX)/include -I$(PREFIX)/include/graphviz -L$(PREFIX)/lib -L$(PREFIX)/lib/graphviz -lgvplugin_core -lgvplugin_dot_layout -lgvplugin_neato_layout -lcdt -lcgraph -lgvc -lgvpr -lpathplan -lexpat -lxdot -lz
 
 
 $(PREFIX):

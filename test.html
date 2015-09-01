@@ -6,7 +6,15 @@
   </head>
   <body>
     
-    <script type="text/vnd.graphviz" id="cluster">
+    <script type="text/vnd.graphviz">
+digraph { a -> b; }
+    </script>
+    
+    <script type="text/vnd.graphviz" data-engine="neato">
+graph G { n0 -- n1 -- n2 -- n3 -- n0; }
+    </script>
+        
+    <script type="text/vnd.graphviz">
 digraph G {
 
 	subgraph cluster_0 {
@@ -36,7 +44,7 @@ digraph G {
 }
     </script>
     
-    <script type="text/vnd.graphviz" id="crazy">
+    <script type="text/vnd.graphviz">
 digraph "unix" {
 	graph [	fontname = "Helvetica-Oblique",
 		fontsize = 36,
@@ -143,7 +151,7 @@ digraph "unix" {
 }
     </script>
 
-    <script type="text/vnd.graphviz" id="data">
+    <script type="text/vnd.graphviz">
 digraph g {
 graph [
 rankdir = "LR"
@@ -260,7 +268,7 @@ id = 16
 }
     </script>
     
-    <script type="text/vnd.graphviz" id="gradients">
+    <script type="text/vnd.graphviz">
 digraph G { bgcolor="purple:pink" label="agraph" fontcolor="white"
   subgraph cluster1 {fillcolor="blue:cyan" label="acluster" fontcolor="white" style="filled" gradientangle="270"
 		node [shape=box fillcolor="red:yellow" style="filled" gradientangle=90]
@@ -269,7 +277,7 @@ digraph G { bgcolor="purple:pink" label="agraph" fontcolor="white"
 }
     </script>
     
-    <script type="text/vnd.graphviz" id="process">
+    <script type="text/vnd.graphviz">
 graph G {
     layout="neato"
 
@@ -289,7 +297,7 @@ graph G {
 }
     </script>
     
-    <script type="text/vnd.graphviz" id="tables">
+    <script type="text/vnd.graphviz">
 digraph G {
   node [shape=plaintext]
   a [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
@@ -306,20 +314,19 @@ digraph G {
 }
     </script>
     
-    <script type="text/vnd.graphviz" id="tiny">
-digraph { a -> b; }
-    </script>
-
     <script src="./viz.js"></script>
     <script>
-
-    document.body.innerHTML += Viz(document.querySelector("#cluster").textContent);
-    document.body.innerHTML += Viz(document.querySelector("#crazy").textContent);
-    document.body.innerHTML += Viz(document.querySelector("#data").textContent);
-    document.body.innerHTML += Viz(document.querySelector("#gradients").textContent);
-    document.body.innerHTML += Viz(document.querySelector("#process").textContent);
-    document.body.innerHTML += Viz(document.querySelector("#tables").textContent);
-    document.body.innerHTML += Viz(document.querySelector("#tiny").textContent);
+    
+    var scripts = document.querySelectorAll("script[type='text/vnd.graphviz']");
+    var parser = new DOMParser();
+    
+    for (var i = 0; i < scripts.length; i++) {
+      var src = scripts[i].textContent;
+      var out = Viz(src, { engine: scripts[i].dataset.engine });
+      var doc = parser.parseFromString(out, "image/svg+xml");
+      
+      document.body.appendChild(doc.documentElement);
+    }
     
     </script>
     

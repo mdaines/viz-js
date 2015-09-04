@@ -4,7 +4,7 @@ This project is a Makefile for building Graphviz with Emscripten and a simple wr
 
 ## Getting Viz.js
 
-Download the `viz.js` "binary" from the [https://github.com/mdaines/viz.js/releases](releases page).
+Download the `viz.js` "binary" from the [releases page](https://github.com/mdaines/viz.js/releases).
 
 ## API
 

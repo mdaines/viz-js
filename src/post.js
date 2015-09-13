@@ -9,7 +9,11 @@
       graphviz = Module();
     }
     
-    return graphviz["ccall"]("vizRenderFromString", "string", ["string", "string", "string"], [src, format, engine]);
+    var resultPointer = graphviz["ccall"]("vizRenderFromString", "number", ["string", "string", "string"], [src, format, engine]);
+    var resultString = graphviz["Pointer_stringify"](resultPointer);
+    graphviz["_free"](resultPointer);
+    
+    return resultString;
   }
 })();
 

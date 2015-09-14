@@ -69,6 +69,10 @@
       margin-right: 8px;
     }
     
+    #options #raw.disabled {
+      opacity: 0.5;
+    }
+    
     #output svg {
       position: absolute;
       top: 0;
@@ -150,9 +154,9 @@ digraph G {
 </div>
         <div id="graph">
           <div id="options">
-            <label>
+            <label id="engine">
               Engine:
-              <select id="engine">
+              <select>
                 <option selected>dot</option>
                 <option>neato</option>
                 <option>circo</option>
@@ -161,9 +165,9 @@ digraph G {
               </select>
             </label>
             
-            <label>
+            <label id="format">
               Format:
-              <select id="format">
+              <select>
                 <option selected>svg</option>
                 <option>xdot</option>
                 <option>plain</option>
@@ -171,8 +175,8 @@ digraph G {
               </select>
             </label>
             
-            <label>
-              <input id="raw" type="checkbox"> Raw XML
+            <label id="raw">
+              <input type="checkbox"> Show raw output
             </label>
           </div>
           <div id="output">
@@ -218,8 +222,8 @@ digraph G {
       worker.postMessage({
         src: editor.getSession().getDocument().getValue(),
         options: {
-          engine: document.querySelector("#engine").value,
-          format: document.querySelector("#format").value
+          engine: document.querySelector("#engine select").value,
+          format: document.querySelector("#format select").value
         }
       });
     }
@@ -241,7 +245,7 @@ digraph G {
         return;
       }
       
-      if (document.querySelector("#format").value == "svg" && !document.querySelector("#raw").checked) {
+      if (document.querySelector("#format select").value == "svg" && !document.querySelector("#raw input").checked) {
         var svg = parser.parseFromString(result, "image/svg+xml");
         graph.appendChild(svg.documentElement);
       } else {
@@ -256,21 +260,23 @@ digraph G {
       updateGraph();
     });
     
-    document.querySelector("#engine").addEventListener("change", function() {
+    document.querySelector("#engine select").addEventListener("change", function() {
       updateGraph();
     });
 
-    document.querySelector("#format").addEventListener("change", function() {
-      if (document.querySelector("#format").value === "svg") {
-        document.querySelector("#raw").disabled = false;
+    document.querySelector("#format select").addEventListener("change", function() {
+      if (document.querySelector("#format select").value === "svg") {
+        document.querySelector("#raw").classList.remove("disabled");
+        document.querySelector("#raw input").disabled = false;
       } else {
-        document.querySelector("#raw").disabled = true;
+        document.querySelector("#raw").classList.add("disabled");
+        document.querySelector("#raw input").disabled = true;
       }
       
       updateGraph();
     });
 
-    document.querySelector("#raw").addEventListener("change", function() {
+    document.querySelector("#raw input").addEventListener("change", function() {
       updateOutput();
     });
     

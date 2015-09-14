@@ -7,7 +7,9 @@
 
     #app {
       display: flex;
+      display: -webkit-flex;
       flex-direction: column;
+      -webkit-flex-direction: column;
       position: absolute;
       top: 0;
       left: 0;
@@ -17,29 +19,38 @@
 
     #header {
       flex: 0 0 auto;
+      -webkit-flex: 0 0 auto;
     }
 
     #panes {
       display: flex;
+      display: -webkit-flex;
       flex: 1 1 auto;
+      -webkit-flex: 1 1 auto;
     }
     
     #editor {
       flex: 1 1 50%;
+      -webkit-flex: 1 1 50%;
     }
 
     #graph {
       display: flex;
+      display: -webkit-flex;
       flex-direction: column;
+      -webkit-flex-direction: column;
       flex: 1 1 50%;
+      -webkit-flex: 1 1 50%;
     }
     
     #options {
       flex: 0 0 auto;
+      -webkit-flex: 0 0 auto;
     }
     
     #output {
       flex: 1 1 auto;
+      -webkit-flex: 1 1 auto;
       position: relative;
     }
     

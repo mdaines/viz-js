@@ -20,11 +20,12 @@ Some examples:
 
 These engines are supported:
 
-- dot
-- neato
 - circo
-- twopi
+- dot
 - fdp
+- neato
+- osage
+- twopi
 
 These formats are supported:
 

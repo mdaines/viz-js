@@ -19,6 +19,9 @@ __attribute__((used)) char* vizRenderFromString(const char *string, const char *
     gvAddLibrary(context, &gvplugin_neato_layout_LTX_library);
   }
   
+  agreadline(1);
+  agreseterrors();
+  
   graph = agmemread((char *) string);
   
   gvLayout(context, graph, engine);

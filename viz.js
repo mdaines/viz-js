@@ -57,7 +57,3 @@ var yb=[D5,Xc,jd,qd,Gd,ke,e0,d0,G$,H$,c0,b$,c$,x_,y_,Uk,iG,FP,YZ,ZZ,D5,D5,D5,D5,
     return resultString;
   }
 })();
-
-if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
-  module.exports = Viz;
-}

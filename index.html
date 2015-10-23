@@ -192,7 +192,7 @@ digraph G {
             </label>
           </div>
           <div id="output">
-            <div id="error">An error occurred while processing the graph input.</div>
+            <div id="error"></div>
           </div>
         </div>
       </div>
@@ -227,6 +227,16 @@ digraph G {
       worker.onerror = function(e) {
         document.querySelector("#output").classList.remove("working");
         document.querySelector("#output").classList.add("error");
+        
+        var message = e.message === undefined ? "An error occurred while processing the graph input." : "Error: " + e.message;
+        
+        var error = document.querySelector("#error");
+        while (error.firstChild) {
+          error.removeChild(error.firstChild);
+        }
+        
+        document.querySelector("#error").appendChild(document.createTextNode(message));
+        
         console.error(e);
         e.preventDefault();
       }

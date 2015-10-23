@@ -3,5 +3,5 @@ prefix/
 sources/
 module.js
 viz.js
-viz.js.map
 viz.js.mem
+*.js.map

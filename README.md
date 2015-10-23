@@ -8,15 +8,17 @@ Download the `viz.js` "binary" from the [releases page](https://github.com/mdain
 
 ## API
 
-There is one function, `Viz`.
+There is one function, `Viz`, which returns output as a string.
 
     Viz(src, options={ format="svg", engine="dot" })
 
 Some examples:
 
-    Viz("digraph g { a -> b; }");
-    Viz("graph G { n0 -- n1 -- n2 -- n3 -- n0; }", { engine: "neato" });
-    Viz("digraph g { x -> y -> z; }", { format: "plain" });
+    result = Viz("digraph g { a -> b; }");
+    result = Viz("graph G { n0 -- n1 -- n2 -- n3 -- n0; }", { engine: "neato" });
+    result = Viz("digraph g { x -> y -> z; }", { format: "plain" });
+
+If `src` has a syntax error, Graphviz's error message will be thrown as an exception.
 
 These engines are supported:
 

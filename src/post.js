@@ -13,6 +13,16 @@
     var resultString = graphviz["Pointer_stringify"](resultPointer);
     graphviz["_free"](resultPointer);
     
+    var lastError = graphviz["ccall"]("aglasterr", "string", [], []);
+    
+    if (lastError) {
+      throw lastError;
+    }
+    
     return resultString;
   }
 })();
+
+if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
+  module.exports = Viz;
+}

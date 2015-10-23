@@ -6,7 +6,7 @@ extern gvplugin_library_t gvplugin_core_LTX_library;
 
 GVC_t *context = NULL;
 
-__attribute__((used)) char* vizRenderFromString(const char *src, const char *format, const char *engine) {
+char* vizRenderFromString(const char *src, const char *format, const char *engine) {
 
   Agraph_t *graph;
   char *result;

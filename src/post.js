@@ -22,3 +22,7 @@
     return resultString;
   }
 })();
+
+if (typeof module === "object" && module.exports) {
+  module.exports = Viz;
+}

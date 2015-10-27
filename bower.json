@@ -1,0 +1,7 @@
+{
+  "name": "viz-js-site",
+  "dependencies": {
+    "viz.js": "~1.2.0"
+  },
+  "private": true
+}

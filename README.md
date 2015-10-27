@@ -4,7 +4,11 @@ This project is a Makefile for building Graphviz with Emscripten and a simple wr
 
 ## Getting Viz.js
 
-Download the `viz.js` "binary" from the [releases page](https://github.com/mdaines/viz.js/releases).
+Install with Bower:
+
+    bower install viz.js
+
+Or, download the `viz.js` "binary" from the [releases page](https://github.com/mdaines/viz.js/releases).
 
 ## API
 

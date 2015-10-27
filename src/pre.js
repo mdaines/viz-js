@@ -1,1 +1,1 @@
-var Viz = (function() {
+(function(global) {

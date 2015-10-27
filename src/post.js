@@ -1,6 +1,6 @@
   var graphviz;
   
-  return function(src) {
+  function Viz(src) {
     var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
     var format = options.format === undefined ? "svg" : options.format;
     var engine = options.engine === undefined ? "dot" : options.engine;
@@ -21,8 +21,11 @@
     
     return resultString;
   }
-})();
-
-if (typeof module === "object" && module.exports) {
-  module.exports = Viz;
-}
+  
+  if (typeof module === "object" && module.exports) {
+    module.exports = Viz;
+  } else {
+    global.Viz = Viz;
+  }
+  
+})(this);

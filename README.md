@@ -8,7 +8,11 @@ Install with Bower:
 
     bower install viz.js
 
-Or, download the `viz.js` "binary" from the [releases page](https://github.com/mdaines/viz.js/releases).
+Or with npm:
+
+    npm install viz.js
+
+Or download the `viz.js` "binary" from the [releases page](https://github.com/mdaines/viz.js/releases).
 
 ## API
 
@@ -50,4 +54,4 @@ To download the sources and build everything:
 
 ## License
 
-Viz.js itself (the Makefile and the contents of src/) is [BSD licensed](./LICENSE).
+Viz.js itself (the wrapper and Makefile, not the compiled versions of Graphviz, Expat, zlib, etc.) is [BSD licensed](./LICENSE).

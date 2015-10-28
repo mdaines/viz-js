@@ -16,7 +16,7 @@ Or download the `viz.js` "binary" from the [releases page](https://github.com/md
 
 ## API
 
-There is one function, `Viz`, which returns output as a string.
+The main function, `Viz`, returns output as a string.
 
     Viz(src, options={ format="svg", engine="dot" })
 
@@ -27,6 +27,17 @@ Some examples:
     result = Viz("digraph g { x -> y -> z; }", { format: "plain" });
 
 If `src` has a syntax error, Graphviz's error message will be thrown as an exception.
+
+### PNG output
+
+Viz.js provides the `"png-image-element"` format in addition to the regular Graphviz formats. This returns an HTMLImageElement which can be inserted into the document.
+
+    image = Viz("digraph g { a -> b; }", { format: "png-image-element" });
+    document.body.appendChild(image);
+
+However, this won't work in a Web Worker context. In that case, ask for the `"svg"` format in the worker and convert using the accessory function `Viz.svgXmlToPngImageElement` in the window context. See tests/png.js for an example.
+
+### Supported Graphviz features
 
 These engines are supported:
 

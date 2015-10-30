@@ -1,13 +1,20 @@
 QUnit.module("input");
 
 QUnit.test("result from first graph in input is returned for multiple invocations", function(assert) {
-  var result = Viz("digraph A {} digraph B {}", { format: "xdot" });
+  var result;
+  
+  result = Viz("digraph A {} digraph B {}", { format: "xdot" });
   assert.ok(result.match(/digraph A/), "Result should contain \"digraph A\"");
   assert.notOk(result.match(/digraph B/), "Result should not contain \"digraph B\"");
 
-  var result = Viz("digraph B {} digraph A {}", { format: "xdot" });
+  result = Viz("digraph B {} digraph A {}", { format: "xdot" });
   assert.ok(result.match(/digraph B/), "Result should contain \"digraph B\"");
   assert.notOk(result.match(/digraph A/), "Result should not contain \"digraph A\"");
+});
+
+QUnit.test("after throwing an exception on invalid input, do not throw one on valid input", function(assert) {
+  assert.throws(function() { Viz("digraph { \n ->"); });
+  Viz("digraph { a -> b;}");
 });
 
 QUnit.test("syntax error in graph throws exception", function(assert) {

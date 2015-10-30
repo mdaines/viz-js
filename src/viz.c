@@ -1,10 +1,16 @@
 #include <gvc.h>
+#include <emscripten.h>
 
 extern gvplugin_library_t gvplugin_dot_layout_LTX_library;
 extern gvplugin_library_t gvplugin_neato_layout_LTX_library;
 extern gvplugin_library_t gvplugin_core_LTX_library;
 
 GVC_t *context = NULL;
+
+int vizErrorf(char *buf) {
+  EM_ASM_({ appendError($0); }, buf);
+  return 0;
+}
 
 char* vizRenderFromString(const char *src, const char *format, const char *engine) {
 
@@ -18,9 +24,9 @@ char* vizRenderFromString(const char *src, const char *format, const char *engin
     gvAddLibrary(context, &gvplugin_dot_layout_LTX_library);
     gvAddLibrary(context, &gvplugin_neato_layout_LTX_library);
   }
-  
-  // Don't immediately report errors. Instead, we will ask aglasterr in post.js.
-  agseterr(AGMAX);
+
+  agseterr(AGERR);
+  agseterrf(vizErrorf);
   
   // Reset line numbers.
   agreadline(1);

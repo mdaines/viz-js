@@ -1,4 +1,9 @@
   var graphviz;
+  var errors;
+  
+  function appendError(buf) {
+    errors += graphviz["Pointer_stringify"](buf);
+  }
   
   function Viz(src) {
     var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
@@ -9,14 +14,14 @@
       graphviz = Module();
     }
     
+    errors = "";
+    
     var resultPointer = graphviz["ccall"]("vizRenderFromString", "number", ["string", "string", "string"], [src, format, engine]);
     var resultString = graphviz["Pointer_stringify"](resultPointer);
     graphviz["_free"](resultPointer);
     
-    var lastError = graphviz["ccall"]("aglasterr", "string", [], []);
-    
-    if (lastError) {
-      throw lastError;
+    if (errors != "") {
+      throw errors;
     }
     
     return resultString;

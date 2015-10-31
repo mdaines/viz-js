@@ -26,7 +26,7 @@ Some examples:
     result = Viz("graph G { n0 -- n1 -- n2 -- n3 -- n0; }", { engine: "neato" });
     result = Viz("digraph g { x -> y -> z; }", { format: "plain" });
 
-If `src` has a syntax error, Graphviz's error message will be thrown as an exception.
+If Graphviz encounters an error, the error message will be thrown as an exception.
 
 ### PNG output
 

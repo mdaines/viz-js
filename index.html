@@ -220,7 +220,10 @@ digraph G {
 
       worker.onmessage = function(e) {
         document.querySelector("#output").classList.remove("working");
+        document.querySelector("#output").classList.remove("error");
+        
         result = e.data;
+        
         updateOutput();
       }
 

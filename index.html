@@ -231,7 +231,7 @@ digraph G {
         document.querySelector("#output").classList.remove("working");
         document.querySelector("#output").classList.add("error");
         
-        var message = e.message === undefined ? "An error occurred while processing the graph input." : "Error: " + e.message;
+        var message = e.message === undefined ? "An error occurred while processing the graph input." : e.message;
         
         var error = document.querySelector("#error");
         while (error.firstChild) {

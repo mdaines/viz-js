@@ -52,6 +52,7 @@
       flex: 1 1 auto;
       -webkit-flex: 1 1 auto;
       position: relative;
+      overflow: auto;
     }
     
     
@@ -104,8 +105,14 @@
       overflow: auto;
     }
     
+    #output img {
+      display: block;
+      margin: 0 auto;
+    }
+    
     #output.working svg, #output.error svg,
-    #output.working #text, #output.error #text {
+    #output.working #text, #output.error #text,
+    #output.working img, #output.error img {
       opacity: 0.4;
     }
     
@@ -181,6 +188,7 @@ digraph G {
               Format:
               <select>
                 <option selected>svg</option>
+                <option>png-image-element</option>
                 <option>xdot</option>
                 <option>plain</option>
                 <option>ps</option>
@@ -198,7 +206,8 @@ digraph G {
       </div>
     </div>
     
-    <script src="./js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="./js/ace/ace.js"></script>
+    <script src="./bower_components/viz.js/viz.js"></script>
     <script>
     
     var editor = ace.edit("editor");
@@ -244,13 +253,22 @@ digraph G {
         e.preventDefault();
       }
       
-      worker.postMessage({
+      var params = {
         src: editor.getSession().getDocument().getValue(),
         options: {
           engine: document.querySelector("#engine select").value,
           format: document.querySelector("#format select").value
         }
-      });
+      };
+      
+      // Instead of asking for png-image-element directly, which we can't do in a worker,
+      // ask for SVG and convert when updating the output.
+      
+      if (params.options.format == "png-image-element") {
+        params.options.format = "svg";
+      }
+      
+      worker.postMessage(params);
     }
     
     function updateOutput() {
@@ -265,6 +283,11 @@ digraph G {
       if (text) {
         graph.removeChild(text);
       }
+
+      var img = graph.querySelector("img");
+      if (img) {
+        graph.removeChild(img);
+      }
       
       if (!result) {
         return;
@@ -273,6 +296,9 @@ digraph G {
       if (document.querySelector("#format select").value == "svg" && !document.querySelector("#raw input").checked) {
         var svg = parser.parseFromString(result, "image/svg+xml");
         graph.appendChild(svg.documentElement);
+      } else if (document.querySelector("#format select").value == "png-image-element") {
+        var image = Viz.svgXmlToPngImageElement(result);
+        graph.appendChild(image);
       } else {
         var text = document.createElement("div");
         text.id = "text";

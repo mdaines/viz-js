@@ -2,6 +2,10 @@
 
 This project is a Makefile for building Graphviz with Emscripten and a simple wrapper for using it in the browser.
 
+## DEPRECATED
+
+Viz.js is deprecated. You are welcome to fork the project.
+
 ## Getting Viz.js
 
 Install with Bower:

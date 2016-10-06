@@ -65,4 +65,4 @@ To download the sources and build everything:
 
 ## License
 
-Viz.js itself (the wrapper and Makefile, not the compiled versions of Graphviz, Expat, zlib, etc.) is [BSD licensed](./LICENSE).
+Viz.js itself (the wrapper and Makefile, not the compiled versions of Graphviz, Expat, zlib, etc.) is [released into the public domain](./LICENSE).

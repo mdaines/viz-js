@@ -1,5 +1,21 @@
 QUnit.module("png");
 
+QUnit.test("png-image-element format returns an image", function(assert) {
+  var done = assert.async();
+  
+  var image = Viz("digraph { a -> b; }", { format: "png-image-element" });
+
+  assert.ok(image instanceof Image, "image should be an Image");
+  
+  image.onload = function() {
+    done();
+  }
+  
+  image.onerror = function(e) {
+    throw e;
+  }
+});
+
 QUnit.test("png-image-element format with a worker", function(assert) {
   var done = assert.async();
   

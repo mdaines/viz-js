@@ -32,7 +32,7 @@ graphviz: | build/graphviz-2.38.0 $(PREFIX)
 	mkdir -p build/graphviz-2.38.0/FEATURE
 	cp hacks/FEATURE/sfio hacks/FEATURE/vmalloc build/graphviz-2.38.0/FEATURE
 	cd build/graphviz-2.38.0 && emconfigure ./configure --disable-ltdl --enable-static --disable-shared --prefix=$(PREFIX)
-	cd build/graphviz-2.38.0 && emmake make CFLAGS="-fno-common -Wno-implicit-function-declaration -Wno-warn-absolute-paths"
+	cd build/graphviz-2.38.0 && emmake make CFLAGS="-fno-common -Wno-implicit-function-declaration"
 	cd build/graphviz-2.38.0/lib && emmake make install
 	cd build/graphviz-2.38.0/plugin && emmake make install
 

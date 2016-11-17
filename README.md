@@ -32,16 +32,7 @@ Some examples:
 
 If Graphviz encounters an error, the error message will be thrown as an exception.
 
-### PNG output
-
-Viz.js provides the `"png-image-element"` format in addition to the regular Graphviz formats. This returns an HTMLImageElement which can be inserted into the document.
-
-    image = Viz("digraph g { a -> b; }", { format: "png-image-element" });
-    document.body.appendChild(image);
-
-However, this won't work in a Web Worker context. In that case, ask for the `"svg"` format in the worker and convert using the accessory function `Viz.svgXmlToPngImageElement` in the window context. See tests/png.js for an example.
-
-### Supported Graphviz features
+## Supported Graphviz features
 
 These engines are supported:
 
@@ -58,6 +49,19 @@ These formats are supported:
 - xdot
 - plain
 - ps
+
+## PNG output
+
+Viz.js provides the `"png-image-element"` format in addition to the regular Graphviz formats. This returns an HTMLImageElement which can be inserted into the document.
+
+    image = Viz("digraph g { a -> b; }", { format: "png-image-element" });
+    document.body.appendChild(image);
+
+However, this won't work in a Web Worker context. In that case, ask for the `"svg"` format in the worker and convert using the accessory function `Viz.svgXmlToPngImageElement` in the window context. See tests/png.js for an example.
+
+### Internet Explorer support
+
+Internet Explorer 10 and 11 require [Fabric.js](http://fabricjs.com) as an optional dependency for PNG output.
 
 ## Build
 

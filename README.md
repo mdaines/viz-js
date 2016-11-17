@@ -57,7 +57,7 @@ However, this won't work in a Web Worker context. In that case, ask for the `"sv
 
 ### Internet Explorer support
 
-Internet Explorer 10 and 11 require [Fabric.js](http://fabricjs.com) as an optional dependency for PNG output.
+Internet Explorer 10 and 11 require [Fabric.js](http://fabricjs.com) as an optional dependency for PNG output. Viz.js will look for a `fabric` object as a member of the global object with a `loadSVGFromString()` function and use that if present.
 
 ## Build
 

@@ -45,7 +45,7 @@
     }
     
     var svgImage = new Image();
-    svgImage.src = "data:image/svg+xml;utf8," + svgXml;
+    svgImage.src = "data:image/svg+xml;base64," + btoa(svgXml);
 
     var pngImage = new Image();
 

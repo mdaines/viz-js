@@ -36,30 +36,46 @@
   }
   
   Viz.svgXmlToPngImageElement = function(svgXml) {
-    var scaleFactor = 1;
-    
-    if ("devicePixelRatio" in window) {
-      if (window.devicePixelRatio > 1) {
-        scaleFactor = window.devicePixelRatio;
-      }
-    }
-    
-    var svgImage = new Image();
-    svgImage.src = "data:image/svg+xml;base64," + btoa(svgXml);
-
     var pngImage = new Image();
+    
+    if (typeof fabric === "object" && fabric.loadSVGFromString) {
+      fabric.loadSVGFromString(svgXml, function(objects, options) {
+        var element = document.createElement("canvas");
+        element.width = options.width;
+        element.height = options.height;
+      
+        var canvas = new fabric.Canvas(element);
+        var obj = fabric.util.groupSVGElements(objects, options);
+        canvas.add(obj).renderAll();
+      
+        pngImage.src = canvas.toDataURL("image/png");
+        pngImage.width = options.width;
+        pngImage.height = options.height;
+      });
+    } else {
+      var scaleFactor = 1;
 
-    svgImage.onload = function() {
-      var canvas = document.createElement("canvas");
-      canvas.width = svgImage.width * scaleFactor;
-      canvas.height = svgImage.height * scaleFactor;
+      if ("devicePixelRatio" in window) {
+        if (window.devicePixelRatio > 1) {
+          scaleFactor = window.devicePixelRatio;
+        }
+      }
 
-      var context = canvas.getContext("2d");
-      context.drawImage(svgImage, 0, 0, canvas.width, canvas.height);
+      var svgImage = new Image();
+      svgImage.src = "data:image/svg+xml;base64," + btoa(svgXml);
 
-      pngImage.src = canvas.toDataURL("image/png");
-      pngImage.width = svgImage.width;
-      pngImage.height = svgImage.height;
+      svgImage.onload = function() {
+        var canvas = document.createElement("canvas");
+        canvas.width = svgImage.width * scaleFactor;
+        canvas.height = svgImage.height * scaleFactor;
+
+        var context = canvas.getContext("2d");
+        context.drawImage(svgImage, 0, 0, canvas.width, canvas.height);
+
+        pngImage.src = canvas.toDataURL("image/png");
+        pngImage.width = svgImage.width;
+        pngImage.height = svgImage.height;
+      }
     }
     
     return pngImage;

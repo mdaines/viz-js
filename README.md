@@ -67,6 +67,4 @@ To download the sources and build everything:
 
     make
 
-## License
 
-Viz.js itself (the wrapper and Makefile, not the compiled versions of Graphviz, Expat, zlib, etc.) is [released into the public domain](./LICENSE).

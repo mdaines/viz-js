@@ -67,4 +67,8 @@ To download the sources and build everything:
 
     make
 
+## Support Viz.js
 
+If you find Viz.js useful, please consider a donation. Thank you!
+
+<a href='https://pledgie.com/campaigns/32883'><img alt='Click here to lend your support to: Viz.js and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/32883.png?skin_name=chrome' border='0' ></a>

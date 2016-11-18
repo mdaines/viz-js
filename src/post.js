@@ -2,9 +2,10 @@
     var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
     var format = options.format === undefined ? "svg" : options.format;
     var engine = options.engine === undefined ? "dot" : options.engine;
+    var scale = options.scale;
   
     if (format == "png-image-element") {
-      return Viz.svgXmlToPngImageElement(render(src, "svg", engine));
+      return Viz.svgXmlToPngImageElement(render(src, "svg", engine), scale);
     } else {
       return render(src, format, engine);
     }
@@ -35,7 +36,15 @@
     return resultString;
   }
   
-  Viz.svgXmlToPngImageElement = function(svgXml) {
+  Viz.svgXmlToPngImageElement = function(svgXml, scale) {
+    if (scale === undefined) {
+      if ("devicePixelRatio" in window && window.devicePixelRatio > 1) {
+        scale = window.devicePixelRatio;
+      } else {
+        scale = 1;
+      }
+    }
+    
     var pngImage = new Image();
     
     if (typeof fabric === "object" && fabric.loadSVGFromString) {
@@ -44,30 +53,22 @@
         element.width = options.width;
         element.height = options.height;
       
-        var canvas = new fabric.Canvas(element);
+        var canvas = new fabric.Canvas(element, { enableRetinaScaling: false });
         var obj = fabric.util.groupSVGElements(objects, options);
         canvas.add(obj).renderAll();
       
-        pngImage.src = canvas.toDataURL("image/png");
+        pngImage.src = canvas.toDataURL({ multiplier: scale });
         pngImage.width = options.width;
         pngImage.height = options.height;
       });
     } else {
-      var scaleFactor = 1;
-
-      if ("devicePixelRatio" in window) {
-        if (window.devicePixelRatio > 1) {
-          scaleFactor = window.devicePixelRatio;
-        }
-      }
-
       var svgImage = new Image();
       svgImage.src = "data:image/svg+xml;base64," + btoa(svgXml);
 
       svgImage.onload = function() {
         var canvas = document.createElement("canvas");
-        canvas.width = svgImage.width * scaleFactor;
-        canvas.height = svgImage.height * scaleFactor;
+        canvas.width = svgImage.width * scale;
+        canvas.height = svgImage.height * scale;
 
         var context = canvas.getContext("2d");
         context.drawImage(svgImage, 0, 0, canvas.width, canvas.height);

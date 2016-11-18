@@ -1,6 +1,6 @@
 QUnit.module("png");
 
-QUnit.test("png-image-element format returns an image", function(assert) {
+QUnit.test("png-image-element format returns an image element", function(assert) {
   var done = assert.async();
   
   var image = Viz("digraph { a -> b; }", { format: "png-image-element" });
@@ -16,7 +16,7 @@ QUnit.test("png-image-element format returns an image", function(assert) {
   }
 });
 
-QUnit.test("specifying the scale option should change resulting image's natural size", function(assert) {
+QUnit.test("specifying the scale option should change the resulting image's natural size", function(assert) {
   var done = assert.async();
   
   var image = Viz("digraph { size=\"1,1!\"; a -> b; }", { format: "png-image-element", scale: 3 });

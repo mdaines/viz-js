@@ -15,7 +15,7 @@
     "viz.js"
   ],
   "author": "Mike Daines <mdaines@fastmail.com>",
-  "license": "BSD",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/mdaines/viz.js/issues"
   },

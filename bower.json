@@ -1,7 +1,8 @@
 {
   "name": "viz-js-site",
   "dependencies": {
-    "viz.js": "~1.4.0"
+    "viz.js": "~1.4.0",
+    "fabric.js": "fabric#^1.6.7"
   },
   "private": true
 }

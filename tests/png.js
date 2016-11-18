@@ -16,6 +16,22 @@ QUnit.test("png-image-element format returns an image", function(assert) {
   }
 });
 
+QUnit.test("specifying the scale option should change resulting image's natural size", function(assert) {
+  var done = assert.async();
+  
+  var image = Viz("digraph { size=\"1,1!\"; a -> b; }", { format: "png-image-element", scale: 3 });
+
+  image.onload = function() {
+    assert.equal(image.height, 96);
+    assert.equal(image.naturalHeight, 288);
+    done();
+  }
+  
+  image.onerror = function(e) {
+    throw e;
+  }
+});
+
 QUnit.test("png-image-element format with a worker", function(assert) {
   var done = assert.async();
   

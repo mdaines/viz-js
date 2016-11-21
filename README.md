@@ -76,7 +76,7 @@ To download the sources and build everything:
 
     make
 
-## Support Viz.js
+## Donate
 
 If you find Viz.js useful, please consider a donation. Thank you!
 

@@ -41,10 +41,10 @@ build:
 	mkdir -p build
 
 build/expat-2.1.0: sources/expat-2.1.0.tar.gz | build
-	tar -xf sources/expat-2.1.0.tar.gz -C build
+	tar -zxf sources/expat-2.1.0.tar.gz -C build
 
 build/graphviz-2.38.0: sources/graphviz-2.38.0.tar.gz | build
-	tar -xf sources/graphviz-2.38.0.tar.gz -C build
+	tar -zxf sources/graphviz-2.38.0.tar.gz -C build
 
 
 sources:

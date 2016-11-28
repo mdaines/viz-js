@@ -36,7 +36,7 @@
     return resultString;
   }
   
-  Viz.svgXmlToPngImageElement = function(svgXml, scale) {
+  Viz.svgXmlToPngImageElement = function(svgXml, scale, callback) {
     if (scale === undefined) {
       if ("devicePixelRatio" in window && window.devicePixelRatio > 1) {
         scale = window.devicePixelRatio;
@@ -49,6 +49,12 @@
     
     if (typeof fabric === "object" && fabric.loadSVGFromString) {
       fabric.loadSVGFromString(svgXml, function(objects, options) {
+        // If there's something wrong with the SVG, Fabric will just return an empty array of objects. Graphviz appears to give us at least one <g> element back even given an empty graph, so we will assume an error in this case.
+        if (objects.length == 0 && callback !== undefined) {
+          callback("Error loading SVG with Fabric");
+          return;
+        }
+        
         var element = document.createElement("canvas");
         element.width = options.width;
         element.height = options.height;
@@ -60,10 +66,13 @@
         pngImage.src = canvas.toDataURL({ multiplier: scale });
         pngImage.width = options.width;
         pngImage.height = options.height;
+        
+        if (callback !== undefined) {
+          callback(null, pngImage);
+        }
       });
     } else {
       var svgImage = new Image();
-      svgImage.src = "data:image/svg+xml;base64," + btoa(svgXml);
 
       svgImage.onload = function() {
         var canvas = document.createElement("canvas");
@@ -76,10 +85,34 @@
         pngImage.src = canvas.toDataURL("image/png");
         pngImage.width = svgImage.width;
         pngImage.height = svgImage.height;
+        
+        if (callback !== undefined) {
+          callback(null, pngImage);
+        }
       }
+      
+      svgImage.onerror = function(e) {
+        if (callback !== undefined) {
+          callback(e);
+        }
+      }
+      
+      svgImage.src = "data:image/svg+xml;base64," + btoa(svgXml);
     }
     
-    return pngImage;
+    if (callback === undefined) {
+      return pngImage;
+    }
+  }
+  
+  Viz.svgXmlToPngBase64 = function(svgXml, scale, callback) {
+    Viz.svgXmlToPngImageElement(svgXml, scale, function(err, image) {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, image.src.slice("data:image/png;base64,".length));
+      }
+    });
   }
   
   if (typeof module === "object" && module.exports) {

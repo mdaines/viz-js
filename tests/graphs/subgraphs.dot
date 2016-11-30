@@ -1,0 +1,31 @@
+digraph g {
+    
+  {rank = same; n1; n2; n3; n4; n5}
+  
+  n1 -> n2;
+  n2 -> n3;
+  n3 -> n4;
+  n4 -> n5;
+  
+  subgraph cluster1 {
+    label = "cluster1";
+    color = lightgray;
+    style = filled;
+    
+    n6;
+  }
+  
+  subgraph cluster2 {
+    label = "cluster2";
+    color = red;
+    
+    n7;
+    n8;
+  }
+  
+  n1 -> n6;
+  n2 -> n7;
+  n8 -> n3;
+  n6 -> n7;
+  
+}

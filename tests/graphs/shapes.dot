@@ -1,0 +1,9 @@
+digraph g {
+  
+  n1 [shape = circle];
+  n2 [shape = egg];
+  n3 [shape = triangle];
+  n4 [shape = diamond];
+  n5 [shape = trapezium];
+  
+}

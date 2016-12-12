@@ -140,34 +140,62 @@
         <b>Viz.js</b> &mdash; <a href="http://www.graphviz.org">Graphviz</a> in your browser. Read more at <a href="https://github.com/mdaines/viz.js">the GitHub repository</a>.
       </div>
       <div id="panes">
-        <div id="editor"># http://www.graphviz.org/content/cluster
+        <div id="editor">digraph tree {
+    
+    subgraph cluster1 {
+        color=green
+        style=filled
+        
+        b [style=filled, shape=circle, color=red, label=""]
+        c [style=filled, shape=circle, color=blue, label=""]
+    }
+    
+    subgraph cluster2 {
+        color=green
+        style=filled
+        
+        d [style=filled, shape=circle, color=yellow, label=""]
+        e [style=filled, shape=circle, color=aqua, label=""]
+        f [style=filled, shape=circle, color=orange, label=""]
+    }
+    
+    subgraph cluster3 {
+        color=green
+        style=filled
+        
+        g [style=filled, shape=circle, color=indigo, label=""]
+        h [style=filled, shape=circle, color=greenyellow, label=""]
+        i [style=filled, shape=circle, color=red, label=""]
+        j [style=filled, shape=circle, color=blue, label=""]
+    }
+    
+    subgraph cluster4 {
+        color=green
+        style=filled
+        
+        k [style=filled, shape=circle, color=yellow, label=""]
+        l [style=filled, shape=circle, color=aqua, label=""]
+        m [style=filled, shape=circle, color=orange, label=""]
+        n [style=filled, shape=circle, color=indigo, label=""]
+        o [style=filled, shape=circle, color=greenyellow, label=""]
+    }
+    
+    a [shape=star, style=filled, color=orange, label=""]
+    p [shape=square, style=filled, color=chocolate, label=""]
+    
+    a -> b
+    a -> c
 
-digraph G {
-
-	subgraph cluster_0 {
-		style=filled;
-		color=lightgrey;
-		node [style=filled,color=white];
-		a0 -> a1 -> a2 -> a3;
-		label = "process #1";
-	}
-
-	subgraph cluster_1 {
-		node [style=filled];
-		b0 -> b1 -> b2 -> b3;
-		label = "process #2";
-		color=blue
-	}
-	start -> a0;
-	start -> b0;
-	a1 -> b3;
-	b2 -> a3;
-	a3 -> a0;
-	a3 -> end;
-	b3 -> end;
-
-	start [shape=Mdiamond];
-	end [shape=Msquare];
+    b -> d
+    b -> e
+    
+    d -> g
+    d -> h
+    
+    g -> k
+    g -> l
+    
+    m -> p
 }
 </div>
         <div id="graph">

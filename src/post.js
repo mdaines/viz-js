@@ -105,6 +105,10 @@
     }
   }
   
+  Viz.setMemorySize = function(size) {
+    graphviz = Module({ TOTAL_MEMORY: size });
+  }
+  
   Viz.svgXmlToPngBase64 = function(svgXml, scale, callback) {
     Viz.svgXmlToPngImageElement(svgXml, scale, function(err, image) {
       if (err) {

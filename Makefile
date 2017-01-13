@@ -16,14 +16,14 @@ viz.js: src/pre.js module.js src/post.js
 	cat $^ > $@
 
 module.js: src/viz.c
-	emcc -Os --closure 1 --memory-init-file 0 -s USE_ZLIB=1 -s MODULARIZE=1 -s EXPORTED_FUNCTIONS="['_vizRenderFromString', '_vizLastErrorMessage', '_dtextract', '_Dtqueue']" -s EXPORTED_RUNTIME_METHODS="['Pointer_stringify', 'ccall']" -o $@ $< -I$(PREFIX)/include -I$(PREFIX)/include/graphviz -L$(PREFIX)/lib -L$(PREFIX)/lib/graphviz -lgvplugin_core -lgvplugin_dot_layout -lgvplugin_neato_layout -lcdt -lcgraph -lgvc -lgvpr -lpathplan -lexpat -lxdot
+	emcc -O2 --closure 1 --memory-init-file 0 -s USE_ZLIB=1 -s MODULARIZE=1 -s EXPORTED_FUNCTIONS="['_vizRenderFromString', '_vizLastErrorMessage', '_dtextract', '_Dtqueue']" -s EXPORTED_RUNTIME_METHODS="['Pointer_stringify', 'ccall']" -o $@ $< -I$(PREFIX)/include -I$(PREFIX)/include/graphviz -L$(PREFIX)/lib -L$(PREFIX)/lib/graphviz -lgvplugin_core -lgvplugin_dot_layout -lgvplugin_neato_layout -lcdt -lcgraph -lgvc -lgvpr -lpathplan -lexpat -lxdot
 
 
 $(PREFIX):
 	mkdir -p $(PREFIX)
 
 expat: | build/expat-2.1.0 $(PREFIX)
-	cd build/expat-2.1.0 && emconfigure ./configure --disable-shared --prefix=$(PREFIX)
+	cd build/expat-2.1.0 && emconfigure ./configure --disable-shared --prefix=$(PREFIX) CFLAGS="-O2"
 	cd build/expat-2.1.0 && emmake make buildlib installlib
 
 graphviz: | build/graphviz-2.38.0 $(PREFIX)
@@ -31,8 +31,8 @@ graphviz: | build/graphviz-2.38.0 $(PREFIX)
 	cd build/graphviz-2.38.0/lib/gvpr && make mkdefs
 	mkdir -p build/graphviz-2.38.0/FEATURE
 	cp hacks/FEATURE/sfio hacks/FEATURE/vmalloc build/graphviz-2.38.0/FEATURE
-	cd build/graphviz-2.38.0 && emconfigure ./configure --disable-ltdl --enable-static --disable-shared --prefix=$(PREFIX)
-	cd build/graphviz-2.38.0 && emmake make CFLAGS="-fno-common -Wno-implicit-function-declaration"
+	cd build/graphviz-2.38.0 && emconfigure ./configure --disable-ltdl --enable-static --disable-shared --prefix=$(PREFIX) CFLAGS="-O2 -Wno-implicit-function-declaration"
+	cd build/graphviz-2.38.0 && emmake make
 	cd build/graphviz-2.38.0/lib && emmake make install
 	cd build/graphviz-2.38.0/plugin && emmake make install
 

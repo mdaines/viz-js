@@ -2,7 +2,7 @@ QUnit.module("graphs");
 
 QUnit.test("rendering sample graphs should not throw errors", function(assert) {
   
-  var graphs = ["./graphs/shapes.dot", "./graphs/subgraphs.dot"];
+  var graphs = ["./graphs/shapes.dot", "./graphs/subgraphs.dot", "./graphs/issue65.dot"];
   
   assert.expect(graphs.length);
   

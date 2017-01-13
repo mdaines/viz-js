@@ -10,27 +10,18 @@
       return render(src, format, engine);
     }
   }
-
-  var graphviz;
-  var errors;
-  
-  function appendError(buf) {
-    errors += graphviz["Pointer_stringify"](buf);
-  }
   
   function render(src, format, engine) {
-    if (typeof graphviz === "undefined") {
-      graphviz = Module();
-    }
-    
-    errors = "";
+    var graphviz = Module();
     
     var resultPointer = graphviz["ccall"]("vizRenderFromString", "number", ["string", "string", "string"], [src, format, engine]);
     var resultString = graphviz["Pointer_stringify"](resultPointer);
-    graphviz["_free"](resultPointer);
+
+    var errorMessagePointer = graphviz["ccall"]("vizLastErrorMessage", "number", [], []);
+    var errorMessageString = graphviz["Pointer_stringify"](errorMessagePointer);
     
-    if (errors != "") {
-      throw errors;
+    if (errorMessageString != "") {
+      throw errorMessageString;
     }
     
     return resultString;
@@ -103,10 +94,6 @@
     if (callback === undefined) {
       return pngImage;
     }
-  }
-  
-  Viz.setMemorySize = function(size) {
-    graphviz = Module({ TOTAL_MEMORY: size });
   }
   
   Viz.svgXmlToPngBase64 = function(svgXml, scale, callback) {

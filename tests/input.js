@@ -17,6 +17,11 @@ QUnit.test("after throwing an exception on invalid input, do not throw one on va
   Viz("digraph { a -> b;}");
 });
 
+QUnit.test("after throwing an exception on invalid input with an incomplete quoted string, do not throw one on valid input", function(assert) {
+  assert.throws(function() { Viz("digraph {\n a -> b [label=\"erroneous]\n}"); });
+  Viz("digraph {\n a -> b [label=\"correcteous\"]\n}");
+});
+
 QUnit.test("syntax error in graph throws exception", function(assert) {
   assert.throws(function() {
     Viz("digraph { \n ->");

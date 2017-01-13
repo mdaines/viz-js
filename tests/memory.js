@@ -3,7 +3,7 @@ QUnit.module("memory");
 QUnit.test("repeated invocations should not throw an error", function(assert) {
   var done = assert.async();
   
-  var expected = 5000;
+  var expected = 1000;
   var actual = 0;
   
   var worker = new Worker("./worker.js");

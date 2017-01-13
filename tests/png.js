@@ -35,7 +35,7 @@ QUnit.test("specifying the scale option should change the resulting image's natu
 QUnit.test("png-image-element format with a worker", function(assert) {
   var done = assert.async();
   
-  var worker = new Worker("./worker.js");
+  var worker = new Worker(VIZ_LITE ? "./worker-lite.js" : "./worker.js");
   
   worker.onmessage = function(e) {
     var image = Viz.svgXmlToPngImageElement(e.data);

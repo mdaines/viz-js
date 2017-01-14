@@ -1,9 +1,11 @@
 #include <gvc.h>
 #include <emscripten.h>
 
-extern gvplugin_library_t gvplugin_dot_layout_LTX_library;
-extern gvplugin_library_t gvplugin_neato_layout_LTX_library;
 extern gvplugin_library_t gvplugin_core_LTX_library;
+extern gvplugin_library_t gvplugin_dot_layout_LTX_library;
+#ifndef VIZ_LITE
+extern gvplugin_library_t gvplugin_neato_layout_LTX_library;
+#endif
 
 GVC_t *context = NULL;
 char *errorMessage = NULL;
@@ -26,7 +28,9 @@ char* vizRenderFromString(const char *src, const char *format, const char *engin
     context = gvContext();
     gvAddLibrary(context, &gvplugin_core_LTX_library);
     gvAddLibrary(context, &gvplugin_dot_layout_LTX_library);
+#ifndef VIZ_LITE
     gvAddLibrary(context, &gvplugin_neato_layout_LTX_library);
+#endif
   }
 
   agseterr(AGERR);

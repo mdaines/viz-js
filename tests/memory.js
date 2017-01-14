@@ -6,7 +6,7 @@ QUnit.test("repeated invocations should not throw an error", function(assert) {
   var expected = 1000;
   var actual = 0;
   
-  var worker = new Worker("./worker.js");
+  var worker = new Worker(workerPath());
   
   worker.onmessage = function(e) {
     actual += 1;

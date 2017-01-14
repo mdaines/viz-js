@@ -30,3 +30,7 @@ QUnit.testStart(function(testDetails){
     }
   });
 });
+
+function workerPath() {
+  return "./worker.js?" + encodeURIComponent(JSON.stringify({ "path": VIZ_PATH, "time": new Date().getTime() }));
+}

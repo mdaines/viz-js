@@ -1,7 +1,9 @@
 build/
+build-lite/
 prefix/
+prefix-lite/
 sources/
 module.js
+module-lite.js
 viz.js
-viz.js.mem
-*.js.map
+viz-lite.js

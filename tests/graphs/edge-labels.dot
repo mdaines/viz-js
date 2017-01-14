@@ -1,3 +1,4 @@
+# See issue #65. Viz.js would crash when calling gvFreeLayout() for this graph.
 digraph g {
 node001->node002;
 subgraph cluster1 {

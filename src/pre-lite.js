@@ -1,6 +1,6 @@
 /*
 Viz.js
-Copyright (c) 2014-2016 Michael Daines
+Copyright (c) 2014-2017 Michael Daines
 Licensed under MIT license
 
 This distribution contains other software in object code form:

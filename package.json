@@ -12,8 +12,7 @@
     "emscripten"
   ],
   "files": [
-    "viz.js",
-    "viz-lite.js"
+    "viz.js"
   ],
   "author": "Mike Daines <mdaines@fastmail.com>",
   "license": "MIT",

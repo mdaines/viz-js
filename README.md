@@ -14,11 +14,13 @@ Or with npm:
 
 Or download the `viz.js` "binary" from the [releases page](https://github.com/mdaines/viz.js/releases).
 
+## "Lite" Version
+
+A smaller version of Viz.js can be downloaded from the [releases page](https://github.com/mdaines/viz.js/releases). `viz-lite.js` omits Expat and the NEATO layout plugin.
+
 ## API
 
-Viz.js defines a single function to handle most cases:
-
-    Viz(src, options={ format="svg", engine="dot", scale })
+### Viz(src, options={ format="svg", engine="dot", scale })
 
 - `src` is a string representing the graph to render in the DOT language.
 - `options`
@@ -26,7 +28,7 @@ Viz.js defines a single function to handle most cases:
   - `engine` sets the Graphviz engine to use, and may be one of `"circo"`, `"dot"`, `"neato"`, `"osage"`, or `"twopi"`.
   - `scale` sets the scale factor for the `"png-image-element"` format. If this is not specified, `window.devicePixelRatio` will be used if available, and `1` if not.
 
-Output is returned as a string, except when using the "png-image-element" format, when it is returned as an instance of HTMLImageElement.
+Parses `src` and renders a graph according to the `options` given. Output is a string, except when using the "png-image-element" format, when it is returned as an instance of HTMLImageElement.
 
 For example:
 
@@ -36,6 +38,22 @@ For example:
     result = Viz("digraph { x -> y -> z; }", { format: "plain" });
 
 If Graphviz encounters an error, the error message will be thrown as an exception.
+
+### Viz.svgXmlToPngImageElement(svgXml[, scale[, callback]])
+
+- `svgXml` is an SVG XML string, as may be obtained from the `Viz` function using the `"svg"` format option.
+- `scale` sets the scale factor for the output. If this is not specified, `window.devicePixelRatio` will be used if available, and `1` if not.
+- `callback` is an optional Node-style callback. If specified, it is given two arguments, `(err, image)`. If not specified, `Viz.svgXmlToPngImageElement` returns an instance of HTMLImageElement.
+
+Converts `svgXml` to a PNG HTMLImageElement. If `callback` is specfied, `image` is loaded by the time the callback is invoked.
+
+### Viz.svgXmlToPngBase64(svgXml, scale, callback)
+
+- `svgXml` is an SVG XML string, as may be obtained from the `Viz` function using the `"svg"` format option.
+- `scale` sets the scale factor for the output. If this is given as `undefined`, `window.devicePixelRatio` will be used if available, and `1` if not.
+- `callback` is a Node-style callback. It is given two arguments, `(err, data)`.
+
+Converts `svgXml` to a PNG represented as a Base64 string. This function requires a callback, unlike `svgXmlToPngImageElement`.
 
 ## Supported Graphviz features
 

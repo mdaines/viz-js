@@ -39,29 +39,40 @@
     var pngImage = new Image();
     
     if (typeof fabric === "object" && fabric.loadSVGFromString) {
-      fabric.loadSVGFromString(svgXml, function(objects, options) {
-        // If there's something wrong with the SVG, Fabric will just return an empty array of objects. Graphviz appears to give us at least one <g> element back even given an empty graph, so we will assume an error in this case.
-        if (objects.length == 0 && callback !== undefined) {
-          callback("Error loading SVG with Fabric");
-          return;
-        }
+      try {
+        fabric.loadSVGFromString(svgXml, function(objects, options) {
+          // If there's something wrong with the SVG, Fabric may return an empty array of objects. Graphviz appears to give us at least one <g> element back even given an empty graph, so we will assume an error in this case.
+          if (objects.length == 0) {
+            if (callback !== undefined) {
+              callback("Error loading SVG with Fabric");
+            } else {
+              throw "Error loading SVG with Fabric";
+            }
+          }
         
-        var element = document.createElement("canvas");
-        element.width = options.width;
-        element.height = options.height;
+          var element = document.createElement("canvas");
+          element.width = options.width;
+          element.height = options.height;
       
-        var canvas = new fabric.Canvas(element, { enableRetinaScaling: false });
-        var obj = fabric.util.groupSVGElements(objects, options);
-        canvas.add(obj).renderAll();
+          var canvas = new fabric.Canvas(element, { enableRetinaScaling: false });
+          var obj = fabric.util.groupSVGElements(objects, options);
+          canvas.add(obj).renderAll();
       
-        pngImage.src = canvas.toDataURL({ multiplier: scale });
-        pngImage.width = options.width;
-        pngImage.height = options.height;
+          pngImage.src = canvas.toDataURL({ multiplier: scale });
+          pngImage.width = options.width;
+          pngImage.height = options.height;
         
+          if (callback !== undefined) {
+            callback(null, pngImage);
+          }
+        });
+      } catch (e) {
         if (callback !== undefined) {
-          callback(null, pngImage);
+          callback(e);
+        } else {
+          throw e;
         }
-      });
+      }
     } else {
       var svgImage = new Image();
 

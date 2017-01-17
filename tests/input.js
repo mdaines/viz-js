@@ -41,3 +41,10 @@ QUnit.test("syntax error message has correct line numbers for multiple invocatio
     }, /error in line 2 near \'->\'/);
   }
 });
+
+QUnit.test("input with characters outside of basic ASCII should not throw an error", function(assert) {
+  var result = Viz("digraph { α -> β; }");
+  assert.ok(result.match(/α/), "Result should contain \"α\"");
+  assert.ok(result.match(/β/), "Result should contain \"β\"");
+});
+

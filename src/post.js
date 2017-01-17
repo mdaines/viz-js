@@ -45,6 +45,7 @@
           if (objects.length == 0) {
             if (callback !== undefined) {
               callback("Error loading SVG with Fabric");
+              return;
             } else {
               throw "Error loading SVG with Fabric";
             }

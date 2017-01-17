@@ -1,6 +1,33 @@
 QUnit.module("memory");
 
-QUnit.test("repeated invocations should not throw an error", function(assert) {
+QUnit.test("repeated invocations using setTimeout should not throw an error", function(assert) {
+  var done = assert.async();
+  
+  var expected = 1000;
+  var actual = 0;
+  
+  function f() {
+    Viz("digraph { a -> b; }");
+    
+    actual += 1;
+    
+    if (actual % 100 == 0) {
+      console.log(actual);
+    }
+    
+    if (actual == expected) {
+      assert.ok(true);
+      done();
+      return;
+    }
+    
+    setTimeout(f, 0);
+  }
+  
+  f();
+});
+
+QUnit.test("repeated invocations in a worker should not throw an error", function(assert) {
   var done = assert.async();
   
   var expected = 1000;
@@ -10,6 +37,11 @@ QUnit.test("repeated invocations should not throw an error", function(assert) {
   
   worker.onmessage = function(e) {
     actual += 1;
+
+    if (actual % 100 == 0) {
+      console.log(actual);
+    }
+    
     if (actual == expected) {
       assert.ok(true);
       done();

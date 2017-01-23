@@ -31,14 +31,14 @@ QUnit.test("syntax error in graph throws exception", function(assert) {
 QUnit.test("syntax error following graph throws exception", function(assert) {
   assert.throws(function() {
     Viz("digraph { \n } ->");
-  }, /error in line 2 near \'->\'/);
+  }, /error in line 1 near \'->\'/);
 });
 
 QUnit.test("syntax error message has correct line numbers for multiple invocations", function(assert) {
   for (var i = 0; i < 2; i++) {
     assert.throws(function() {
       Viz("digraph { \n } ->");
-    }, /error in line 2 near \'->\'/);
+    }, /error in line 1 near \'->\'/);
   }
 });
 

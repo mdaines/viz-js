@@ -24,7 +24,7 @@ A smaller version of Viz.js can be downloaded from the [releases page](https://g
 
 - `src` is a string representing the graph to render in the DOT language.
 - `options`
-  - `format` sets the output format, and may be one of `"svg"`, `"xdot"`, `"plain"`, `"ps"`, or `"png-image-element"`.
+  - `format` sets the output format, and may be one of `"svg"`, `"xdot"`, `"plain"`, `"ps"`, `"json"`, or `"png-image-element"`.
   - `engine` sets the Graphviz engine to use, and may be one of `"circo"`, `"dot"`, `"neato"`, `"osage"`, or `"twopi"`.
   - `scale` sets the scale factor for the `"png-image-element"` format. If this is not specified, `window.devicePixelRatio` will be used if available, and `1` if not.
 
@@ -72,6 +72,7 @@ These formats are supported:
 - xdot
 - plain
 - ps
+- json
 
 ## PNG output
 

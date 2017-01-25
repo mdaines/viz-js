@@ -7,7 +7,6 @@ extern gvplugin_library_t gvplugin_dot_layout_LTX_library;
 extern gvplugin_library_t gvplugin_neato_layout_LTX_library;
 #endif
 
-GVC_t *context = NULL;
 char *errorMessage = NULL;
 
 int vizErrorf(char *buf) {
@@ -20,18 +19,17 @@ char* vizLastErrorMessage() {
 }
 
 char* vizRenderFromString(const char *src, const char *format, const char *engine) {
-  Agraph_t *graph = NULL;
+  GVC_t *context;
+  Agraph_t *graph;
   char *result = NULL;
   unsigned int length;
   
-  if (context == NULL) {
-    context = gvContext();
-    gvAddLibrary(context, &gvplugin_core_LTX_library);
-    gvAddLibrary(context, &gvplugin_dot_layout_LTX_library);
+  context = gvContext();
+  gvAddLibrary(context, &gvplugin_core_LTX_library);
+  gvAddLibrary(context, &gvplugin_dot_layout_LTX_library);
 #ifndef VIZ_LITE
-    gvAddLibrary(context, &gvplugin_neato_layout_LTX_library);
+  gvAddLibrary(context, &gvplugin_neato_layout_LTX_library);
 #endif
-  }
 
   agseterr(AGERR);
   agseterrf(vizErrorf);

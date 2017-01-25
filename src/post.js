@@ -21,7 +21,7 @@
     var errorMessageString = graphviz["Pointer_stringify"](errorMessagePointer);
     
     if (errorMessageString != "") {
-      throw errorMessageString;
+      throw new Error(errorMessageString);
     }
     
     return resultString;
@@ -44,10 +44,10 @@
           // If there's something wrong with the SVG, Fabric may return an empty array of objects. Graphviz appears to give us at least one <g> element back even given an empty graph, so we will assume an error in this case.
           if (objects.length == 0) {
             if (callback !== undefined) {
-              callback("Error loading SVG with Fabric");
+              callback(new Error("Error loading SVG with Fabric"));
               return;
             } else {
-              throw "Error loading SVG with Fabric";
+              throw new Error("Error loading SVG with Fabric");
             }
           }
         

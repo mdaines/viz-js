@@ -9,7 +9,12 @@ QUnit.test("repeated invocations using setTimeout should not throw an error", fu
   var actual = 0;
   
   function f() {
-    Viz(MEMORY_TEST_SRC);
+    try {
+      Viz(MEMORY_TEST_SRC);
+    } catch (e) {
+      done();
+      return;
+    }
     
     actual += 1;
     

@@ -1,5 +1,3 @@
-QUnit.config.testTimeout = 60000;
-
 // Reports test results to Sauce Labs.
 
 var log = [];

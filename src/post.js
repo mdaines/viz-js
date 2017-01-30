@@ -3,16 +3,17 @@
     var format = options.format === undefined ? "svg" : options.format;
     var engine = options.engine === undefined ? "dot" : options.engine;
     var scale = options.scale;
+    var totalMemory = options.totalMemory;
   
     if (format == "png-image-element") {
-      return Viz.svgXmlToPngImageElement(render(src, "svg", engine), scale);
+      return Viz.svgXmlToPngImageElement(render(src, "svg", engine, totalMemory), scale);
     } else {
-      return render(src, format, engine);
+      return render(src, format, engine, totalMemory);
     }
   }
   
-  function render(src, format, engine) {
-    var graphviz = Module();
+  function render(src, format, engine, totalMemory) {
+    var graphviz = Module({ TOTAL_MEMORY: totalMemory });
     
     var resultPointer = graphviz["ccall"]("vizRenderFromString", "number", ["string", "string", "string"], [src, format, engine]);
     var resultString = graphviz["Pointer_stringify"](resultPointer);

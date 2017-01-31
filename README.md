@@ -38,7 +38,7 @@ For example:
     result = Viz("graph { n0 -- n1 -- n2 -- n3 -- n0; }", { engine: "neato" });
     result = Viz("digraph { x -> y -> z; }", { format: "plain" });
 
-If Graphviz encounters an error, the error message will be thrown as an exception.
+If Graphviz encounters an error, Viz will throw an `Error` object with the error message.
 
 ### Viz.svgXmlToPngImageElement(svgXml[, scale[, callback]])
 

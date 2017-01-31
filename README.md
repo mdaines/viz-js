@@ -22,7 +22,7 @@ A smaller version of Viz.js can be downloaded from the [releases page](https://g
 
 ### Viz(src, options={ format="svg", engine="dot", scale, totalMemory=16777216 })
 
-- `src` is a string representing the graph to render in the DOT language.
+- `src` is a string representing the graph to render in the [DOT language](http://www.graphviz.org/content/dot-language).
 - `options`
   - `format` sets the output format, and may be one of `"svg"`, `"xdot"`, `"plain"`, `"ps"`, `"json"`, or `"png-image-element"`.
   - `engine` sets the Graphviz engine to use, and may be one of `"circo"`, `"dot"`, `"neato"`, `"osage"`, or `"twopi"`.

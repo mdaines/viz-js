@@ -210,6 +210,8 @@ digraph G {
     <script src="./bower_components/fabric.js/dist/fabric.min.js"></script>
     <script src="./bower_components/viz.js/viz.js"></script>
     <script>
+
+    var beforeUnloadMessage = null;
     
     var editor = ace.edit("editor");
     editor.getSession().setMode("ace/mode/dot");
@@ -310,6 +312,11 @@ digraph G {
 
     editor.on("change", function() {
       updateGraph();
+      beforeUnloadMessage = "Your changes will not be saved.";
+    });
+    
+    window.addEventListener("beforeunload", function(e) {
+      return beforeUnloadMessage;
     });
     
     document.querySelector("#engine select").addEventListener("change", function() {

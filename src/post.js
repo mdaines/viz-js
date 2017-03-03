@@ -45,9 +45,9 @@
     }
     
     var pngImage = new Image();
-    
-    if (typeof fabric === "object" && fabric.loadSVGFromString) {
-      try {
+
+    try {
+      if (typeof fabric === "object" && fabric.loadSVGFromString) {
         fabric.loadSVGFromString(svgXml, function(objects, options) {
           // If there's something wrong with the SVG, Fabric may return an empty array of objects. Graphviz appears to give us at least one <g> element back even given an empty graph, so we will assume an error in this case.
           if (objects.length == 0) {
@@ -75,40 +75,50 @@
             callback(null, pngImage);
           }
         });
-      } catch (e) {
-        if (callback !== undefined) {
-          callback(e);
-        } else {
-          throw e;
-        }
-      }
-    } else {
-      var svgImage = new Image();
+      } else {
+        var svgImage = new Image();
 
-      svgImage.onload = function() {
-        var canvas = document.createElement("canvas");
-        canvas.width = svgImage.width * scale;
-        canvas.height = svgImage.height * scale;
+        svgImage.onload = function() {
+          var canvas = document.createElement("canvas");
+          canvas.width = svgImage.width * scale;
+          canvas.height = svgImage.height * scale;
 
-        var context = canvas.getContext("2d");
-        context.drawImage(svgImage, 0, 0, canvas.width, canvas.height);
+          var context = canvas.getContext("2d");
+          context.drawImage(svgImage, 0, 0, canvas.width, canvas.height);
 
-        pngImage.src = canvas.toDataURL("image/png");
-        pngImage.width = svgImage.width;
-        pngImage.height = svgImage.height;
+          pngImage.src = canvas.toDataURL("image/png");
+          pngImage.width = svgImage.width;
+          pngImage.height = svgImage.height;
         
-        if (callback !== undefined) {
-          callback(null, pngImage);
+          if (callback !== undefined) {
+            callback(null, pngImage);
+          }
         }
-      }
       
-      svgImage.onerror = function(e) {
-        if (callback !== undefined) {
-          callback(e);
+        svgImage.onerror = function(e) {
+          var error;
+        
+          if ('error' in e) {
+            error = e.error;
+          } else {
+            error = new Error('Error loading SVG');
+          }
+        
+          if (callback !== undefined) {
+            callback(error);
+          } else {
+            throw error;
+          }
         }
-      }
       
-      svgImage.src = "data:image/svg+xml;base64," + b64EncodeUnicode(svgXml);
+        svgImage.src = "data:image/svg+xml;base64," + b64EncodeUnicode(svgXml);
+      }
+    } catch (e) {
+      if (callback !== undefined) {
+        callback(e);
+      } else {
+        throw e;
+      }
     }
     
     if (callback === undefined) {

@@ -28,6 +28,13 @@
     return resultString;
   }
   
+  // https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/Base64_encoding_and_decoding
+  function b64EncodeUnicode(str) {
+    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+      return String.fromCharCode('0x' + p1);
+    }));
+  }
+  
   Viz.svgXmlToPngImageElement = function(svgXml, scale, callback) {
     if (scale === undefined) {
       if ("devicePixelRatio" in window && window.devicePixelRatio > 1) {
@@ -101,7 +108,7 @@
         }
       }
       
-      svgImage.src = "data:image/svg+xml;base64," + btoa(svgXml);
+      svgImage.src = "data:image/svg+xml;base64," + b64EncodeUnicode(svgXml);
     }
     
     if (callback === undefined) {

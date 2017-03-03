@@ -16,6 +16,22 @@ QUnit.test("png-image-element format returns an image element", function(assert)
   }
 });
 
+QUnit.test("png-image-element format works correctly with characters outside of basic ASCII", function(assert) {
+  var done = assert.async();
+  
+  var image = Viz("digraph { α -> β; }", { format: "png-image-element" });
+
+  assert.ok(image instanceof Image, "image should be an Image");
+  
+  image.onload = function() {
+    done();
+  }
+  
+  image.onerror = function(e) {
+    throw e;
+  }
+});
+
 QUnit.test("specifying the scale option should change the resulting image's natural size", function(assert) {
   var done = assert.async();
   
@@ -25,10 +41,6 @@ QUnit.test("specifying the scale option should change the resulting image's natu
     assert.equal(image.height, 96);
     assert.equal(image.naturalHeight, 288);
     done();
-  }
-  
-  image.onerror = function(e) {
-    throw e;
   }
 });
 

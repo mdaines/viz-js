@@ -10,10 +10,6 @@ QUnit.test("png-image-element format returns an image element", function(assert)
   image.onload = function() {
     done();
   }
-  
-  image.onerror = function(e) {
-    throw e;
-  }
 });
 
 QUnit.test("png-image-element format works correctly with characters outside of basic ASCII", function(assert) {
@@ -25,10 +21,6 @@ QUnit.test("png-image-element format works correctly with characters outside of 
   
   image.onload = function() {
     done();
-  }
-  
-  image.onerror = function(e) {
-    throw e;
   }
 });
 
@@ -53,10 +45,6 @@ QUnit.test("png-image-element format with a worker", function(assert) {
     var image = Viz.svgXmlToPngImageElement(e.data);
     assert.ok(image instanceof Image, "image should be an Image");
     done();
-  }
-  
-  worker.onerror = function(e) {
-    throw e;
   }
   
   worker.postMessage({ src: "digraph { a -> b; }", options: { format: "svg" } });

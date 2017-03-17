@@ -24,16 +24,17 @@ A smaller version of Viz.js can be downloaded from the [releases page](https://g
 
 ## API
 
-### Viz(src, options={ format="svg", engine="dot", scale, totalMemory=16777216 })
+### Viz(src, options={ format="svg", engine="dot", scale, images=[{ path, width, height }], totalMemory=16777216 })
 
 - `src` is a string representing the graph to render in the [DOT language](http://www.graphviz.org/content/dot-language).
 - `options`
   - `format` sets the output format, and may be one of `"svg"`, `"xdot"`, `"plain"`, `"ps"`, `"json"`, or `"png-image-element"`.
   - `engine` sets the Graphviz engine to use, and may be one of `"circo"`, `"dot"`, `"neato"`, `"osage"`, or `"twopi"`.
   - `scale` sets the scale factor for the `"png-image-element"` format. If this is not specified, `window.devicePixelRatio` will be used if available, and `1` if not.
+  - `images` specifies image dimensions to use when rendering nodes with `image` attributes. This is an array of objects, `{ href, width, height }`. `href` may be a filename (`"example.png"`), a relative or absolute path (`"/images/example.png"`), or a URL (`"http://example.com/image.png"`). Dimensions may be specified with units: in, px, pc, pt, cm, or mm. If no units are given or dimensions are given as numbers, points (pt) are used. Graphviz does not actually load image data when this option is used — images are referenced with the dimensions given, eg, in SVG by an `<image>` element with `width` and `height` attributes.
   - `totalMemory` sets the total memory available for the Emscripten module instance. This should be a power of 2. The default of 16MB should be sufficient for most cases — only consider using a larger number if you run into the error "Cannot enlarge memory arrays".
 
-Parses `src` and renders a graph according to the `options` given. Output is a string, except when using the "png-image-element" format, when it is returned as an instance of HTMLImageElement.
+Parses `src` and renders a graph according to the `options` given. Output is a string, except when using the "png-image-element" format, when it is an instance of HTMLImageElement.
 
 For example:
 
@@ -41,6 +42,7 @@ For example:
     result = Viz("digraph { a -> b; }", { format: "png-image-element", scale: 2 });
     result = Viz("graph { n0 -- n1 -- n2 -- n3 -- n0; }", { engine: "neato" });
     result = Viz("digraph { x -> y -> z; }", { format: "plain" });
+    result = Viz("digraph { a[image=\"test.png\"]; }", { images: [ { path: "test.png", width: "400px", height: "300px" } ] });
 
 If Graphviz encounters an error, Viz will throw an `Error` object with the error message.
 

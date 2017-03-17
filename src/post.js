@@ -4,16 +4,24 @@
     var engine = options.engine === undefined ? "dot" : options.engine;
     var scale = options.scale;
     var totalMemory = options.totalMemory;
+    var images = options.images;
   
     if (format == "png-image-element") {
-      return Viz.svgXmlToPngImageElement(render(src, "svg", engine, totalMemory), scale);
+      return Viz.svgXmlToPngImageElement(render(src, "svg", engine, totalMemory, images), scale);
     } else {
-      return render(src, format, engine, totalMemory);
+      return render(src, format, engine, totalMemory, images);
     }
   }
   
-  function render(src, format, engine, totalMemory) {
+  function render(src, format, engine, totalMemory, images) {
     var graphviz = Module({ TOTAL_MEMORY: totalMemory });
+    var i;
+    
+    if (images !== undefined) {
+      for (i = 0; i < images.length; i++) {
+        graphviz["ccall"]("vizCreateDummyImageFile", "number", ["string", "string", "string"], [images[i].path, String(images[i].width), String(images[i].height)]);
+      }
+    }
     
     var resultPointer = graphviz["ccall"]("vizRenderFromString", "number", ["string", "string", "string"], [src, format, engine]);
     var resultString = graphviz["Pointer_stringify"](resultPointer);

@@ -18,15 +18,14 @@ char* vizLastErrorMessage() {
   return errorMessage;
 }
 
-void vizCreateDummyImageFile(char *href, char *width, char *height) {
+void vizCreateFile(char *path, char *data) {
   EM_ASM_({
-    var href = Pointer_stringify($0);
-    var width = Pointer_stringify($1);
-    var height = Pointer_stringify($2);
+    var path = Pointer_stringify($0);
+    var data = Pointer_stringify($1);
     
-    FS.createPath("/", PATH.dirname(href));
-    FS.writeFile(PATH.join("/", href), "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n<svg width=\"" + width + "\" height=\"" + height + "\"></svg>");
-  }, href, width, height);
+    FS.createPath("/", PATH.dirname(path));
+    FS.writeFile(PATH.join("/", path), data);
+  }, path, data);
 }
 
 char* vizRenderFromString(const char *src, const char *format, const char *engine) {

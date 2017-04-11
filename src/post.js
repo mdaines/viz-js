@@ -4,23 +4,27 @@
     var engine = options.engine === undefined ? "dot" : options.engine;
     var scale = options.scale;
     var totalMemory = options.totalMemory;
-    var images = options.images;
+    var files = options.files === undefined ? [] : options.files;
+    var images = options.images === undefined ? [] : options.images;
+    var i;
+    
+    for (i = 0; i < images.length; i++) {
+      files.push({ path: images[i].path, data: "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n<svg width=\"" + images[i].width + "\" height=\"" + images[i].height + "\"></svg>" });
+    }
   
     if (format == "png-image-element") {
-      return Viz.svgXmlToPngImageElement(render(src, "svg", engine, totalMemory, images), scale);
+      return Viz.svgXmlToPngImageElement(render(src, "svg", engine, totalMemory, files), scale);
     } else {
-      return render(src, format, engine, totalMemory, images);
+      return render(src, format, engine, totalMemory, files);
     }
   }
   
-  function render(src, format, engine, totalMemory, images) {
+  function render(src, format, engine, totalMemory, files) {
     var graphviz = Module({ TOTAL_MEMORY: totalMemory });
     var i;
     
-    if (images !== undefined) {
-      for (i = 0; i < images.length; i++) {
-        graphviz["ccall"]("vizCreateDummyImageFile", "number", ["string", "string", "string"], [images[i].path, String(images[i].width), String(images[i].height)]);
-      }
+    for (i = 0; i < files.length; i++) {
+      graphviz["ccall"]("vizCreateFile", "number", ["string", "string"], [files[i].path, files[i].data]);
     }
     
     var resultPointer = graphviz["ccall"]("vizRenderFromString", "number", ["string", "string", "string"], [src, format, engine]);

@@ -15,23 +15,23 @@ all: expat graphviz viz.js graphviz-lite viz-lite.js
 lite: graphviz-lite viz-lite.js
 
 clean:
-	rm -f module.js viz.js module-lite.js viz-lite.js
+	rm -f $(BUILD)/module.js $(BUILD_LITE)/module.js viz.js viz-lite.js
 
 clobber: | clean
 	rm -rf $(BUILD) $(BUILD_LITE) $(PREFIX) $(PREFIX_LITE)
 
 
-viz.js: src/boilerplate/pre.js module.js src/api.js src/boilerplate/post.js
+viz.js: src/boilerplate/pre.js $(BUILD)/module.js src/api.js src/boilerplate/post.js
 	cat $^ > $@
 
-module.js: src/viz.c
+$(BUILD)/module.js: src/viz.c
 	emcc -Os --closure 1 --memory-init-file 0 -s USE_ZLIB=1 -s MODULARIZE=1 -s EXPORTED_FUNCTIONS="['_vizRenderFromString', '_vizCreateFile', '_vizLastErrorMessage', '_dtextract', '_Dtqueue']" -s EXPORTED_RUNTIME_METHODS="['Pointer_stringify', 'ccall', 'UTF8ToString']" -o $@ $< -I$(PREFIX)/include -I$(PREFIX)/include/graphviz -L$(PREFIX)/lib -L$(PREFIX)/lib/graphviz -lgvplugin_core -lgvplugin_dot_layout -lgvplugin_neato_layout -lcdt -lcgraph -lgvc -lgvpr -lpathplan -lexpat -lxdot
 	
 
-viz-lite.js: src/boilerplate/pre-lite.js module-lite.js src/api.js src/boilerplate/post.js
+viz-lite.js: src/boilerplate/pre-lite.js $(BUILD)/module.js src/api.js src/boilerplate/post.js
 	cat $^ > $@
 
-module-lite.js: src/viz.c
+$(BUILD_LITE)/module.js: src/viz.c
 	emcc -D VIZ_LITE -Os --closure 1 --memory-init-file 0 -s USE_ZLIB=1 -s MODULARIZE=1 -s EXPORTED_FUNCTIONS="['_vizRenderFromString', '_vizCreateFile', '_vizLastErrorMessage', '_dtextract', '_Dtqueue', '_dtopen', '_dtdisc', '_Dtobag', '_Dtoset', '_Dttree']" -s EXPORTED_RUNTIME_METHODS="['Pointer_stringify', 'ccall', 'UTF8ToString']" -o $@ $< -I$(PREFIX_LITE)/include -I$(PREFIX_LITE)/include/graphviz -L$(PREFIX_LITE)/lib -L$(PREFIX_LITE)/lib/graphviz -lgvplugin_core -lgvplugin_dot_layout -lcdt -lcgraph -lgvc -lgvpr -lpathplan -lxdot
 
 

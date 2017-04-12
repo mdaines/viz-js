@@ -1,5 +1,5 @@
 /*
-Viz.js
+Viz.js {{VIZ_VERSION}} (Graphviz {{GRAPHVIZ_VERSION}})
 Copyright (c) 2014-2017 Michael Daines
 Licensed under MIT license
 

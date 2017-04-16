@@ -14,6 +14,11 @@
   "files": [
     "viz.js"
   ],
+  "browser": {
+    "fs": false,
+    "path": false,
+    "crypto": false
+  },
   "author": "Mike Daines <mdaines@fastmail.com>",
   "license": "MIT",
   "bugs": {

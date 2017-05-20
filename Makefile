@@ -4,7 +4,7 @@ BUILD_LITE = $(abspath ./build-lite)
 PREFIX = $(abspath ./prefix)
 PREFIX_LITE = $(abspath ./prefix-lite)
 
-VIZ_VERSION = 1.7.1
+VIZ_VERSION = 1.8.0
 EXPAT_VERSION = 2.1.0
 GRAPHVIZ_VERSION = 2.40.1
 EMSCRIPTEN_VERSION = $(notdir $(EMSCRIPTEN))

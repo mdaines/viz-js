@@ -12,7 +12,8 @@
     "emscripten"
   ],
   "files": [
-    "viz.js"
+    "viz.js",
+    "viz-lite.js"
   ],
   "browser": {
     "fs": false,

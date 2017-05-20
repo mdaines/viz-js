@@ -1,5 +1,5 @@
 /*
-Viz.js {{VIZ_VERSION}} (Graphviz {{GRAPHVIZ_VERSION}}, Expat {{EXPAT_VERSION}})
+Viz.js {{VIZ_VERSION}} (Graphviz {{GRAPHVIZ_VERSION}}, Expat {{EXPAT_VERSION}}, Emscripten {{EMSCRIPTEN_VERSION}})
 Copyright (c) 2014-2017 Michael Daines
 Licensed under MIT license
 

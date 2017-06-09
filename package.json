@@ -13,7 +13,8 @@
   ],
   "files": [
     "viz.js",
-    "viz-lite.js"
+    "viz-lite.js",
+    "index.d.ts"
   ],
   "browser": {
     "fs": false,

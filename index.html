@@ -229,12 +229,20 @@ digraph G {
     <script src="./js/ace/ace.js"></script>
     <script src="./bower_components/fabric.js/dist/fabric.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/split.js@1.3.5/split.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.5.0/dist/svg-pan-zoom.min.js"></script>
     <script>
 
     var beforeUnloadMessage = null;
-    
+
+    var resizeEvent = new Event("paneresize");
     Split(['#editor', '#graph'], {
-      sizes: [25, 75]
+      sizes: [25, 75],
+      onDragEnd: function() { 
+        var svgOutput = document.getElementById("svg_output");
+        if (svgOutput != null) {
+          svgOutput.dispatchEvent(resizeEvent);
+        }
+      }
     });
     
     var editor = ace.edit("editor");
@@ -321,8 +329,21 @@ digraph G {
       }
       
       if (document.querySelector("#format select").value == "svg" && !document.querySelector("#raw input").checked) {
-        var svg = parser.parseFromString(result, "image/svg+xml");
-        graph.appendChild(svg.documentElement);
+        var svg = parser.parseFromString(result, "image/svg+xml").documentElement;
+        svg.id = "svg_output";
+        graph.appendChild(svg);
+
+        panZoom = svgPanZoom(svg, {
+          zoomEnabled: true,
+          controlIconsEnabled: true,
+          fit: true,
+          center: true,
+          minZoom: 0.1
+        });
+
+        svg.addEventListener('paneresize', function (e) {
+          panZoom.resize();
+        }, false);
       } else if (document.querySelector("#format select").value == "png-image-element") {
         var image = Viz.svgXmlToPngImageElement(result);
         graph.appendChild(image);

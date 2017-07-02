@@ -1,0 +1,66 @@
+{
+  "name": "svg-pan-zoom",
+  "version": "3.5.1",
+  "main": "dist/svg-pan-zoom.js",
+  "types": "dist/svg-pan-zoom.d.ts",
+  "browser": "src/browserify.js",
+  "license": "BSD-2-Clause",
+  "description": "JavaScript library for panning and zooming an SVG image from the mouse, touches and programmatically.",
+  "scripts": {
+    "start": "gulp",
+    "lint": "tslint 'dist/svg-pan-zoom.d.ts'",
+    "test": "tsc && gulp test",
+    "build": "gulp build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ariutta/svg-pan-zoom"
+  },
+  "bugs": {
+    "url": "https://github.com/ariutta/svg-pan-zoom/issues"
+  },
+  "contributors": [
+    "Andrea Leofreddi <a.leofreddi@itcharm.com>",
+    "Anders Riutta <git@andersriutta.com>",
+    "Zeng Xiaohui",
+    "Barry Coughlan (https://github.com/bcoughlan)",
+    "Risingson",
+    "bumbu alex (http://bumbu.me>)",
+    "Alexander Pico <apico@gladstone.ucsf.edu>",
+    "Kyran Burraston (http://kyranburraston.co.uk)",
+    "Risingson (https://github.com/Risingson)",
+    "Siddhanathan Shanmugam <siddhanathan+social@gmail.com>",
+    "Karina Simard (https://github.com/ksimard)",
+    "Christopher Clark <chris.clark@sparkfun.com>",
+    "Vladimir Prus (http://vladimirprus.com)",
+    "Barry Coughlan (https://github.com/bcoughlan)",
+    "Ionică Bizău (http://ionicabizau.net/)",
+    "Ciprian Placintă (https://github.com/CiprianPlacinta)",
+    "Riccardo Santoro (https://github.com/VeNoMiS)",
+    "César Vidril (https://github.com/Yimiprod)"
+  ],
+  "keywords": [
+    "svg",
+    "pan",
+    "zoom"
+  ],
+  "devDependencies": {
+    "browserify": "^8.0.3",
+    "gulp": "^3.8.10",
+    "gulp-concat": "^2.4.3",
+    "gulp-config-sync": "git://github.com/bumbu/gulp-config-sync",
+    "gulp-header": "^1.2.2",
+    "gulp-jscs": "^1.4.0",
+    "gulp-jshint": "^1.9.0",
+    "gulp-plumber": "^0.6.6",
+    "gulp-qunit": "^1.1.0",
+    "gulp-rename": "^1.2.0",
+    "gulp-uglify": "^1.0.2",
+    "gulp-watch": "^3.0.0",
+    "qunitjs": "^2.2.1",
+    "tslint": "^4.5.1",
+    "typescript": "^2.2.1",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.0.0"
+  }
+}

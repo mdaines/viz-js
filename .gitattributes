@@ -1,1 +1,2 @@
-viz.js -diff
+bower_components/viz.js/viz.js -diff
+bower_components/viz.js/viz-lite.js -diff

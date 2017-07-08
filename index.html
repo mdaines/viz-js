@@ -344,6 +344,9 @@ digraph G {
         svg.addEventListener('paneresize', function (e) {
           panZoom.resize();
         }, false);
+        window.addEventListener('resize', function(e) {
+          panZoom.resize();
+        });
       } else if (document.querySelector("#format select").value == "png-image-element") {
         var image = Viz.svgXmlToPngImageElement(result);
         graph.appendChild(image);

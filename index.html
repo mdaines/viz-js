@@ -29,19 +29,12 @@
       flex: 1 1 auto;
       -webkit-flex: 1 1 auto;
     }
-    
-    #editor {
-      flex: 1 1 50%;
-      -webkit-flex: 1 1 50%;
-    }
 
     #graph {
       display: flex;
       display: -webkit-flex;
       flex-direction: column;
       -webkit-flex-direction: column;
-      flex: 1 1 50%;
-      -webkit-flex: 1 1 50%;
     }
     
     #options {
@@ -131,6 +124,31 @@
       color: white;
       z-index: 1;
     }
+
+    .gutter {
+      background-color: #eee;
+      background-repeat: no-repeat;
+      background-position: 50%;
+    }
+
+    .gutter.gutter-horizontal {
+      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+      cursor: ew-resize;
+    }
+
+    .split {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .split.split-horizontal, .gutter.gutter-horizontal {
+      height: 100%;
+      float: left;
+    }
     
     </style>
   </head>
@@ -140,8 +158,8 @@
       <div id="header">
         <b>Viz.js</b> &mdash; <a href="http://www.graphviz.org">Graphviz</a> in your browser. Read more at <a href="https://github.com/mdaines/viz.js">the GitHub repository</a>.
       </div>
-      <div id="panes">
-        <div id="editor"># http://www.graphviz.org/content/cluster
+      <div id="panes" class="split split-horizontal">
+        <div id="editor" class="split"># http://www.graphviz.org/content/cluster
 
 digraph G {
 
@@ -171,7 +189,7 @@ digraph G {
 	end [shape=Msquare];
 }
 </div>
-        <div id="graph">
+        <div id="graph" class="split">
           <div id="options">
             <label id="engine">
               Engine:
@@ -210,9 +228,22 @@ digraph G {
     
     <script src="./js/ace/ace.js"></script>
     <script src="./bower_components/fabric.js/dist/fabric.min.js"></script>
+    <script src="./bower_components/Split.js/split.min.js"></script>
+    <script src="./bower_components/svg-pan-zoom/dist/svg-pan-zoom.min.js"></script>
     <script>
 
     var beforeUnloadMessage = null;
+
+    var resizeEvent = new Event("paneresize");
+    Split(['#editor', '#graph'], {
+      sizes: [25, 75],
+      onDragEnd: function() { 
+        var svgOutput = document.getElementById("svg_output");
+        if (svgOutput != null) {
+          svgOutput.dispatchEvent(resizeEvent);
+        }
+      }
+    });
     
     var editor = ace.edit("editor");
     editor.getSession().setMode("ace/mode/dot");
@@ -298,8 +329,24 @@ digraph G {
       }
       
       if (document.querySelector("#format select").value == "svg" && !document.querySelector("#raw input").checked) {
-        var svg = parser.parseFromString(result, "image/svg+xml");
-        graph.appendChild(svg.documentElement);
+        var svg = parser.parseFromString(result, "image/svg+xml").documentElement;
+        svg.id = "svg_output";
+        graph.appendChild(svg);
+
+        panZoom = svgPanZoom(svg, {
+          zoomEnabled: true,
+          controlIconsEnabled: true,
+          fit: true,
+          center: true,
+          minZoom: 0.1
+        });
+
+        svg.addEventListener('paneresize', function(e) {
+          panZoom.resize();
+        }, false);
+        window.addEventListener('resize', function(e) {
+          panZoom.resize();
+        });
       } else if (document.querySelector("#format select").value == "png-image-element") {
         var image = Viz.svgXmlToPngImageElement(result);
         graph.appendChild(image);

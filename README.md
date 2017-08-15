@@ -2,10 +2,6 @@
 
 This project is a Makefile for building [Graphviz](http://www.graphviz.org) with [Emscripten](http://kripken.github.io/emscripten-site/) and a simple wrapper for using it in the browser.
 
-## Become a Patron
-
-Help make Viz.js better by [supporting me on Patreon](https://patreon.com/mdaines). Thank you!
-
 ## Getting Viz.js
 
 Install with Bower:

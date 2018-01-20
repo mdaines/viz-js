@@ -9,6 +9,9 @@ EXPAT_VERSION = 2.1.0
 GRAPHVIZ_VERSION = 2.40.1
 EMSCRIPTEN_VERSION = $(notdir $(EMSCRIPTEN))
 
+EXPAT_SOURCE_URL = "https://github.com/libexpat/libexpat/releases/download/R_2_1_0/expat-2.1.0.tar.gz"
+GRAPHVIZ_SOURCE_URL = "https://graphviz.gitlab.io/pub/graphviz/stable/SOURCES/graphviz.tar.gz"
+
 .PHONY: all lite clean clobber expat graphviz graphviz-lite
 
 
@@ -73,24 +76,27 @@ $(BUILD):
 	mkdir -p $(BUILD)
 
 $(BUILD)/expat-$(EXPAT_VERSION): sources/expat-$(EXPAT_VERSION).tar.gz | $(BUILD)
-	tar -zxf sources/expat-$(EXPAT_VERSION).tar.gz -C $(BUILD)
+	mkdir -p $@
+	tar -zxf sources/expat-$(EXPAT_VERSION).tar.gz --strip-components 1 -C $@
 
 $(BUILD)/graphviz-$(GRAPHVIZ_VERSION): sources/graphviz-$(GRAPHVIZ_VERSION).tar.gz | $(BUILD)
-	tar -zxf sources/graphviz-$(GRAPHVIZ_VERSION).tar.gz -C $(BUILD)
+	mkdir -p $@
+	tar -zxf sources/graphviz-$(GRAPHVIZ_VERSION).tar.gz --strip-components 1 -C $@
 
 
 $(BUILD_LITE):
 	mkdir -p $(BUILD_LITE)
 
 $(BUILD_LITE)/graphviz-$(GRAPHVIZ_VERSION): sources/graphviz-$(GRAPHVIZ_VERSION).tar.gz | $(BUILD_LITE)
-	tar -zxf sources/graphviz-$(GRAPHVIZ_VERSION).tar.gz -C $(BUILD_LITE)
+	mkdir -p $@
+	tar -zxf sources/graphviz-$(GRAPHVIZ_VERSION).tar.gz --strip-components 1 -C $@
 
 
 sources:
 	mkdir -p sources
 
 sources/expat-$(EXPAT_VERSION).tar.gz: | sources
-	curl -L "http://sourceforge.net/projects/expat/files/expat/2.1.0/expat-$(EXPAT_VERSION).tar.gz/download" -o sources/expat-$(EXPAT_VERSION).tar.gz
+	curl --fail --location $(EXPAT_SOURCE_URL) -o sources/expat-$(EXPAT_VERSION).tar.gz
 
 sources/graphviz-$(GRAPHVIZ_VERSION).tar.gz: | sources
-	curl -L "http://www.graphviz.org/pub/graphviz/stable/SOURCES/graphviz-$(GRAPHVIZ_VERSION).tar.gz" -o sources/graphviz-$(GRAPHVIZ_VERSION).tar.gz
+	curl --fail --location $(GRAPHVIZ_SOURCE_URL) -o sources/graphviz-$(GRAPHVIZ_VERSION).tar.gz

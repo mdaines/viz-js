@@ -44,10 +44,12 @@ $(PREFIX):
 	mkdir -p $(PREFIX)
 
 expat: | $(BUILD)/expat-$(EXPAT_VERSION) $(PREFIX)
+	grep $(EXPAT_VERSION) $(BUILD)/expat-$(EXPAT_VERSION)/expat_config.h
 	cd $(BUILD)/expat-$(EXPAT_VERSION) && emconfigure ./configure --disable-shared --prefix=$(PREFIX) CFLAGS="-Oz"
 	cd $(BUILD)/expat-$(EXPAT_VERSION) && emmake make -C lib all install
 
 graphviz: | $(BUILD)/graphviz-$(GRAPHVIZ_VERSION) $(PREFIX)
+	grep $(GRAPHVIZ_VERSION) $(BUILD)/graphviz-$(GRAPHVIZ_VERSION)/graphviz_version.h
 	cd $(BUILD)/graphviz-$(GRAPHVIZ_VERSION) && ./configure
 	cd $(BUILD)/graphviz-$(GRAPHVIZ_VERSION)/lib/gvpr && make mkdefs
 	mkdir -p $(BUILD)/graphviz-$(GRAPHVIZ_VERSION)/FEATURE
@@ -62,6 +64,7 @@ $(PREFIX_LITE):
 	mkdir -p $(PREFIX_LITE)
 
 graphviz-lite: | $(BUILD_LITE)/graphviz-$(GRAPHVIZ_VERSION) $(PREFIX_LITE)
+	grep $(GRAPHVIZ_VERSION) $(BUILD_LITE)/graphviz-$(GRAPHVIZ_VERSION)/graphviz_version.h
 	cd $(BUILD_LITE)/graphviz-$(GRAPHVIZ_VERSION) && ./configure
 	cd $(BUILD_LITE)/graphviz-$(GRAPHVIZ_VERSION)/lib/gvpr && make mkdefs
 	mkdir -p $(BUILD_LITE)/graphviz-$(GRAPHVIZ_VERSION)/FEATURE

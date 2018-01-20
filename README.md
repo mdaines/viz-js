@@ -25,7 +25,7 @@ A smaller version of Viz.js can be downloaded from the [releases page](https://g
 - `src` is a string representing the graph to render in the [DOT language](http://www.graphviz.org/content/dot-language).
 - `options`
   - `format` sets the output format, and may be one of `"svg"`, `"xdot"`, `"plain"`, `"ps"`, `"json"`, or `"png-image-element"`.
-  - `engine` sets the Graphviz engine to use, and may be one of `"circo"`, `"dot"`, `"neato"`, `"osage"`, or `"twopi"`.
+  - `engine` sets the Graphviz engine to use, and may be one of `"circo"`, `"dot"`, `"fdp"`, `"neato"`, `"osage"`, or `"twopi"`.
   - `scale` sets the scale factor for the `"png-image-element"` format. If this is not specified, `window.devicePixelRatio` will be used if available, and `1` if not.
   - `images` specifies image dimensions to use when rendering nodes with `image` attributes. This is an array of objects, `{ href, width, height }`. `href` may be a filename (`"example.png"`), a relative or absolute path (`"/images/example.png"`), or a URL (`"http://example.com/image.png"`). Dimensions may be specified with units: in, px, pc, pt, cm, or mm. If no units are given or dimensions are given as numbers, points (pt) are used. Graphviz does not actually load image data when this option is used — images are referenced with the dimensions given, eg, in SVG by an `<image>` element with `width` and `height` attributes.
   - `files` specifies files to make available to Graphviz using Emscripten's in-memory filesystem. This is an array of objects, `{ path, data }`. `path` is a string and may be given as an absolute or relative path, and `data` is a string. Files are created relative to the root, which is the working directory.

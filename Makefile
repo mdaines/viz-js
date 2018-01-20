@@ -5,11 +5,11 @@ PREFIX = $(abspath ./prefix)
 PREFIX_LITE = $(abspath ./prefix-lite)
 
 VIZ_VERSION = 1.8.0
-EXPAT_VERSION = 2.1.0
+EXPAT_VERSION = 2.2.5
 GRAPHVIZ_VERSION = 2.40.1
 EMSCRIPTEN_VERSION = $(notdir $(EMSCRIPTEN))
 
-EXPAT_SOURCE_URL = "https://github.com/libexpat/libexpat/releases/download/R_2_1_0/expat-2.1.0.tar.gz"
+EXPAT_SOURCE_URL = "https://github.com/libexpat/libexpat/releases/download/R_2_2_5/expat-2.2.5.tar.bz2"
 GRAPHVIZ_SOURCE_URL = "https://graphviz.gitlab.io/pub/graphviz/stable/SOURCES/graphviz.tar.gz"
 
 .PHONY: all lite clean clobber expat graphviz graphviz-lite
@@ -45,7 +45,7 @@ $(PREFIX):
 
 expat: | $(BUILD)/expat-$(EXPAT_VERSION) $(PREFIX)
 	cd $(BUILD)/expat-$(EXPAT_VERSION) && emconfigure ./configure --disable-shared --prefix=$(PREFIX) CFLAGS="-Oz"
-	cd $(BUILD)/expat-$(EXPAT_VERSION) && emmake make buildlib installlib
+	cd $(BUILD)/expat-$(EXPAT_VERSION) && emmake make -C lib all install
 
 graphviz: | $(BUILD)/graphviz-$(GRAPHVIZ_VERSION) $(PREFIX)
 	cd $(BUILD)/graphviz-$(GRAPHVIZ_VERSION) && ./configure
@@ -75,9 +75,9 @@ graphviz-lite: | $(BUILD_LITE)/graphviz-$(GRAPHVIZ_VERSION) $(PREFIX_LITE)
 $(BUILD):
 	mkdir -p $(BUILD)
 
-$(BUILD)/expat-$(EXPAT_VERSION): sources/expat-$(EXPAT_VERSION).tar.gz | $(BUILD)
+$(BUILD)/expat-$(EXPAT_VERSION): sources/expat-$(EXPAT_VERSION).tar.bz2 | $(BUILD)
 	mkdir -p $@
-	tar -zxf sources/expat-$(EXPAT_VERSION).tar.gz --strip-components 1 -C $@
+	tar -zxf sources/expat-$(EXPAT_VERSION).tar.bz2 --strip-components 1 -C $@
 
 $(BUILD)/graphviz-$(GRAPHVIZ_VERSION): sources/graphviz-$(GRAPHVIZ_VERSION).tar.gz | $(BUILD)
 	mkdir -p $@
@@ -95,8 +95,8 @@ $(BUILD_LITE)/graphviz-$(GRAPHVIZ_VERSION): sources/graphviz-$(GRAPHVIZ_VERSION)
 sources:
 	mkdir -p sources
 
-sources/expat-$(EXPAT_VERSION).tar.gz: | sources
-	curl --fail --location $(EXPAT_SOURCE_URL) -o sources/expat-$(EXPAT_VERSION).tar.gz
+sources/expat-$(EXPAT_VERSION).tar.bz2: | sources
+	curl --fail --location $(EXPAT_SOURCE_URL) -o sources/expat-$(EXPAT_VERSION).tar.bz2
 
 sources/graphviz-$(GRAPHVIZ_VERSION).tar.gz: | sources
 	curl --fail --location $(GRAPHVIZ_SOURCE_URL) -o sources/graphviz-$(GRAPHVIZ_VERSION).tar.gz

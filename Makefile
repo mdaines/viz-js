@@ -99,7 +99,7 @@ sources:
 	mkdir -p sources
 
 sources/expat-$(EXPAT_VERSION).tar.bz2: | sources
-	curl --fail --location $(EXPAT_SOURCE_URL) -o sources/expat-$(EXPAT_VERSION).tar.bz2
+	curl --fail --location $(EXPAT_SOURCE_URL) -o $@
 
 sources/graphviz-$(GRAPHVIZ_VERSION).tar.gz: | sources
-	curl --fail --location $(GRAPHVIZ_SOURCE_URL) -o sources/graphviz-$(GRAPHVIZ_VERSION).tar.gz
+	curl --fail --location $(GRAPHVIZ_SOURCE_URL) -o $@

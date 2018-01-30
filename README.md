@@ -41,7 +41,7 @@ For example:
     result = Viz("digraph { x -> y -> z; }", { format: "plain" });
     result = Viz("digraph { a[image=\"test.png\"]; }", { images: [ { path: "test.png", width: "400px", height: "300px" } ] });
 
-If Graphviz encounters an error, Viz will throw an `Error` object with the error message.
+If Graphviz encounters an error, `Viz` will throw an `Error` object with the error message.
 
 ### Viz.svgXmlToPngImageElement(svgXml[, scale[, callback]])
 

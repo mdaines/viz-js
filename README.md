@@ -91,7 +91,15 @@ However, this won't work in a Web Worker context. In that case, ask for the `"sv
 
 Internet Explorer 10 and 11 require [Fabric.js](http://fabricjs.com) as an optional dependency for PNG output. Viz.js will look for a `fabric` object as a member of the global object with a `loadSVGFromString()` function and use that if present.
 
-## Build
+## Caveats
+
+### Fonts
+
+When used in Viz.js, Graphviz only knows about font metrics for Courier, Times, Helvetica, and Arial, even though it will include other font names in its output if they are specified. When another font name is specified, Graphviz will fall back to using the metrics for Times. This can result in a label being drawn outside of its node.
+
+If you would like to use other fonts, one workaround is to choose a font with similar metrics to Times and to add extra space around labels using the `margin` attribute.
+
+## Building Viz.js
 
 To build from source, you will need to [install the Emscripten SDK](http://kripken.github.io/emscripten-site/docs/getting_started/index.html).
 

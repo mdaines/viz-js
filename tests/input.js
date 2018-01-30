@@ -42,9 +42,14 @@ QUnit.test("syntax error message has correct line numbers for multiple invocatio
   }
 });
 
-QUnit.test("input with characters outside of basic ASCII should not throw an error", function(assert) {
-  var result = Viz("digraph { α -> β; }");
+QUnit.test("input with characters outside of basic latin should not throw an error", function(assert) {
+  var result;
+  
+  result = Viz("digraph { α -> β; }");
   assert.ok(result.match(/α/), "Result should contain \"α\"");
   assert.ok(result.match(/β/), "Result should contain \"β\"");
+  
+  result = Viz("digraph { a [label=\"åäö\"]; }");
+  assert.ok(result.match(/åäö/), "Result should contain \"åäö\"");
 });
 

@@ -1,6 +1,6 @@
 /*
 Viz.js {{VIZ_VERSION}} (Graphviz {{GRAPHVIZ_VERSION}}, Emscripten {{EMSCRIPTEN_VERSION}})
-Copyright (c) 2014-2017 Michael Daines
+Copyright (c) 2014-2018 Michael Daines
 Licensed under MIT license
 
 This distribution contains other software in object code form:

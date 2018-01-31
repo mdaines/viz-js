@@ -45,16 +45,16 @@ $(PREFIX):
 
 expat: | $(BUILD)/expat-$(EXPAT_VERSION) $(PREFIX)
 	grep $(EXPAT_VERSION) $(BUILD)/expat-$(EXPAT_VERSION)/expat_config.h
-	cd $(BUILD)/expat-$(EXPAT_VERSION) && emconfigure ./configure --disable-shared --prefix=$(PREFIX) CFLAGS="-Oz"
+	cd $(BUILD)/expat-$(EXPAT_VERSION) && emconfigure ./configure --quiet --disable-shared --prefix=$(PREFIX) CFLAGS="-Oz -w"
 	cd $(BUILD)/expat-$(EXPAT_VERSION) && emmake make -C lib all install
 
 graphviz: | $(BUILD)/graphviz-$(GRAPHVIZ_VERSION) $(PREFIX)
 	grep $(GRAPHVIZ_VERSION) $(BUILD)/graphviz-$(GRAPHVIZ_VERSION)/graphviz_version.h
-	cd $(BUILD)/graphviz-$(GRAPHVIZ_VERSION) && ./configure
-	cd $(BUILD)/graphviz-$(GRAPHVIZ_VERSION)/lib/gvpr && make mkdefs
+	cd $(BUILD)/graphviz-$(GRAPHVIZ_VERSION) && ./configure --quiet
+	cd $(BUILD)/graphviz-$(GRAPHVIZ_VERSION)/lib/gvpr && make mkdefs CFLAGS="-w"
 	mkdir -p $(BUILD)/graphviz-$(GRAPHVIZ_VERSION)/FEATURE
 	cp hacks/FEATURE/sfio hacks/FEATURE/vmalloc $(BUILD)/graphviz-$(GRAPHVIZ_VERSION)/FEATURE
-	cd $(BUILD)/graphviz-$(GRAPHVIZ_VERSION) && emconfigure ./configure --disable-ltdl --enable-static --disable-shared --prefix=$(PREFIX) CFLAGS="-Oz -Wno-implicit-function-declaration"
+	cd $(BUILD)/graphviz-$(GRAPHVIZ_VERSION) && emconfigure ./configure --quiet --disable-ltdl --enable-static --disable-shared --prefix=$(PREFIX) CFLAGS="-Oz -w"
 	cd $(BUILD)/graphviz-$(GRAPHVIZ_VERSION) && emmake make lib plugin
 	cd $(BUILD)/graphviz-$(GRAPHVIZ_VERSION)/lib && emmake make install
 	cd $(BUILD)/graphviz-$(GRAPHVIZ_VERSION)/plugin && emmake make install
@@ -65,11 +65,11 @@ $(PREFIX_LITE):
 
 graphviz-lite: | $(BUILD_LITE)/graphviz-$(GRAPHVIZ_VERSION) $(PREFIX_LITE)
 	grep $(GRAPHVIZ_VERSION) $(BUILD_LITE)/graphviz-$(GRAPHVIZ_VERSION)/graphviz_version.h
-	cd $(BUILD_LITE)/graphviz-$(GRAPHVIZ_VERSION) && ./configure
-	cd $(BUILD_LITE)/graphviz-$(GRAPHVIZ_VERSION)/lib/gvpr && make mkdefs
+	cd $(BUILD_LITE)/graphviz-$(GRAPHVIZ_VERSION) && ./configure --quiet
+	cd $(BUILD_LITE)/graphviz-$(GRAPHVIZ_VERSION)/lib/gvpr && make mkdefs CFLAGS="-w"
 	mkdir -p $(BUILD_LITE)/graphviz-$(GRAPHVIZ_VERSION)/FEATURE
 	cp hacks/FEATURE/sfio hacks/FEATURE/vmalloc $(BUILD_LITE)/graphviz-$(GRAPHVIZ_VERSION)/FEATURE
-	cd $(BUILD_LITE)/graphviz-$(GRAPHVIZ_VERSION) && emconfigure ./configure --disable-ltdl --enable-static --disable-shared --prefix=$(PREFIX_LITE) CFLAGS="-Oz -Wno-implicit-function-declaration"
+	cd $(BUILD_LITE)/graphviz-$(GRAPHVIZ_VERSION) && emconfigure ./configure --quiet --disable-ltdl --enable-static --disable-shared --prefix=$(PREFIX_LITE) CFLAGS="-Oz -w"
 	cd $(BUILD_LITE)/graphviz-$(GRAPHVIZ_VERSION) && emmake make lib plugin
 	cd $(BUILD_LITE)/graphviz-$(GRAPHVIZ_VERSION)/lib && emmake make install
 	cd $(BUILD_LITE)/graphviz-$(GRAPHVIZ_VERSION)/plugin && emmake make install

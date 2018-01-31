@@ -80,7 +80,7 @@ $(BUILD):
 
 $(BUILD)/expat-$(EXPAT_VERSION): sources/expat-$(EXPAT_VERSION).tar.bz2 | $(BUILD)
 	mkdir -p $@
-	tar -zxf sources/expat-$(EXPAT_VERSION).tar.bz2 --strip-components 1 -C $@
+	tar -jxf sources/expat-$(EXPAT_VERSION).tar.bz2 --strip-components 1 -C $@
 
 $(BUILD)/graphviz-$(GRAPHVIZ_VERSION): sources/graphviz-$(GRAPHVIZ_VERSION).tar.gz | $(BUILD)
 	mkdir -p $@

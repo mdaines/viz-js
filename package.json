@@ -3,6 +3,9 @@
   "version": "1.8.0",
   "description": "A hack to put Graphviz on the web.",
   "main": "viz.js",
+  "scripts": {
+    "test": "easy-sauce"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/mdaines/viz.js.git"
@@ -26,5 +29,22 @@
   "bugs": {
     "url": "https://github.com/mdaines/viz.js/issues"
   },
-  "homepage": "https://github.com/mdaines/viz.js"
+  "homepage": "https://github.com/mdaines/viz.js",
+  "devDependencies": {
+    "easy-sauce": "^0.4.1"
+  },
+  "easySauce": {
+    "port": "8080",
+    "testPath": "/tests/index.html",
+    "platforms": [
+      ["", "safari", "10"],
+      ["", "safari", "latest"],
+      ["Windows 10", "firefox", "latest"],
+      ["Windows 10", "googlechrome", "latest"]
+    ],
+    "service": "sauce-connect",
+    "serviceOptions": {
+      "verbose": true
+    }
+  }
 }

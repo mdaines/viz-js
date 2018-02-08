@@ -17,7 +17,4 @@ script:
   - npm test
 
 addons:
-  sauce_connect:
-    username: "mdaines"
-  jwt:
-    secure: "IRceBvbdqVmnZJ1/Yv7V7W07ugc7+DvustW5gQP9M5xfHDCfYHVqRUuvw9kfgeIdb9ASzg+bZ2mu/bUzc3FfBXShYmPbA+OL6Ln3EeNvqHL64GwVI14NGseJK1RmYLt38DqWNWzCzhU2BYDxToo9vX58dH54E80JT0eUWMEm9NM="
+  sauce_connect: true

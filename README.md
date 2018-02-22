@@ -24,7 +24,7 @@ A smaller version of Viz.js is available on the [releases page](https://github.c
 
 ## Usage
 
-Rendering a basic graph:
+Rendering a graph as SVG:
 
     var svg = Viz("digraph { a -> b; }");
 

@@ -4,7 +4,7 @@
   "description": "A hack to put Graphviz on the web.",
   "main": "viz.js",
   "scripts": {
-    "test": "easy-sauce"
+    "test": "mocha --timeout 10000"
   },
   "repository": {
     "type": "git",
@@ -31,20 +31,7 @@
   },
   "homepage": "https://github.com/mdaines/viz.js",
   "devDependencies": {
-    "easy-sauce": "^0.4.1"
-  },
-  "easySauce": {
-    "port": "8080",
-    "testPath": "/tests/index.html",
-    "platforms": [
-      ["", "safari", "10"],
-      ["", "safari", "latest"],
-      ["Windows 10", "firefox", "latest"],
-      ["Windows 10", "googlechrome", "latest"]
-    ],
-    "service": "sauce-connect",
-    "serviceOptions": {
-      "verbose": true
-    }
+    "mocha": "^2.2.1",
+    "selenium-webdriver": "^2.45.1"
   }
 }

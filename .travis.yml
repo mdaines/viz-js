@@ -11,8 +11,12 @@ services:
 before_install:
   - docker run -dit --name emscripten -v $(pwd):/src trzeci/emscripten:sdk-incoming-64bit bash
 
+before_script:
+  - python -m SimpleHTTPServer &
+  - sleep 2
+
 script:
-  - docker exec -it emscripten make
+  - docker exec -it emscripten make expat graphviz viz.js
   - npm install --dev
   - npm test
 

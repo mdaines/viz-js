@@ -4,7 +4,7 @@
   "description": "A hack to put Graphviz on the web.",
   "main": "viz.js",
   "scripts": {
-    "test": "mocha --timeout 10000"
+    "test": "test-browser/runner"
   },
   "repository": {
     "type": "git",
@@ -31,7 +31,6 @@
   },
   "homepage": "https://github.com/mdaines/viz.js",
   "devDependencies": {
-    "mocha": "^2.2.1",
     "selenium-webdriver": "^2.45.1"
   }
 }

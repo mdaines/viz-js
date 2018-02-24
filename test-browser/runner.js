@@ -24,7 +24,7 @@ function build(file, capabilities) {
     .build();
   }
   
-  browser.manage().timeouts().setScriptTimeout(30000);
+  browser.manage().timeouts().setScriptTimeout(60000);
 
   return browser.get(`http://localhost:8000/test-browser/${file}?noautostart`)
   .then(function() {

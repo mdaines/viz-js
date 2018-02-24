@@ -3,9 +3,6 @@
   "version": "1.8.0",
   "description": "A hack to put Graphviz on the web.",
   "main": "viz.js",
-  "scripts": {
-    "test": "test-browser/runner"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/mdaines/viz.js.git"
@@ -31,6 +28,7 @@
   },
   "homepage": "https://github.com/mdaines/viz.js",
   "devDependencies": {
+    "minimist": "^1.2.0",
     "selenium-webdriver": "^2.45.1"
   }
 }

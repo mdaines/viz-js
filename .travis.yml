@@ -17,8 +17,7 @@ before_script:
 
 script:
   - docker exec -it emscripten make expat graphviz viz.js
-  - npm install --dev
-  - npm test
+  - node test-browser/runner --file full.html --file fabric.html --capabilities test-browser/all.json
 
 addons:
   sauce_connect: true

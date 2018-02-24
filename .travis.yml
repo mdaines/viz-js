@@ -1,0 +1,24 @@
+sudo: required
+
+language: node_js
+
+node_js:
+  - node
+
+services:
+  - docker
+
+before_install:
+  - docker run -dit --name emscripten -v $(pwd):/src trzeci/emscripten:latest bash
+
+before_script:
+  - python -m SimpleHTTPServer &
+
+script:
+  - docker exec -it emscripten make
+  - node test-browser/runner --file full.html --browser chrome --browser safari --browser firefox
+  - node test-browser/runner --file lite.html --browser chrome --browser safari --browser firefox
+  - node test-browser/runner --file fabric.html --browser chrome --browser safari --browser firefox --browser MicrosoftEdge --browser "internet explorer"
+
+addons:
+  sauce_connect: true

@@ -13,7 +13,6 @@ before_install:
 
 before_script:
   - python -m SimpleHTTPServer &
-  - sleep 2
 
 script:
   - docker exec -it emscripten make expat graphviz viz.js

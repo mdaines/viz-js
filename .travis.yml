@@ -23,12 +23,3 @@ script:
 addons:
   sauce_connect: true
 
-deploy:
-  provider: releases
-  api_key:
-    secure: TvomQbnJJW1vCCD9GQLI0ulvuEkby78WgIM/O3jf4B8B6CdeZECjD/Nr1DmR/8j3oE5psEwnggdIxoD2L24tJ09jTTr+8cZCKX+o1M2ywJYUYBQHtm2v69b73bw7/sEHjOR+H8qLWtpJ7nQccP2MgWFdEkmGe/5r8Ilaqprwgqw=
-  file:
-    - viz.js
-    - viz-lite.js
-  on:
-    tags: true

@@ -1,7 +1,7 @@
 PREFIX = $(abspath ./prefix)
 PREFIX_LITE = $(abspath ./prefix-lite)
 
-VIZ_VERSION = 1.8.1
+VIZ_VERSION = 1.8.1-pre.2
 EXPAT_VERSION = 2.2.5
 GRAPHVIZ_VERSION = 2.40.1
 EMSCRIPTEN_VERSION = $(notdir $(EMSCRIPTEN))

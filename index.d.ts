@@ -4,7 +4,8 @@ export default Viz
 declare namespace VizJs {
 
     interface Viz {
-        (src: string, opts?: VizOpts): string | HTMLImageElement;
+        (src: string, opts?: VizOptsRest): string;
+        (src: string, opts?: VizImageOpts): HTMLImageElement;
         svgXmlToPngImageElement(svgXml: string, scale: number | undefined, callback: ImageCallback): void;
         svgXmlToPngImageElement(svgXml: string, scale?: number): HTMLImageElement;
         svgXmlToPngBase64(svgXml: string, scale: number | undefined, callback: ImageCallback): void;
@@ -17,14 +18,21 @@ declare namespace VizJs {
     type Format = "svg" | "xdot" | "plain" | "ps" | "json" | "png-image-element";
     type Engine = "circo" | "dot" | "fdp" | "neato" | "osage" | "twopi";
 
-    interface VizOpts {
-        format?: Format;
+    interface VizOptsBase {
         engine?: Engine;
         scale?: number;
         images?: Image[];
         totalMemory?: number;
         files?: File[];
     }
+    // Split up VizOpts declarations to be able to distinguish the return type of Viz()
+    interface VizImageOpts extends VizOptsBase {
+        format: "png-image-element";
+    }
+    interface VizOptsRest extends VizOptsBase {
+        format: "svg" | "xdot" | "plain" | "ps" | "json";
+    }
+    type VizOpts = VizOptsRest | VizImageOpts;
 
     interface File {
         path: string;

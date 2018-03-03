@@ -27,10 +27,10 @@ declare namespace VizJs {
     }
     // Split up VizOpts declarations to be able to distinguish the return type of Viz()
     interface VizImageOpts extends VizOptsBase {
-        format: "png-image-element";
+        format?: "png-image-element";
     }
     interface VizOptsRest extends VizOptsBase {
-        format: "svg" | "xdot" | "plain" | "ps" | "json";
+        format?: "svg" | "xdot" | "plain" | "ps" | "json";
     }
     type VizOpts = VizOptsRest | VizImageOpts;
 

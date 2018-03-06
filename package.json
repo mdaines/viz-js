@@ -29,6 +29,7 @@
   "homepage": "https://github.com/mdaines/viz.js",
   "devDependencies": {
     "minimist": "^1.2.0",
-    "selenium-webdriver": "^2.45.1"
+    "selenium-webdriver": "^2.45.1",
+    "typescript": "^2.7.2"
   }
 }

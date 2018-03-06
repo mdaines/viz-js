@@ -40,6 +40,22 @@ const vizTests = {
     let result: string = Viz("...", { totalMemory: 1024 });
   },
   
+  "test: options for the main function are a type": function() {
+    let options: Viz.Options = { engine: "dot", format: "xdot" };
+    let result: string = Viz("...", options);
+  },
+  
+  "test: options for the main function are a different type when format is png-image-element": function() {
+    let options: Viz.ImageFormatOptions = { engine: "dot", format: "png-image-element" };
+    let result: HTMLImageElement = Viz("...", options);
+  },
+  
+  "test: images and files are types": function() {
+    let image: Viz.Image = { href: "test.png", width: 100, height: 100 };
+    let file: Viz.File = { path: "blah", data: "123" };
+    let options: Viz.Options = { files: [file], images: [image] };
+  },
+  
   "test: the svgXmlToPngImageElement helper accepts an optional scale and returns an HTMLImageElement if there is no callback": function() {
     let result: HTMLImageElement = Viz.svgXmlToPngImageElement("...", 2);
     let result2: HTMLImageElement = Viz.svgXmlToPngImageElement("...");

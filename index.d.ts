@@ -23,15 +23,15 @@ declare namespace Viz {
         format: "png-image-element";
     }
 
-    interface File {
-        path: string;
-        data: string;
-    }
-
     interface Image {
         href: string;
         height: string | number;
         width: string | number;
+    }
+
+    interface File {
+        path: string;
+        data: string;
     }
     
     type ImageCallback<D> = (error: Error | null, data: D | null) => void;

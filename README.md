@@ -4,10 +4,6 @@
 
 This project builds [Graphviz](http://www.graphviz.org) with [Emscripten](http://kripken.github.io/emscripten-site/) and provides a simple wrapper for using it in the browser.
 
-## Become a Patron
-
-[Support Viz.js development](https://patreon.com/mdaines) for as little as $1 a month. ❤️
-
 ## Getting Viz.js
 
 Install with Bower:

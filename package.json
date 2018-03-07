@@ -1,6 +1,6 @@
 {
   "name": "viz.js",
-  "version": "1.8.1-pre.5",
+  "version": "1.8.1",
   "description": "A hack to put Graphviz on the web.",
   "main": "viz.js",
   "repository": {

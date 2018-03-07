@@ -20,6 +20,7 @@ script:
   - node test-browser/runner --file full.html --browser chrome --browser safari --browser firefox
   - node test-browser/runner --file lite.html --browser chrome --browser safari --browser firefox
   - node test-browser/runner --file fabric.html --browser chrome --browser safari --browser firefox --browser MicrosoftEdge --browser "internet explorer"
+  - node_modules/.bin/tsc --project test-types
 
 before_deploy:
   - rvm $(travis_internal_ruby) do ruby -S gem install octokit git

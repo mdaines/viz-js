@@ -18,7 +18,7 @@ Or get it from the [releases page](https://github.com/mdaines/viz.js/releases).
 
 ### "Lite" Version
 
-A smaller version of Viz.js is available on the [releases page](https://github.com/mdaines/viz.js/releases) and the Bower package. `viz-lite.js` omits Expat and the NEATO layout plugin.
+Viz.js releases include a smaller version called `viz-lite.js`. This omits Expat and the NEATO layout plugin.
 
 ## Usage
 

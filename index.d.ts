@@ -1,3 +1,7 @@
+export as namespace Viz;
+
+export = Viz;
+
 declare function Viz(src: string, opts?: Viz.Options): string;
 declare function Viz(src: string, opts: Viz.ImageFormatOptions): HTMLImageElement;
 

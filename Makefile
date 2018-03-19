@@ -4,7 +4,7 @@ PREFIX_LITE = $(abspath ./prefix-lite)
 VIZ_VERSION = 1.8.1
 EXPAT_VERSION = 2.2.5
 GRAPHVIZ_VERSION = 2.40.1
-EMSCRIPTEN_VERSION = 1.37.33
+EMSCRIPTEN_VERSION = 1.37.36
 
 EXPAT_SOURCE_URL = "https://github.com/libexpat/libexpat/releases/download/R_2_2_5/expat-2.2.5.tar.bz2"
 GRAPHVIZ_SOURCE_URL = "https://graphviz.gitlab.io/pub/graphviz/stable/SOURCES/graphviz.tar.gz"

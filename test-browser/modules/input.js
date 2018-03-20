@@ -52,4 +52,3 @@ QUnit.test("input with characters outside of basic latin should not throw an err
   result = Viz("digraph { a [label=\"åäö\"]; }");
   assert.ok(result.match(/åäö/), "Result should contain \"åäö\"");
 });
-

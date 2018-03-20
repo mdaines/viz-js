@@ -15,6 +15,10 @@ const vizTests = {
     let result: string = Viz("...", { engine: "..." });
   },
 
+  "test: the main function accepts a yInvert option": function() {
+    let result: string = Viz("...", { yInvert: true });
+  },
+
   "test: the main function accepts a scale option": function() {
     let result: string = Viz("...", { scale: 2 });
   },

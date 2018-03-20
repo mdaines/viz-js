@@ -13,6 +13,7 @@ declare namespace Viz {
 
     interface BaseOptions {
         engine?: string;
+        yInvert?: boolean;
         scale?: number;
         images?: Image[];
         files?: File[];

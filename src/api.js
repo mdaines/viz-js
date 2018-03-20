@@ -2,6 +2,7 @@ function Viz(src) {
   var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
   var format = options.format === undefined ? "svg" : options.format;
   var engine = options.engine === undefined ? "dot" : options.engine;
+  var yInvert = options.yInvert === undefined ? false : options.yInvert;
   var scale = options.scale;
   var totalMemory = options.totalMemory;
   var files = options.files === undefined ? [] : options.files;
@@ -13,19 +14,21 @@ function Viz(src) {
   }
 
   if (format == "png-image-element") {
-    return Viz.svgXmlToPngImageElement(render(src, "svg", engine, totalMemory, files), scale);
+    return Viz.svgXmlToPngImageElement(render(src, "svg", engine, yInvert, totalMemory, files), scale);
   } else {
-    return render(src, format, engine, totalMemory, files);
+    return render(src, format, engine, yInvert, totalMemory, files);
   }
 }
 
-function render(src, format, engine, totalMemory, files) {
+function render(src, format, engine, yInvert, totalMemory, files) {
   var graphviz = Module({ TOTAL_MEMORY: totalMemory });
   var i;
   
   for (i = 0; i < files.length; i++) {
     graphviz["ccall"]("vizCreateFile", "number", ["string", "string"], [files[i].path, files[i].data]);
   }
+  
+  graphviz["ccall"]("vizSetY_invert", "number", ["number"], [yInvert ? 1 : 0]);
   
   var resultPointer = graphviz["ccall"]("vizRenderFromString", "number", ["string", "string", "string"], [src, format, engine]);
   var resultString = graphviz["Pointer_stringify"](resultPointer);

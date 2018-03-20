@@ -1,6 +1,8 @@
 #include <gvc.h>
 #include <emscripten.h>
 
+extern int Y_invert;
+
 extern gvplugin_library_t gvplugin_core_LTX_library;
 extern gvplugin_library_t gvplugin_dot_layout_LTX_library;
 #ifndef VIZ_LITE
@@ -26,6 +28,10 @@ void vizCreateFile(char *path, char *data) {
     FS.createPath("/", PATH.dirname(path));
     FS.writeFile(PATH.join("/", path), data);
   }, path, data);
+}
+
+void vizSetY_invert(int invert) {
+  Y_invert = invert;
 }
 
 char* vizRenderFromString(const char *src, const char *format, const char *engine) {

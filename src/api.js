@@ -1,36 +1,34 @@
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 function Viz(src) {
-  var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-  var format = options.format === undefined ? "svg" : options.format;
-  var engine = options.engine === undefined ? "dot" : options.engine;
-  var yInvert = options.yInvert === undefined ? false : options.yInvert;
-  var scale = options.scale;
-  var totalMemory = options.totalMemory;
-  var files = options.files === undefined ? [] : options.files;
-  var images = options.images === undefined ? [] : options.images;
-  var i;
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   
-  for (i = 0; i < images.length; i++) {
-    files.push({ path: images[i].path, data: "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n<svg width=\"" + images[i].width + "\" height=\"" + images[i].height + "\"></svg>" });
+  options = _extends({ format: "svg", engine: "dot", files: [], images: [] }, options);
+  
+  for (var i = 0; i < options.images.length; i++) {
+    options.files.push({ path: options.images[i].path, data: "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n<svg width=\"" + options.images[i].width + "\" height=\"" + options.images[i].height + "\"></svg>" });
   }
 
-  if (format == "png-image-element") {
-    return Viz.svgXmlToPngImageElement(render(src, "svg", engine, yInvert, totalMemory, files), scale);
+  if (options.format == "png-image-element") {
+    var result = render(src, _extends({}, options, { format: "svg" }));
+    return Viz.svgXmlToPngImageElement(result, options.scale);
   } else {
-    return render(src, format, engine, yInvert, totalMemory, files);
+    return render(src, options);
   }
 }
 
-function render(src, format, engine, yInvert, totalMemory, files) {
-  var graphviz = Module({ TOTAL_MEMORY: totalMemory });
-  var i;
+function render(src, options) {
+  var graphviz = Module({ TOTAL_MEMORY: options.totalMemory });
   
-  for (i = 0; i < files.length; i++) {
-    graphviz["ccall"]("vizCreateFile", "number", ["string", "string"], [files[i].path, files[i].data]);
+  for (var i = 0; i < options.files.length; i++) {
+    graphviz["ccall"]("vizCreateFile", "number", ["string", "string"], [options.files[i].path, options.files[i].data]);
   }
   
-  graphviz["ccall"]("vizSetY_invert", "number", ["number"], [yInvert ? 1 : 0]);
+  if (options.yInvert) {
+    graphviz["ccall"]("vizSetY_invert", "number", ["number"], [1]);
+  }
   
-  var resultPointer = graphviz["ccall"]("vizRenderFromString", "number", ["string", "string", "string"], [src, format, engine]);
+  var resultPointer = graphviz["ccall"]("vizRenderFromString", "number", ["string", "string", "string"], [src, options.format, options.engine]);
   var resultString = graphviz["Pointer_stringify"](resultPointer);
 
   var errorMessagePointer = graphviz["ccall"]("vizLastErrorMessage", "number", [], []);

@@ -7,12 +7,14 @@ This project builds [Graphviz](http://www.graphviz.org) with [Emscripten](http:/
 ## Getting Viz.js
 
 Install with Bower:
-
-    bower install viz.js
+```bash
+bower install viz.js
+```
 
 Or with npm:
-
-    npm install viz.js
+```bash
+npm install viz.js
+```
 
 Or get it from the [releases page](https://github.com/mdaines/viz.js/releases).
 
@@ -23,8 +25,9 @@ Viz.js releases include a smaller version called `viz-lite.js`. This omits Expat
 ## Usage
 
 Rendering a graph as SVG:
-
-    var svg = Viz("digraph { a -> b; }");
+```js
+cosnt svg = Viz("digraph { a -> b; }");
+```
 
 The input to `Viz()` is a graph in the [DOT language](http://www.graphviz.org/content/dot-language). The output `svg` is an SVG XML string.
 
@@ -35,5 +38,6 @@ For more information, see the [API documentation](https://github.com/mdaines/viz
 To build from source, you will need to [install the Emscripten SDK](http://kripken.github.io/emscripten-site/docs/getting_started/index.html).
 
 To download the sources and build everything:
-
-    make
+```bash
+make
+```

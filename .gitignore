@@ -3,6 +3,6 @@ build-lite/
 prefix/
 prefix-lite/
 sources/
-viz.js
-viz-lite.js
 node_modules/
+viz.module
+viz-lite.module

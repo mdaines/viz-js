@@ -4,5 +4,6 @@ prefix/
 prefix-lite/
 sources/
 node_modules/
+lib/
 viz.module
 viz-lite.module

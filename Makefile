@@ -17,11 +17,19 @@ all: expat graphviz viz.module graphviz-lite viz-lite.module
 lite: graphviz-lite viz-lite.module
 
 clean:
+	rm -f lib/index.js
 	rm -f build/module.js build/pre.js viz.module
 	rm -f build-lite/module.js build-lite/pre.js viz-lite.module
 
 clobber: | clean
 	rm -rf build build-lite $(PREFIX) $(PREFIX_LITE)
+
+
+lib: lib/index.js
+
+lib/index.js: src/index.js .babelrc
+	mkdir -p lib
+	node_modules/.bin/babel $< -o $@
 
 
 viz.module: src/boilerplate/pre.js build/module.js src/boilerplate/post.js

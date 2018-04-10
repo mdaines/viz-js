@@ -2,7 +2,7 @@
   "name": "viz.js",
   "version": "1.8.1",
   "description": "A hack to put Graphviz on the web.",
-  "main": "viz.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/mdaines/viz.js.git"
@@ -12,8 +12,9 @@
     "emscripten"
   ],
   "files": [
-    "viz.js",
-    "viz-lite.js",
+    "index.js",
+    "viz.module.js",
+    "viz-lite.module.js",
     "index.d.ts"
   ],
   "browser": {
@@ -28,13 +29,15 @@
   },
   "homepage": "https://github.com/mdaines/viz.js",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
     "babel-plugin-transform-es2015-destructuring": "^6.23.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "minimist": "^1.2.0",
     "selenium-webdriver": "^2.45.1",
-    "typescript": "^2.7.2"
+    "typescript": "^2.7.2",
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.14"
   }
 }

@@ -8,15 +8,15 @@ function render(src, format, engine) {
     graphviz = Module();
   }
   
-  var resultPointer = graphviz["ccall"]("vizRenderFromString", "number", ["string", "string", "string"], [src, format, engine]);
-  var resultString = graphviz["Pointer_stringify"](resultPointer);
-  graphviz["ccall"]("free", "number", ["number"], [resultPointer]);
+  var resultPointer = graphviz['ccall']('vizRenderFromString', 'number', ['string', 'string', 'string'], [src, format, engine]);
+  var resultString = graphviz['Pointer_stringify'](resultPointer);
+  graphviz['ccall']('free', 'number', ['number'], [resultPointer]);
 
-  var errorMessagePointer = graphviz["ccall"]("vizLastErrorMessage", "number", [], []);
-  var errorMessageString = graphviz["Pointer_stringify"](errorMessagePointer);
-  graphviz["ccall"]("free", "number", ["number"], [errorMessagePointer]);
+  var errorMessagePointer = graphviz['ccall']('vizLastErrorMessage', 'number', [], []);
+  var errorMessageString = graphviz['Pointer_stringify'](errorMessagePointer);
+  graphviz['ccall']('free', 'number', ['number'], [errorMessagePointer]);
 
-  if (errorMessageString != "") {
+  if (errorMessageString != '') {
     graphviz = undefined;
     throw new Error(errorMessageString);
   }
@@ -40,16 +40,15 @@ if (typeof WorkerGlobalScope !== 'undefined') {
   }
 }
 
-if (typeof exports === 'object' && typeof module === 'object') {
-  module.exports = render;
-} else if (typeof define === 'function' && define['amd']) {
-  define([], function() { return render; });
-} else if (typeof exports === 'object') {
-  exports["render"] = render;
+if (typeof define === 'function' && define.amd) {
+  define([], function() { return { render: render, Module: Module }; });
+} else if (typeof module === 'object' && module.exports) {
+  module.exports = { render: render, Module: Module };
 }
 
-if (typeof global.Viz === 'object') {
+if (typeof global.Viz !== 'undefined') {
   global.Viz.render = render;
+  global.Viz.Module = Module;
 }
 
-})(this);
+})(typeof self !== 'undefined' ? self : this);

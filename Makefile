@@ -9,30 +9,31 @@ EMSCRIPTEN_VERSION = 1.37.36
 EXPAT_SOURCE_URL = "https://github.com/libexpat/libexpat/releases/download/R_2_2_5/expat-2.2.5.tar.bz2"
 GRAPHVIZ_SOURCE_URL = "https://graphviz.gitlab.io/pub/graphviz/stable/SOURCES/graphviz.tar.gz"
 
-.PHONY: all lite clean clobber expat graphviz graphviz-lite
+.PHONY: all deps deps-lite clean clobber expat graphviz graphviz-lite
 
 
-all: expat graphviz viz.module graphviz-lite viz-lite.module
-	
-lite: graphviz-lite viz-lite.module
+all: viz.module.js viz-lite.module.js index.js
+
+
+deps: graphviz expat deps-lite
+
+deps-lite: graphviz-lite
+
 
 clean:
-	rm -f lib/index.js
-	rm -f build/module.js build/pre.js viz.module
-	rm -f build-lite/module.js build-lite/pre.js viz-lite.module
+	rm -f index.js
+	rm -f build/module.js build/pre.js viz.module.js
+	rm -f build-lite/module.js build-lite/pre.js viz-lite.module.js
 
 clobber: | clean
 	rm -rf build build-lite $(PREFIX) $(PREFIX_LITE)
 
 
-lib: lib/index.js
-
-lib/index.js: src/index.js .babelrc
-	mkdir -p lib
-	node_modules/.bin/babel $< -o $@
+index.js: src/index.js webpack.config.js
+	node_modules/.bin/webpack $< -o $@
 
 
-viz.module: src/boilerplate/pre.js build/module.js src/boilerplate/post.js
+viz.module.js: src/boilerplate/pre.js build/module.js src/boilerplate/post.js
 	sed -e s/{{VIZ_VERSION}}/$(VIZ_VERSION)/ -e s/{{EXPAT_VERSION}}/$(EXPAT_VERSION)/ -e s/{{GRAPHVIZ_VERSION}}/$(GRAPHVIZ_VERSION)/ -e s/{{EMSCRIPTEN_VERSION}}/$(EMSCRIPTEN_VERSION)/ $^ > $@
 
 build/module.js: src/viz.c
@@ -40,7 +41,7 @@ build/module.js: src/viz.c
 	emcc -Oz --memory-init-file 0 -s USE_ZLIB=1 -s MODULARIZE=0 -s LEGACY_VM_SUPPORT=1 -s NO_DYNAMIC_EXECUTION=1 -s EXPORTED_FUNCTIONS="['_vizRenderFromString', '_vizCreateFile', '_vizSetY_invert', '_vizLastErrorMessage', '_dtextract', '_Dtqueue']" -s EXPORTED_RUNTIME_METHODS="['Pointer_stringify', 'ccall', 'UTF8ToString']" -o $@ $< -I$(PREFIX)/include -I$(PREFIX)/include/graphviz -L$(PREFIX)/lib -L$(PREFIX)/lib/graphviz -lgvplugin_core -lgvplugin_dot_layout -lgvplugin_neato_layout -lcdt -lcgraph -lgvc -lgvpr -lpathplan -lexpat -lxdot
 	
 
-viz-lite.module: src/boilerplate/pre-lite.js build-lite/module.js src/boilerplate/post.js
+viz-lite.module.js: src/boilerplate/pre-lite.js build-lite/module.js src/boilerplate/post.js
 	sed -e s/{{VIZ_VERSION}}/$(VIZ_VERSION)/ -e s/{{GRAPHVIZ_VERSION}}/$(GRAPHVIZ_VERSION)/ -e s/{{EMSCRIPTEN_VERSION}}/$(EMSCRIPTEN_VERSION)/ $^ > $@
 
 build-lite/module.js: src/viz.c

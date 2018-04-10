@@ -31,16 +31,6 @@ class WorkerWrapper {
   }
 }
 
-class ModuleWrapper {
-  constructor(modulePath) {
-    this.module = require(modulePath);
-  }
-  
-  render(src, format, engine) {
-    return Promise.resolve(this.module(src, format, engine));
-  }
-}
-
 // https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/Base64_encoding_and_decoding
 function b64EncodeUnicode(str) {
   return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
@@ -98,14 +88,24 @@ function svgXmlToImageElement(svgXml, { scale, mimeType = "image/png", quality =
   });
 }
 
+function wrapRender(fn) {
+  return {
+    render: function(src, format, engine) {
+      return Promise.resolve(fn(src, format, engine));
+    }
+  };
+}
+
 class Viz {
-  constructor({ worker, module } = {}) {
+  constructor({ worker, render } = {}) {
     if (typeof worker !== 'undefined') {
       this.wrapper = new WorkerWrapper(worker);
-    } else if (typeof module !== 'undefined') {
-      this.wrapper = new ModuleWrapper(module);
+    } else if (typeof render !== 'undefined') {
+      this.wrapper = wrapRender(render);
+    } else if (typeof Viz.render !== 'undefined') {
+      this.wrapper = wrapRender(Viz.render);
     } else {
-      throw new Error(`Must specify worker or module option`);
+      throw new Error(`Must specify worker or render options, or include one of viz.module.js or viz-lite.module.js after viz.js.`);
     }
   }
   

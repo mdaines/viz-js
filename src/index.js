@@ -14,7 +14,7 @@ class WorkerWrapper {
     });
   }
   
-  render(src, format, engine) {
+  render(src, options) {
     return new Promise((resolve, reject) => {
       let id = this.nextId++;
     
@@ -26,7 +26,7 @@ class WorkerWrapper {
         resolve(result);
       };
     
-      this.worker.postMessage({ id, src, format, engine });
+      this.worker.postMessage({ id, src, options });
     });
   }
 }
@@ -90,8 +90,14 @@ function svgXmlToImageElement(svgXml, { scale, mimeType = "image/png", quality =
 
 function wrapRender(fn) {
   return {
-    render: function(src, format, engine) {
-      return Promise.resolve(fn(src, format, engine));
+    render: function(src, options) {
+      return new Promise((resolve, reject) => {
+        try {
+          resolve(fn(src, options));
+        } catch (error) {
+          reject(error);
+        }
+      });
     }
   };
 }
@@ -109,10 +115,17 @@ class Viz {
     }
   }
   
-  renderString(src, options = {}) {
-    let { format = 'svg', engine = 'dot' } = options;
-  
-    return this.wrapper.render(src, format, engine);
+  renderString(src, { format = 'svg', engine = 'dot', files = [], images = [], yInvert = false } = {}) {
+    for (let i = 0; i < images.length; i++) {
+      files.push({
+        path: images[i].path,
+        data: `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="${images[i].width}" height="${images[i].height}"></svg>`
+      });
+    }
+    
+    return this.wrapper.render(src, { format, engine, files, images, yInvert });
   }
   
   renderSVGElement(src, options = {}) {

@@ -2,43 +2,45 @@ export as namespace Viz;
 
 export = Viz;
 
-declare function Viz(src: string, opts?: Viz.Options): string;
-declare function Viz(src: string, opts: Viz.ImageFormatOptions): HTMLImageElement;
+declare class Viz {
+  
+  constructor(options?: { worker?: string, render?: (src: string, options: object) => Promise<any> });
+  
+  renderString(src: string, options?: Viz.Options): Promise<string>;
+  
+  renderSVGElement(src: string, options?: Viz.Options): Promise<SVGSVGElement>;
+
+  renderImageElement(src: string, options?: Viz.ImageOptions): Promise<HTMLImageElement>;
+
+  renderJSONObject(src: string, options?: Viz.Options): Promise<object>;
+  
+}
 
 declare namespace Viz {
 
-    function svgXmlToPngImageElement(svgXml: string, scale?: number): HTMLImageElement
-    function svgXmlToPngImageElement(svgXml: string, scale: number | undefined, callback: ImageCallback<HTMLImageElement>): void
-    function svgXmlToPngBase64(svgXml: string, scale: number | undefined, callback: ImageCallback<string>): void
+  export interface Options {
+      engine?: string;
+      format?: string;
+      yInvert?: boolean;
+      images?: Image[];
+      files?: File[];
+  }
 
-    interface BaseOptions {
-        engine?: string;
-        yInvert?: boolean;
-        scale?: number;
-        images?: Image[];
-        files?: File[];
-        totalMemory?: number;
-    }
-    
-    interface Options extends BaseOptions {
-        format?: "svg" | "xdot" | "plain" | "ps" | "json";
-    }
+  export interface ImageOptions extends Options {
+    scale?: number;
+    mimeType?: string;
+    quality?: number;
+  }
 
-    interface ImageFormatOptions extends BaseOptions {
-        format: "png-image-element";
-    }
+  export interface Image {
+      href: string;
+      height: string | number;
+      width: string | number;
+  }
 
-    interface Image {
-        href: string;
-        height: string | number;
-        width: string | number;
-    }
-
-    interface File {
-        path: string;
-        data: string;
-    }
-    
-    type ImageCallback<D> = (error: Error | null, data: D | null) => void;
-
+  export interface File {
+      path: string;
+      data: string;
+  }
+  
 }

@@ -38,7 +38,7 @@ function b64EncodeUnicode(str) {
   }));
 }
 
-function defaultScale(scale) {
+function defaultScale() {
   if ('devicePixelRatio' in window && window.devicePixelRatio > 1) {
     return window.devicePixelRatio;
   } else {
@@ -46,11 +46,7 @@ function defaultScale(scale) {
   }
 }
 
-function svgXmlToImageElement(svgXml, { scale, mimeType = "image/png", quality = 1 } = {}) {
-  if (typeof scale === 'undefined') {
-    scale = defaultScale(scale);
-  }
-  
+function svgXmlToImageElement(svgXml, { scale = defaultScale(), mimeType = "image/png", quality = 1 } = {}) {
   return new Promise((resolve, reject) => {
     let svgImage = new Image();
 
@@ -85,6 +81,41 @@ function svgXmlToImageElement(svgXml, { scale, mimeType = "image/png", quality =
     }
 
     svgImage.src = 'data:image/svg+xml;base64,' + b64EncodeUnicode(svgXml);
+  });
+}
+
+function svgXmlToImageElementFabric(svgXml, { scale = defaultScale(), mimeType = 'image/png', quality = 1 } = {}) {
+  let multiplier = scale;
+  
+  let format;
+  if (mimeType == 'image/jpeg') {
+    format = 'jpeg';
+  } else if (mimeType == 'image/png') {
+    format = 'png';
+  }
+  
+  return new Promise((resolve, reject) => {
+    fabric.loadSVGFromString(svgXml, function(objects, options) {
+      // If there's something wrong with the SVG, Fabric may return an empty array of objects. Graphviz appears to give us at least one <g> element back even given an empty graph, so we will assume an error in this case.
+      if (objects.length == 0) {
+        reject(new Error('Error loading SVG with Fabric'));
+      }
+
+      let element = document.createElement("canvas");
+      element.width = options.width;
+      element.height = options.height;
+
+      let canvas = new fabric.Canvas(element, { enableRetinaScaling: false });
+      let obj = fabric.util.groupSVGElements(objects, options);
+      canvas.add(obj).renderAll();
+
+      let image = new Image();
+      image.src = canvas.toDataURL({ format, multiplier, quality });
+      image.width = options.width;
+      image.height = options.height;
+      
+      resolve(image);
+    });
   });
 }
 
@@ -141,7 +172,11 @@ class Viz {
 
     return this.renderString(src, { ...options, format: 'svg' })
     .then(str => {
-      return svgXmlToImageElement(str, { scale, mimeType, quality });
+      if (typeof fabric === "object" && fabric.loadSVGFromString) {
+        return svgXmlToImageElementFabric(str, { scale, mimeType, quality });
+      } else {
+        return svgXmlToImageElement(str, { scale, mimeType, quality });
+      }
     });
   }
   

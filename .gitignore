@@ -6,5 +6,5 @@ sources/
 node_modules/
 
 index.js
-viz.module.js
-viz-lite.module.js
+viz.module
+viz-lite.module

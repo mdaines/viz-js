@@ -19,8 +19,8 @@ script:
   - docker exec -it emscripten make
   - node test-browser/runner --file full.html --browser chrome --browser safari --browser firefox
   - node test-browser/runner --file lite.html --browser chrome --browser safari --browser firefox
-  - node test-browser/runner --file full-fabric.html --browser chrome --browser safari --browser firefox --browser MicrosoftEdge --browser "internet explorer"
-  - node test-browser/runner --file lite-fabric.html --browser chrome --browser safari --browser firefox --browser MicrosoftEdge --browser "internet explorer"
+  # - node test-browser/runner --file full-fabric.html --browser chrome --browser safari --browser firefox --browser MicrosoftEdge --browser "internet explorer"
+  # - node test-browser/runner --file lite-fabric.html --browser chrome --browser safari --browser firefox --browser MicrosoftEdge --browser "internet explorer"
   - node_modules/.bin/tsc --project test-types
   - ls -l viz.js viz-lite.js
 

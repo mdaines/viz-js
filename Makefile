@@ -12,7 +12,7 @@ GRAPHVIZ_SOURCE_URL = "https://graphviz.gitlab.io/pub/graphviz/stable/SOURCES/gr
 .PHONY: all deps deps-lite clean clobber expat graphviz graphviz-lite
 
 
-all: viz.module.js viz-lite.module.js index.js
+all: viz.module viz-lite.module index.js
 
 
 deps: graphviz expat deps-lite
@@ -22,18 +22,18 @@ deps-lite: graphviz-lite
 
 clean:
 	rm -f index.js
-	rm -f build/module.js build/pre.js viz.module.js
-	rm -f build-lite/module.js build-lite/pre.js viz-lite.module.js
+	rm -f build/module.js build/pre.js viz.module
+	rm -f build-lite/module.js build-lite/pre.js viz-lite.module
 
 clobber: | clean
 	rm -rf build build-lite $(PREFIX) $(PREFIX_LITE)
 
 
-index.js: src/index.js webpack.config.js
-	node_modules/.bin/webpack $< -o $@
+index.js: src/index.js .babelrc
+	node_modules/.bin/babel $< -o $@
 
 
-viz.module.js: src/boilerplate/pre.js build/module.js src/boilerplate/post.js
+viz.module: src/boilerplate/pre.js build/module.js src/boilerplate/post.js
 	sed -e s/{{VIZ_VERSION}}/$(VIZ_VERSION)/ -e s/{{EXPAT_VERSION}}/$(EXPAT_VERSION)/ -e s/{{GRAPHVIZ_VERSION}}/$(GRAPHVIZ_VERSION)/ -e s/{{EMSCRIPTEN_VERSION}}/$(EMSCRIPTEN_VERSION)/ $^ > $@
 
 build/module.js: src/viz.c
@@ -41,7 +41,7 @@ build/module.js: src/viz.c
 	emcc -Oz --memory-init-file 0 -s USE_ZLIB=1 -s MODULARIZE=0 -s LEGACY_VM_SUPPORT=1 -s NO_DYNAMIC_EXECUTION=1 -s EXPORTED_FUNCTIONS="['_vizRenderFromString', '_vizCreateFile', '_vizSetY_invert', '_vizLastErrorMessage', '_dtextract', '_Dtqueue']" -s EXPORTED_RUNTIME_METHODS="['Pointer_stringify', 'ccall', 'UTF8ToString']" -o $@ $< -I$(PREFIX)/include -I$(PREFIX)/include/graphviz -L$(PREFIX)/lib -L$(PREFIX)/lib/graphviz -lgvplugin_core -lgvplugin_dot_layout -lgvplugin_neato_layout -lcdt -lcgraph -lgvc -lgvpr -lpathplan -lexpat -lxdot
 	
 
-viz-lite.module.js: src/boilerplate/pre-lite.js build-lite/module.js src/boilerplate/post.js
+viz-lite.module: src/boilerplate/pre-lite.js build-lite/module.js src/boilerplate/post.js
 	sed -e s/{{VIZ_VERSION}}/$(VIZ_VERSION)/ -e s/{{GRAPHVIZ_VERSION}}/$(GRAPHVIZ_VERSION)/ -e s/{{EMSCRIPTEN_VERSION}}/$(EMSCRIPTEN_VERSION)/ $^ > $@
 
 build-lite/module.js: src/viz.c

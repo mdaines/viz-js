@@ -16,7 +16,7 @@ before_script:
   - python -m SimpleHTTPServer &
 
 script:
-  - docker exec -it emscripten make
+  - docker exec -it emscripten make deps all
   - node test-browser/runner --file full.html --browser chrome --browser safari --browser firefox
   - node test-browser/runner --file lite.html --browser chrome --browser safari --browser firefox
   - node test-browser/runner --file full-fabric.html --browser chrome --browser safari --browser firefox --browser MicrosoftEdge --browser "internet explorer"

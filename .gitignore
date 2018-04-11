@@ -5,6 +5,6 @@ prefix-lite/
 sources/
 node_modules/
 
-index.js
+viz.js
 viz.module
 viz-lite.module

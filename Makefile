@@ -12,7 +12,7 @@ GRAPHVIZ_SOURCE_URL = "https://graphviz.gitlab.io/pub/graphviz/stable/SOURCES/gr
 .PHONY: all deps deps-lite clean clobber expat graphviz graphviz-lite
 
 
-all: viz.module viz-lite.module index.js
+all: viz.module viz-lite.module viz.js
 
 
 deps: graphviz expat deps-lite
@@ -21,7 +21,7 @@ deps-lite: graphviz-lite
 
 
 clean:
-	rm -f index.js
+	rm -f viz.js
 	rm -f build/module.js build/pre.js viz.module
 	rm -f build-lite/module.js build-lite/pre.js viz-lite.module
 
@@ -29,7 +29,7 @@ clobber: | clean
 	rm -rf build build-lite $(PREFIX) $(PREFIX_LITE)
 
 
-index.js: src/index.js .babelrc
+viz.js: src/index.js .babelrc
 	node_modules/.bin/babel $< -o $@
 
 

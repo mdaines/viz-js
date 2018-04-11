@@ -2,7 +2,7 @@
   "name": "viz.js",
   "version": "1.8.1",
   "description": "A hack to put Graphviz on the web.",
-  "main": "index.js",
+  "main": "viz.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/mdaines/viz.js.git"
@@ -12,7 +12,7 @@
     "emscripten"
   ],
   "files": [
-    "index.js",
+    "viz.js",
     "viz.module",
     "viz-lite.module",
     "index.d.ts"

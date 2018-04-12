@@ -40,7 +40,7 @@ QUnit.test("we can reference images with a protocol and hostname", function(asse
 QUnit.test("images should not be available between render calls", function(assert) {
   var viz = new Viz();
   
-  viz.renderSVGElement("digraph { a[image=\"test.png\"]; }", {
+  return viz.renderSVGElement("digraph { a[image=\"test.png\"]; }", {
     images: [
       { path: "test.png", width: 400, height: 300 }
     ]

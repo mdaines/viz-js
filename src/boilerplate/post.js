@@ -1,12 +1,8 @@
   return Module;
 };
 
-var graphviz;
-
 function render(src, options) {
-  if (typeof graphviz === 'undefined') {
-    graphviz = Module();
-  }
+  var graphviz = Module();
   
   var i;
   for (i = 0; i < options.files.length; i++) {
@@ -24,7 +20,6 @@ function render(src, options) {
   graphviz['ccall']('free', 'number', ['number'], [errorMessagePointer]);
 
   if (errorMessageString != '') {
-    graphviz = undefined;
     throw new Error(errorMessageString);
   }
   

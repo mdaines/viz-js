@@ -21,15 +21,10 @@ QUnit.test("renderImageElement works correctly with characters outside of basic 
 QUnit.test("specifying the scale option should change the resulting image's natural size", function(assert) {
   var viz = new Viz();
   
-  var done = assert.async();
-  
   return viz.renderImageElement("digraph { size=\"1,1!\"; a -> b; }", { scale: 3 })
   .then(function(element) {
-    element.onload = function() {
-      assert.equal(element.height, 96);
-      assert.equal(element.naturalHeight, 288);
-      done();
-    }
+    assert.equal(element.height, 96);
+    assert.equal(element.naturalHeight, 288);
   });
 });
 

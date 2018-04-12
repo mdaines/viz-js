@@ -9,6 +9,11 @@
         "index": "Viz"
       },
       "exactGlobals": true
+    }],
+    ["add-header-comment", {
+      "header": [
+        "Viz.js 2.0.0-pre.0"
+      ]
     }]
   ]
 }

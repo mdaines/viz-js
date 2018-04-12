@@ -60,11 +60,12 @@ function svgXmlToImageElement(svgXml, { scale = defaultScale(), mimeType = "imag
       
       canvas.toBlob(blob => {
         let image = new Image();
+        image.addEventListener('load', () => {
+          resolve(image);
+        });
         image.src = URL.createObjectURL(blob);
         image.width = svgImage.width;
         image.height = svgImage.height;
-        
-        resolve(image);
       }, mimeType, quality);
     }
 
@@ -110,11 +111,12 @@ function svgXmlToImageElementFabric(svgXml, { scale = defaultScale(), mimeType =
       canvas.add(obj).renderAll();
 
       let image = new Image();
+      image.addEventListener('load', () => {
+        resolve(image);
+      });
       image.src = canvas.toDataURL({ format, multiplier, quality });
       image.width = options.width;
       image.height = options.height;
-      
-      resolve(image);
     });
   });
 }

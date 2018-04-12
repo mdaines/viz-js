@@ -36,3 +36,22 @@ QUnit.test("we can reference images with a protocol and hostname", function(asse
     assert.equal(element.querySelector("#b image").getAttribute("height"), "200px");
   });
 });
+
+QUnit.test("images should not be available between render calls", function(assert) {
+  var viz = new Viz();
+  
+  viz.renderSVGElement("digraph { a[image=\"test.png\"]; }", {
+    images: [
+      { path: "test.png", width: 400, height: 300 }
+    ]
+  })
+  .then(function(element) {
+    assert.equal(element.querySelector("image").getAttribute("width"), "400px");
+  })
+  .then(function() {
+    return viz.renderSVGElement("digraph { a[image=\"test.png\"]; }");
+  })
+  .then(function(element) {
+    assert.notOk(element.querySelector("image"), "the image dimensions should not be available on subsequent calls");
+  });
+});

@@ -1,6 +1,6 @@
 {
   "name": "viz.js",
-  "version": "2.0.0-pre.1",
+  "version": "2.0.0-pre.2",
   "description": "A hack to put Graphviz on the web.",
   "main": "viz.js",
   "repository": {
@@ -13,8 +13,8 @@
   ],
   "files": [
     "viz.js",
-    "viz.module",
-    "viz-lite.module",
+    "full.module",
+    "lite.module",
     "index.d.ts"
   ],
   "browser": {

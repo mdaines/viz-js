@@ -22,7 +22,7 @@ deps-lite: graphviz-lite
 
 
 clean:
-	rm -f build-main/viz.js
+	rm -f build-main/viz.js viz.js
 	rm -f build-full/module.js build-full/pre.js full.module
 	rm -f build-lite/module.js build-lite/pre.js lite.module
 

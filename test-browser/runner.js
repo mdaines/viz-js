@@ -1,12 +1,11 @@
 const webdriver = require("selenium-webdriver");
 const argv = require('minimist')(process.argv.slice(2));
 const path = require('path');
+const Promise = require('bluebird');
 
 // Build a promise to test the given file with the given capabilities.
 
 function build(file, capabilities) {
-  console.log(file, capabilities);
-  
   let browser;
   
   if (process.env.SAUCE_USERNAME != undefined) {
@@ -110,44 +109,38 @@ files.forEach(f => {
 
 // Run tests and report results.
 
-Promise.all(tests).then(function(outputs) {
-  // Set exit code to 1 if there are any failing tests.
+Promise.each(tests, ({ file, capabilities, log, details }) => {
+  let label = `${capabilities.browserName}, ${file}`;
+  let summary = `(${details.passed} passed, ${details.failed} failed, ${details.total} total, ${details.runtime}ms runtime)`;
   
-  if (outputs.some(({ details }) => details.failed > 0)) {
+  if (details.failed == 0) {
+    console.log(`${color(colors.pass, "✓")} ${label} ${summary}`);
+  } else {
+    console.log(`${color(colors.fail, "✖")} ${label} ${summary}`);
+  }
+  
+  if (details.failed > 0) {
     process.exitCode = 1;
   }
   
-  // Report test results.
-  
-  outputs.forEach(({ file, capabilities, log, details }) => {
-    let label = `${capabilities.browserName}, ${file}`;
-    let summary = `(${details.passed} passed, ${details.failed} failed, ${details.total} total, ${details.runtime}ms runtime)`;
-    
-    if (details.failed == 0) {
-      console.log(`${color(colors.pass, "✓")} ${label} ${summary}`);
-    } else {
-      console.log(`${color(colors.fail, "✖")} ${label} ${summary}`);
+  log.forEach(({ result, module, name, message, actual, expected, source }) => {
+    if (result) {
+      return;
     }
     
-    log.forEach(({ result, module, name, message, actual, expected, source }) => {
-      if (result) {
-        return;
-      }
-      
-      console.log(`FAILED: ${module}: ${name}`);
+    console.log(`FAILED: ${module}: ${name}`);
 
-      if (message) {
-        console.log(message);
-      }
-      
-      if (actual) {
-        console.log(`expected: ${expected}, actual: ${actual}`);
-      }
-      
-      if (source) {
-        console.log(source);
-      }
-    });
+    if (message) {
+      console.log(message);
+    }
+    
+    if (actual) {
+      console.log(`expected: ${expected}, actual: ${actual}`);
+    }
+    
+    if (source) {
+      console.log(source);
+    }
   });
 })
 .catch(function(error) {

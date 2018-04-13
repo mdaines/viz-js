@@ -18,18 +18,10 @@ QUnit.test("renderImageElement works correctly with characters outside of basic 
   });
 });
 
-QUnit.test("specifying the scale option should change the resulting image's natural size", function(assert) {
-  var viz = new Viz();
-  
-  return viz.renderImageElement("digraph { size=\"1,1!\"; a -> b; }", { scale: 3 })
-  .then(function(element) {
-    assert.equal(element.height, 96);
-    assert.equal(element.naturalHeight, 288);
-  });
-});
-
 QUnit.test("asking for plain png format should throw an exception", function(assert) {
   var viz = new Viz();
+  
+  assert.expect(1);
   
   return viz.renderString("digraph { a -> b; }", { format: "png" })
   .catch(function(error) {

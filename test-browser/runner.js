@@ -5,6 +5,8 @@ const path = require('path');
 // Build a promise to test the given file with the given capabilities.
 
 function build(file, capabilities) {
+  console.log(file, capabilities);
+  
   let browser;
   
   if (process.env.SAUCE_USERNAME != undefined) {
@@ -56,7 +58,21 @@ function color(code, string) {
   return '\u001b[' + code + 'm' + string + '\u001b[0m';
 }
 
-// Parse --files, which may be given multiple times. Files are relative to test-browser/.
+let tests = [];
+
+// Parse --matrix, the path of a json file containing an array of objects describing the tests in the form { files, capabilities }.
+
+if (argv.matrix) {
+  require(path.resolve(argv.matrix)).forEach(({ files, capabilities }) => {
+    files.forEach(f => {
+      capabilities.forEach(c => {
+        tests.push(build(f, c));
+      });
+    })
+  });
+}
+
+// Parse --file, which may be given multiple times. Files are relative to test-browser/.
 
 let files;
 
@@ -86,11 +102,11 @@ if (argv.capabilities) {
 
 // Assemble the tests.
 
-let tests = files.reduce((a, f) => {
-  return a.concat(capabilities.map(c => {
-    return build(f, c);
-  }))
-}, []);
+files.forEach(f => {
+  capabilities.forEach(c => {
+    tests.push(build(f, c));
+  });
+});
 
 // Run tests and report results.
 

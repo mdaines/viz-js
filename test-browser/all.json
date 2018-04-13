@@ -1,0 +1,20 @@
+[
+  {
+    "files": ["full.html", "lite.html", "worker.html"],
+    "capabilities": [
+      { "browserName": "chrome" },
+      { "browserName": "safari" },
+      { "browserName": "firefox" }
+    ]
+  },
+  {
+    "files": ["full-polyfill.html", "lite-polyfill.html"],
+    "capabilities": [
+      { "browserName": "chrome" },
+      { "browserName": "safari" },
+      { "browserName": "firefox" },
+      { "browserName": "MicrosoftEdge" },
+      { "browserName": "internet explorer" }
+    ]
+  }
+]

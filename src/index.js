@@ -144,7 +144,7 @@ class Viz {
     } else if (typeof Viz.render !== 'undefined') {
       this.wrapper = wrapRender(Viz.render);
     } else {
-      throw new Error(`Must specify worker or render options, or include one of viz.module.js or viz-lite.module.js after viz.js.`);
+      throw new Error(`Must specify worker or render options, or include one of full.module or lite.module after viz.js.`);
     }
   }
   

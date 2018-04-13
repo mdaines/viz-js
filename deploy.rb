@@ -7,7 +7,7 @@ project_name = "Viz.js"
 repo_slug = ENV["TRAVIS_REPO_SLUG"]
 release_tag_name = ENV["TRAVIS_TAG"]
 build_dir = ENV["TRAVIS_BUILD_DIR"]
-asset_paths = ["viz.js", "viz.module", "viz-lite.module"].map { |name| File.join(build_dir, name) }
+asset_paths = ["viz.js", "full.module", "lite.module"].map { |name| File.join(build_dir, name) }
 
 # Validate that version numbers match
 

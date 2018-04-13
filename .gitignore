@@ -1,10 +1,10 @@
-build/
+build-full/
 build-lite/
-prefix/
+prefix-full/
 prefix-lite/
 sources/
 node_modules/
 
 viz.js
-viz.module
-viz-lite.module
+full.module
+lite.module

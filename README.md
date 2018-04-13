@@ -6,27 +6,24 @@ This project builds [Graphviz](http://www.graphviz.org) with [Emscripten](http:/
 
 ## Getting Viz.js
 
-Install with Bower:
+To install with Yarn:
 
-    bower install viz.js
+    yarn add viz.js
 
-Or with npm:
-
-    npm install viz.js
-
-Or get it from the [releases page](https://github.com/mdaines/viz.js/releases).
-
-### "Lite" Version
-
-Viz.js releases include a smaller version called `viz-lite.js`. This omits Expat and the NEATO layout plugin.
+Or download from the [releases page](https://github.com/mdaines/viz.js/releases).
 
 ## Usage
 
-Rendering a graph as SVG:
+Rendering a graph as an SVG element using a Web Worker:
 
-    var svg = Viz("digraph { a -> b; }");
+    let viz = new Viz({ worker: 'path/to/full.module' );
+    
+    viz.renderSVGElement('digraph { a -> b; }')
+    .then(element => {
+      document.body.appendChild(element);
+    });
 
-The input to `Viz()` is a graph in the [DOT language](http://www.graphviz.org/content/dot-language). The output `svg` is an SVG XML string.
+The input to `renderSVGElement` is a graph in the [DOT language](http://www.graphviz.org/content/dot-language).
 
 For more information, see the [API documentation](https://github.com/mdaines/viz.js/wiki/API).
 
@@ -34,6 +31,11 @@ For more information, see the [API documentation](https://github.com/mdaines/viz
 
 To build from source, you will need to [install the Emscripten SDK](http://kripken.github.io/emscripten-site/docs/getting_started/index.html).
 
-To download the sources and build everything:
+Then, install the development dependencies using Yarn:
 
-    make
+    yarn install
+
+The build process for Viz.js is split into two parts: building the Graphviz and Expat dependencies, and building the "modules" and the main `viz.js` script.
+
+    make deps
+    make all

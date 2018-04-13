@@ -39,3 +39,15 @@ The build process for Viz.js is split into two parts: building the Graphviz and 
 
     make deps
     make all
+
+## Running Browser Tests
+
+The browser tests can be run locally using Selenium WebDriver.
+
+First, serve the project directory at http://localhost:8000. For example:
+
+    python -m SimpleHTTPServer
+    
+Then, run tests using test-browser/runner.js. For example, to run `test-browser/full.html` in Chrome:
+
+    node test-browser/runner --file full.html --browser chrome

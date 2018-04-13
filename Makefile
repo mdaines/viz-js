@@ -16,7 +16,7 @@ all: full.module lite.module viz.js
 
 deps: deps-full deps-lite
 
-deps-full: graphviz-full expat-full
+deps-full: expat-full graphviz-full
 
 deps-lite: graphviz-lite
 
@@ -43,7 +43,7 @@ full.module: src/boilerplate/pre-module-full.js build-full/module.js src/boilerp
 
 build-full/module.js: src/viz.c
 	emcc --version | grep $(EMSCRIPTEN_VERSION)
-	emcc -Oz --memory-init-file 0 -s USE_ZLIB=1 -s MODULARIZE=0 -s LEGACY_VM_SUPPORT=1 -s NO_DYNAMIC_EXECUTION=1 -s EXPORTED_FUNCTIONS="['_vizRenderFromString', '_vizCreateFile', '_vizSetY_invert', '_vizLastErrorMessage', '_dtextract', '_Dtqueue']" -s EXPORTED_RUNTIME_METHODS="['Pointer_stringify', 'ccall', 'UTF8ToString']" -o $@ $< -I$(PREFIX)/include -I$(PREFIX)/include/graphviz -L$(PREFIX)/lib -L$(PREFIX)/lib/graphviz -lgvplugin_core -lgvplugin_dot_layout -lgvplugin_neato_layout -lcdt -lcgraph -lgvc -lgvpr -lpathplan -lexpat -lxdot
+	emcc -Oz --memory-init-file 0 -s USE_ZLIB=1 -s MODULARIZE=0 -s LEGACY_VM_SUPPORT=1 -s NO_DYNAMIC_EXECUTION=1 -s EXPORTED_FUNCTIONS="['_vizRenderFromString', '_vizCreateFile', '_vizSetY_invert', '_vizLastErrorMessage', '_dtextract', '_Dtqueue']" -s EXPORTED_RUNTIME_METHODS="['Pointer_stringify', 'ccall', 'UTF8ToString']" -o $@ $< -I$(PREFIX_FULL)/include -I$(PREFIX_FULL)/include/graphviz -L$(PREFIX_FULL)/lib -L$(PREFIX_FULL)/lib/graphviz -lgvplugin_core -lgvplugin_dot_layout -lgvplugin_neato_layout -lcdt -lcgraph -lgvc -lgvpr -lpathplan -lexpat -lxdot
 	
 
 lite.module: src/boilerplate/pre-module-lite.js build-lite/module.js src/boilerplate/post-module.js
@@ -54,21 +54,21 @@ build-lite/module.js: src/viz.c
 	emcc -D VIZ_LITE -Oz --memory-init-file 0 -s USE_ZLIB=1 -s MODULARIZE=0 -s LEGACY_VM_SUPPORT=1 -s NO_DYNAMIC_EXECUTION=1 -s EXPORTED_FUNCTIONS="['_vizRenderFromString', '_vizCreateFile', '_vizSetY_invert', '_vizLastErrorMessage', '_dtextract', '_Dtqueue', '_dtopen', '_dtdisc', '_Dtobag', '_Dtoset', '_Dttree']" -s EXPORTED_RUNTIME_METHODS="['Pointer_stringify', 'ccall', 'UTF8ToString']" -o $@ $< -I$(PREFIX_LITE)/include -I$(PREFIX_LITE)/include/graphviz -L$(PREFIX_LITE)/lib -L$(PREFIX_LITE)/lib/graphviz -lgvplugin_core -lgvplugin_dot_layout -lcdt -lcgraph -lgvc -lgvpr -lpathplan -lxdot
 
 
-$(PREFIX):
-	mkdir -p $(PREFIX)
+$(PREFIX_FULL):
+	mkdir -p $(PREFIX_FULL)
 
-expat: | build-full/expat-$(EXPAT_VERSION) $(PREFIX)
-	grep $(EXPAT_VERSION) build/expat-$(EXPAT_VERSION)/expat_config.h
-	cd build-full/expat-$(EXPAT_VERSION) && emconfigure ./configure --quiet --disable-shared --prefix=$(PREFIX) CFLAGS="-Oz -w"
+expat-full: | build-full/expat-$(EXPAT_VERSION) $(PREFIX_FULL)
+	grep $(EXPAT_VERSION) build-full/expat-$(EXPAT_VERSION)/expat_config.h
+	cd build-full/expat-$(EXPAT_VERSION) && emconfigure ./configure --quiet --disable-shared --prefix=$(PREFIX_FULL) CFLAGS="-Oz -w"
 	cd build-full/expat-$(EXPAT_VERSION) && emmake make --quiet -C lib all install
 
-graphviz: | build-full/graphviz-$(GRAPHVIZ_VERSION) $(PREFIX)
-	grep $(GRAPHVIZ_VERSION) build/graphviz-$(GRAPHVIZ_VERSION)/graphviz_version.h
+graphviz-full: | build-full/graphviz-$(GRAPHVIZ_VERSION) $(PREFIX_FULL)
+	grep $(GRAPHVIZ_VERSION) build-full/graphviz-$(GRAPHVIZ_VERSION)/graphviz_version.h
 	cd build-full/graphviz-$(GRAPHVIZ_VERSION) && ./configure --quiet
 	cd build-full/graphviz-$(GRAPHVIZ_VERSION)/lib/gvpr && make --quiet mkdefs CFLAGS="-w"
 	mkdir -p build-full/graphviz-$(GRAPHVIZ_VERSION)/FEATURE
-	cp hacks/FEATURE/sfio hacks/FEATURE/vmalloc build/graphviz-$(GRAPHVIZ_VERSION)/FEATURE
-	cd build-full/graphviz-$(GRAPHVIZ_VERSION) && emconfigure ./configure --quiet --without-sfdp --disable-ltdl --enable-static --disable-shared --prefix=$(PREFIX) CFLAGS="-Oz -w"
+	cp hacks/FEATURE/sfio hacks/FEATURE/vmalloc build-full/graphviz-$(GRAPHVIZ_VERSION)/FEATURE
+	cd build-full/graphviz-$(GRAPHVIZ_VERSION) && emconfigure ./configure --quiet --without-sfdp --disable-ltdl --enable-static --disable-shared --prefix=$(PREFIX_FULL) CFLAGS="-Oz -w"
 	cd build-full/graphviz-$(GRAPHVIZ_VERSION) && emmake make --quiet lib plugin
 	cd build-full/graphviz-$(GRAPHVIZ_VERSION)/lib && emmake make --quiet install
 	cd build-full/graphviz-$(GRAPHVIZ_VERSION)/plugin && emmake make --quiet install
@@ -89,22 +89,15 @@ graphviz-lite: | build-lite/graphviz-$(GRAPHVIZ_VERSION) $(PREFIX_LITE)
 	cd build-lite/graphviz-$(GRAPHVIZ_VERSION)/plugin && emmake make --quiet install
 
 
-build-full:
-	mkdir -p build-full
-
-build-full/expat-$(EXPAT_VERSION): sources/expat-$(EXPAT_VERSION).tar.bz2 | build-full
+build-full/expat-$(EXPAT_VERSION): sources/expat-$(EXPAT_VERSION).tar.bz2
 	mkdir -p $@
 	tar -jxf sources/expat-$(EXPAT_VERSION).tar.bz2 --strip-components 1 -C $@
 
-build-full/graphviz-$(GRAPHVIZ_VERSION): sources/graphviz-$(GRAPHVIZ_VERSION).tar.gz | build-full
+build-full/graphviz-$(GRAPHVIZ_VERSION): sources/graphviz-$(GRAPHVIZ_VERSION).tar.gz
 	mkdir -p $@
 	tar -zxf sources/graphviz-$(GRAPHVIZ_VERSION).tar.gz --strip-components 1 -C $@
 
-
-build-lite:
-	mkdir -p build-lite
-
-build-lite/graphviz-$(GRAPHVIZ_VERSION): sources/graphviz-$(GRAPHVIZ_VERSION).tar.gz | build-lite
+build-lite/graphviz-$(GRAPHVIZ_VERSION): sources/graphviz-$(GRAPHVIZ_VERSION).tar.gz
 	mkdir -p $@
 	tar -zxf sources/graphviz-$(GRAPHVIZ_VERSION).tar.gz --strip-components 1 -C $@
 

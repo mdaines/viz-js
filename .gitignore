@@ -6,5 +6,5 @@ sources/
 node_modules/
 
 viz.js
-full.module
-lite.module
+full.js.opaque
+lite.js.opaque

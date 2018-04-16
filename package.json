@@ -13,8 +13,8 @@
   ],
   "files": [
     "viz.js",
-    "full.module",
-    "lite.module",
+    "full.js.opaque",
+    "lite.js.opaque",
     "index.d.ts"
   ],
   "browser": {

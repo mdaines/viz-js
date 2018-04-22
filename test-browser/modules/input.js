@@ -17,23 +17,6 @@ QUnit.test("result from first graph in input is returned for multiple invocation
   });
 });
 
-QUnit.test("after throwing an exception on invalid input, do not throw one on valid input", function(assert) {
-  var viz = new Viz();
-  
-  assert.expect(2);
-  
-  return viz.renderString("digraph { \n ->")
-  .catch(function(error) {
-    assert.ok(error);
-  })
-  .then(function() {
-    return viz.renderString("digraph { a -> b }");
-  })
-  .then(function(result) {
-    assert.ok(result);
-  });
-});
-
 QUnit.test("after throwing an exception on invalid input with an incomplete quoted string, continue to throw exceptions on valid input", function(assert) {
   var viz = new Viz();
   

@@ -1,23 +1,21 @@
   return Module;
 };
 
-function render(src, options) {
-  var graphviz = Module();
-  
+function render(instance, src, options) {
   var i;
   for (i = 0; i < options.files.length; i++) {
-    graphviz['ccall']('vizCreateFile', 'number', ['string', 'string'], [options.files[i].path, options.files[i].data]);
+    instance['ccall']('vizCreateFile', 'number', ['string', 'string'], [options.files[i].path, options.files[i].data]);
   }
 
-  graphviz['ccall']('vizSetY_invert', 'number', ['number'], [options.yInvert ? 1 : 0]);
+  instance['ccall']('vizSetY_invert', 'number', ['number'], [options.yInvert ? 1 : 0]);
   
-  var resultPointer = graphviz['ccall']('vizRenderFromString', 'number', ['string', 'string', 'string'], [src, options.format, options.engine]);
-  var resultString = graphviz['Pointer_stringify'](resultPointer);
-  graphviz['ccall']('free', 'number', ['number'], [resultPointer]);
+  var resultPointer = instance['ccall']('vizRenderFromString', 'number', ['string', 'string', 'string'], [src, options.format, options.engine]);
+  var resultString = instance['Pointer_stringify'](resultPointer);
+  instance['ccall']('free', 'number', ['number'], [resultPointer]);
 
-  var errorMessagePointer = graphviz['ccall']('vizLastErrorMessage', 'number', [], []);
-  var errorMessageString = graphviz['Pointer_stringify'](errorMessagePointer);
-  graphviz['ccall']('free', 'number', ['number'], [errorMessagePointer]);
+  var errorMessagePointer = instance['ccall']('vizLastErrorMessage', 'number', [], []);
+  var errorMessageString = instance['Pointer_stringify'](errorMessagePointer);
+  instance['ccall']('free', 'number', ['number'], [errorMessagePointer]);
 
   if (errorMessageString != '') {
     throw new Error(errorMessageString);
@@ -27,13 +25,15 @@ function render(src, options) {
 }
 
 if (typeof WorkerGlobalScope !== 'undefined') {
+  var instance = Module();
+  
   onmessage = function(event) {
     var id = event.data.id;
     var src = event.data.src;
     var options = event.data.options;
   
     try {
-      var result = render(src, options);
+      var result = render(instance, src, options);
       postMessage({ id: id, result: result });
     } catch (error) {
       postMessage({ id: id, error: { message: error.message, fileName: error.fileName, lineNumber: error.lineNumber } });

@@ -31,6 +31,21 @@ class WorkerWrapper {
   }
 }
 
+class ModuleWrapper {
+  constructor(module, render) {
+    let instance = module();
+    this.render = function(src, options) {
+      return new Promise((resolve, reject) => {
+        try {
+          resolve(render(instance, src, options));
+        } catch (error) {
+          reject(error);
+        }
+      });
+    }
+  }
+}
+
 // https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/Base64_encoding_and_decoding
 function b64EncodeUnicode(str) {
   return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
@@ -134,15 +149,15 @@ function wrapRender(fn) {
 }
 
 class Viz {
-  constructor({ worker, render } = {}) {
+  constructor({ worker, Module, render } = {}) {
     if (typeof worker !== 'undefined') {
       this.wrapper = new WorkerWrapper(worker);
-    } else if (typeof render !== 'undefined') {
-      this.wrapper = wrapRender(render);
-    } else if (typeof Viz.render !== 'undefined') {
-      this.wrapper = wrapRender(Viz.render);
+    } else if (typeof Module !== 'undefined' && typeof render !== 'undefined') {
+      this.wrapper = new ModuleWrapper(Module, render);
+    } else if (typeof Viz.Module !== 'undefined' && typeof Viz.render !== 'undefined') {
+      this.wrapper = new ModuleWrapper(Viz.Module, Viz.render);
     } else {
-      throw new Error(`Must specify worker or render options, or include one of full.module or lite.module after viz.js.`);
+      throw new Error(`Must specify worker option, Module and render options, or include one of full.js.opaque or lite.js.opaque after viz.js.`);
     }
   }
   

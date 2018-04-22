@@ -113,6 +113,11 @@ files.forEach(f => {
   });
 });
 
+if (tests.length == 0) {
+  console.log("No tests to run!");
+  process.exitCode = 1;
+}
+
 // Run tests and report results.
 
 Promise.each(tests, ({ file, capabilities, log, details, skipped }) => {

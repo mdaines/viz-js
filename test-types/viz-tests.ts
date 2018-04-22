@@ -8,9 +8,10 @@ const vizTests = {
     let jsonObjectResult: Promise<any> = viz.renderJSONObject("...");
   },
   
-  "test: constructor accepts worker and render options": function() {
+  "test: constructor options": function() {
     let vizWorker = new Viz({ worker: "..." });
-    let vizRender = new Viz({ render: function(src, options) { return Promise.resolve(); } });
+    let vizRender = new Viz({ Module: function() { return "..." }, render: function(instance, src, options) { return Promise.resolve(); } });
+    let vizInclude = new Viz();
   },
 
   "test: the render functions accept stringly-typed format and engine options": function() {

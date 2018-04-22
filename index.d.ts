@@ -4,7 +4,7 @@ export = Viz;
 
 declare class Viz {
   
-  constructor(options?: { worker?: string, render?: (src: string, options: object) => Promise<any> });
+  constructor(options?: { worker: string } | { Module: () => any, render: (instance: any, src: string, options: object) => Promise<any> });
   
   renderString(src: string, options?: Viz.Options): Promise<string>;
   

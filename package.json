@@ -37,6 +37,7 @@
     "babel-preset-env": "^1.6.1",
     "bluebird": "^3.5.1",
     "minimist": "^1.2.0",
+    "mocha": "^5.1.1",
     "selenium-webdriver": "^2.45.1",
     "typescript": "^2.7.2"
   }

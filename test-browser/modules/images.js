@@ -37,7 +37,7 @@ QUnit.test("we can reference images with a protocol and hostname", function(asse
   });
 });
 
-QUnit.test("images should not be available between render calls", function(assert) {
+QUnit.skip("images should not be available between render calls", function(assert) {
   var viz = new Viz();
   
   return viz.renderSVGElement("digraph { a[image=\"test.png\"]; }", {

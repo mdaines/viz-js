@@ -34,7 +34,7 @@ QUnit.test("after throwing an exception on invalid input, do not throw one on va
   });
 });
 
-QUnit.test("after throwing an exception on invalid input with an incomplete quoted string, do not throw one on valid input", function(assert) {
+QUnit.test("after throwing an exception on invalid input with an incomplete quoted string, continue to throw exceptions on valid input", function(assert) {
   var viz = new Viz();
   
   assert.expect(2);
@@ -46,9 +46,9 @@ QUnit.test("after throwing an exception on invalid input with an incomplete quot
   .then(function() {
     return viz.renderString("digraph {\n a -> b [label=\"correcteous\"]\n}");
   })
-  .then(function(result) {
-    assert.ok(result);
-  });
+  .catch(function(error) {
+    assert.ok(error);
+  })
 });
 
 QUnit.test("syntax error in graph throws exception", function(assert) {

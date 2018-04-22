@@ -50,11 +50,16 @@ char* vizRenderFromString(const char *src, const char *format, const char *engin
   agseterr(AGERR);
   agseterrf(vizErrorf);
   
+  agreadline(1);
+  
   while ((graph = agmemread(src))) {
     if (result == NULL) {
       gvLayout(context, graph, engine);
       gvRenderData(context, graph, format, &result, &length);
+      gvFreeLayout(context, graph);
     }
+    
+    agclose(graph);
     
     src = "";
   }

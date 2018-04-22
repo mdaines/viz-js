@@ -31,11 +31,17 @@ function build(file, capabilities) {
   .then(function() {
     return browser.executeAsyncScript(function(callback) {
       var log = [];
+      var skipped = [];
       QUnit.log(function(details) {
         log.push(details);
       });
+      QUnit.testDone(function(details) {
+        if (details.skipped) {
+          skipped.push(details);
+        }
+      });
       QUnit.done(function(details) {
-        callback({ details: details, log: log });
+        callback({ details: details, log: log, skipped: skipped });
       });
       QUnit.start();
     });
@@ -109,7 +115,7 @@ files.forEach(f => {
 
 // Run tests and report results.
 
-Promise.each(tests, ({ file, capabilities, log, details }) => {
+Promise.each(tests, ({ file, capabilities, log, details, skipped }) => {
   let label = `${capabilities.browserName}, ${file}`;
   let summary = `(${details.passed} passed, ${details.failed} failed, ${details.total} total, ${details.runtime}ms runtime)`;
   
@@ -117,6 +123,12 @@ Promise.each(tests, ({ file, capabilities, log, details }) => {
     console.log(`${color(colors.pass, "✓")} ${label} ${summary}`);
   } else {
     console.log(`${color(colors.fail, "✖")} ${label} ${summary}`);
+  }
+  
+  if (skipped.length > 0) {
+    skipped.forEach(({ module, name }) => {
+      console.log(`SKIPPED: ${module}: ${name}`);
+    });
   }
   
   if (details.failed > 0) {

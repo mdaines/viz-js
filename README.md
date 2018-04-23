@@ -4,34 +4,18 @@
 
 This project builds [Graphviz](http://www.graphviz.org) with [Emscripten](http://kripken.github.io/emscripten-site/) and provides a simple wrapper for using it in the browser.
 
+For more information, [see the wiki](https://github.com/mdaines/viz.js/wiki).
+
 ## Getting Viz.js
 
-To install with Yarn:
+* Install the [`viz.js` package](https://www.npmjs.com/package/viz.js) from npm.
+* Download from the [releases page](https://github.com/mdaines/viz.js/releases).
 
-    yarn add viz.js
+## Building From Source
 
-Or download from the [releases page](https://github.com/mdaines/viz.js/releases).
+To build from source, first [install the Emscripten SDK](http://kripken.github.io/emscripten-site/docs/getting_started/index.html). You'll also need [Node.js](https://nodejs.org/) and [Yarn](https://yarnpkg.com).
 
-## Usage
-
-Rendering a graph as an SVG element using a Web Worker:
-
-```js
-let viz = new Viz({ worker: 'path/to/full.js.opaque' );
-
-viz.renderSVGElement('digraph { a -> b; }')
-.then(element => {
-  document.body.appendChild(element);
-});
-```
-
-For more information, see the [API documentation](https://github.com/mdaines/viz.js/wiki/API).
-
-## Building Viz.js
-
-To build from source, you will need to [install the Emscripten SDK](http://kripken.github.io/emscripten-site/docs/getting_started/index.html).
-
-Then, install the development dependencies using Yarn:
+Install the development dependencies using Yarn:
 
     yarn install
 

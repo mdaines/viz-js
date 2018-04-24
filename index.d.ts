@@ -33,7 +33,7 @@ declare namespace Viz {
   }
 
   export interface Image {
-      href: string;
+      path: string;
       height: string | number;
       width: string | number;
   }

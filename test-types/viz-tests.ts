@@ -25,8 +25,8 @@ const vizTests = {
   "test: the render functions accept an images option": function() {
     let options: Viz.Options = {
       images: [
-        { href: "http://example.com/image.png", width: "300px", height: "200px" },
-        { href: "http://example.com/image2.png", width: 640, height: 480 },
+        { path: "http://example.com/image.png", width: "300px", height: "200px" },
+        { path: "http://example.com/image2.png", width: 640, height: 480 },
       ]
     };
   },
@@ -48,7 +48,7 @@ const vizTests = {
   },
   
   "test: images and files are types": function() {
-    let image: Viz.Image = { href: "test.png", width: 100, height: 100 };
+    let image: Viz.Image = { path: "test.png", width: 100, height: 100 };
     let file: Viz.File = { path: "blah", data: "123" };
   }
 };

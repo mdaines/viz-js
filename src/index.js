@@ -134,20 +134,6 @@ function svgXmlToImageElementFabric(svgXml, { scale = defaultScale(), mimeType =
   });
 }
 
-function wrapRender(fn) {
-  return {
-    render: function(src, options) {
-      return new Promise((resolve, reject) => {
-        try {
-          resolve(fn(src, options));
-        } catch (error) {
-          reject(error);
-        }
-      });
-    }
-  };
-}
-
 class Viz {
   constructor({ worker, Module, render } = {}) {
     if (typeof worker !== 'undefined') {

@@ -1,4 +1,4 @@
-import Viz from "viz.js";
+import Viz = require("viz.js");
 import { Module, render } from "viz.js/full.js.opaque";
 
 const vizTests = {

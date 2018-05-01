@@ -1,6 +1,6 @@
 export as namespace Viz;
 
-export default Viz;
+export = Viz;
 
 declare class Viz {
   

@@ -1,10 +1,10 @@
 export as namespace Viz;
 
-export = Viz;
+export default Viz;
 
 declare class Viz {
   
-  constructor(options?: { worker: string } | { Module: () => any, render: (instance: any, src: string, options: object) => Promise<any> });
+  constructor(options?: { worker: string } | { Module: () => any, render: (instance: any, src: string, options: object) => string });
   
   renderString(src: string, options?: Viz.Options): Promise<string>;
   

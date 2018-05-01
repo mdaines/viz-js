@@ -15,7 +15,9 @@
     "viz.js",
     "full.js.opaque",
     "lite.js.opaque",
-    "index.d.ts"
+    "index.d.ts",
+    "full.js.opaque.d.ts",
+    "lite.js.opaque.d.ts"
   ],
   "browser": {
     "fs": false,

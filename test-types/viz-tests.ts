@@ -1,3 +1,6 @@
+import Viz from "viz.js";
+import { Module, render } from "viz.js/full.js.opaque";
+
 const vizTests = {
   "test: constructor and render functions": function() {
     let viz = new Viz();
@@ -10,7 +13,7 @@ const vizTests = {
   
   "test: constructor options": function() {
     let vizWorker = new Viz({ worker: "..." });
-    let vizRender = new Viz({ Module: function() { return "..." }, render: function(instance, src, options) { return Promise.resolve(); } });
+    let vizRender = new Viz({ Module, render });
     let vizInclude = new Viz();
   },
 

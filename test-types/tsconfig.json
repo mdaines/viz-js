@@ -11,10 +11,14 @@
         "strictFunctionTypes": true,
         "types": [],
         "noEmit": true,
-        "forceConsistentCasingInFileNames": true
+        "forceConsistentCasingInFileNames": true,
+        "baseUrl": ".",
+        "paths": {
+          "viz.js": ["../"],
+          "viz.js/full.js.opaque": ["../full.js.opaque"]
+        }
     },
     "files": [
-        "../index.d.ts",
         "viz-tests.ts"
     ]
 }

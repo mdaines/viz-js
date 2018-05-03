@@ -6,6 +6,10 @@ This project builds [Graphviz](http://www.graphviz.org) with [Emscripten](http:/
 
 For more information, [see the wiki](https://github.com/mdaines/viz.js/wiki).
 
+## See Also
+
+Have a look at [Dagre](https://dagrejs.github.io/), which is not a hack.
+
 ## Getting Viz.js
 
 * Install the [`viz.js` package](https://www.npmjs.com/package/viz.js) from npm.

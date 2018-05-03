@@ -2,9 +2,11 @@ build-full/
 build-lite/
 prefix-full/
 prefix-lite/
+build-main/
 sources/
 node_modules/
 
 viz.js
+viz.es.js
 full.js.opaque
 lite.js.opaque

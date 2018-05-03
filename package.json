@@ -3,6 +3,7 @@
   "version": "2.0.0-pre.6",
   "description": "A hack to put Graphviz on the web.",
   "main": "viz.js",
+  "module": "viz.es.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/mdaines/viz.js.git"
@@ -13,6 +14,7 @@
   ],
   "files": [
     "viz.js",
+    "viz.es.js",
     "full.js.opaque",
     "lite.js.opaque"
   ],
@@ -28,15 +30,16 @@
   },
   "homepage": "https://github.com/mdaines/viz.js",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-core": "^6.26.3",
+    "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-es2015-destructuring": "^6.23.0",
-    "babel-plugin-transform-es2015-modules-umd": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "bluebird": "^3.5.1",
     "minimist": "^1.2.0",
     "mocha": "^5.1.1",
+    "rollup": "^0.58.2",
+    "rollup-plugin-babel": "^3.0.4",
     "selenium-webdriver": "^2.45.1"
   }
 }

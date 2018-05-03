@@ -1,14 +1,15 @@
 {
-  "presets": ["env"],
-  "plugins": [
-    ["transform-es2015-destructuring"],
-    ["transform-object-rest-spread"],
-    ["add-module-exports"],
-    ["transform-es2015-modules-umd", {
-      "globals": {
-        "index": "Viz"
-      },
-      "exactGlobals": true
+  "presets": [
+    ["env", {
+      "modules": false,
+      "targets": {
+        "browsers": ["last 2 versions"]
+      }
     }]
+  ],
+  "plugins": [
+    "transform-es2015-destructuring",
+    "transform-object-rest-spread",
+    "external-helpers"
   ]
 }

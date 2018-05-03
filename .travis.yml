@@ -18,7 +18,6 @@ before_script:
 script:
   - docker exec -it emscripten make deps all
   - node test-browser/runner --matrix test-browser/all.json
-  - node_modules/.bin/tsc --project test-types
   - node_modules/.bin/mocha test-node
 
 before_deploy:

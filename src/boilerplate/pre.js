@@ -20,3 +20,5 @@ Copyright (C) 1995-2013 Jean-loup Gailly and Mark Adler
 http://www.zlib.net/zlib_license.html
 */
 (function(global) {
+var Module = function(Module) {
+  Module = Module || {};

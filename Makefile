@@ -12,7 +12,7 @@ GRAPHVIZ_SOURCE_URL = "https://graphviz.gitlab.io/pub/graphviz/stable/SOURCES/gr
 .PHONY: all deps deps-full deps-lite clean clobber expat–full graphviz-full graphviz-lite
 
 
-all: full.js.opaque lite.js.opaque viz.js viz.es.js
+all: full.render.js lite.render.js viz.js viz.es.js
 
 deps: deps-full deps-lite
 
@@ -23,8 +23,8 @@ deps-lite: graphviz-lite
 
 clean:
 	rm -f build-main/viz.js build-main/viz.es.js viz.js viz.es.js
-	rm -f build-full/module.js build-full/pre.js full.js.opaque
-	rm -f build-lite/module.js build-lite/pre.js lite.js.opaque
+	rm -f build-full/module.js build-full/pre.js full.render.js
+	rm -f build-lite/module.js build-lite/pre.js lite.render.js
 
 clobber: | clean
 	rm -rf build-main build-full build-lite $(PREFIX_FULL) $(PREFIX_LITE)
@@ -46,7 +46,7 @@ build-main/viz.js: src/index.js .babelrc
 	node_modules/.bin/rollup --config rollup.config.js
 
 
-full.js.opaque: src/boilerplate/pre-module-full.js build-full/module.js src/boilerplate/post-module.js
+full.render.js: src/boilerplate/pre-module-full.js build-full/module.js src/boilerplate/post-module.js
 	sed -e s/{{VIZ_VERSION}}/$(VIZ_VERSION)/ -e s/{{EXPAT_VERSION}}/$(EXPAT_VERSION)/ -e s/{{GRAPHVIZ_VERSION}}/$(GRAPHVIZ_VERSION)/ -e s/{{EMSCRIPTEN_VERSION}}/$(EMSCRIPTEN_VERSION)/ $^ > $@
 
 build-full/module.js: src/viz.c
@@ -54,7 +54,7 @@ build-full/module.js: src/viz.c
 	emcc -Oz --memory-init-file 0 -s USE_ZLIB=1 -s MODULARIZE=0 -s LEGACY_VM_SUPPORT=1 -s NO_DYNAMIC_EXECUTION=1 -s EXPORTED_FUNCTIONS="['_vizRenderFromString', '_vizCreateFile', '_vizSetY_invert', '_vizLastErrorMessage', '_dtextract', '_Dtqueue']" -s EXPORTED_RUNTIME_METHODS="['Pointer_stringify', 'ccall', 'UTF8ToString']" -o $@ $< -I$(PREFIX_FULL)/include -I$(PREFIX_FULL)/include/graphviz -L$(PREFIX_FULL)/lib -L$(PREFIX_FULL)/lib/graphviz -lgvplugin_core -lgvplugin_dot_layout -lgvplugin_neato_layout -lcdt -lcgraph -lgvc -lgvpr -lpathplan -lexpat -lxdot
 	
 
-lite.js.opaque: src/boilerplate/pre-module-lite.js build-lite/module.js src/boilerplate/post-module.js
+lite.render.js: src/boilerplate/pre-module-lite.js build-lite/module.js src/boilerplate/post-module.js
 	sed -e s/{{VIZ_VERSION}}/$(VIZ_VERSION)/ -e s/{{GRAPHVIZ_VERSION}}/$(GRAPHVIZ_VERSION)/ -e s/{{EMSCRIPTEN_VERSION}}/$(EMSCRIPTEN_VERSION)/ $^ > $@
 
 build-lite/module.js: src/viz.c

@@ -1,7 +1,7 @@
 QUnit.module("worker");
 
 QUnit.test("should be able to construct a Viz.js instance with a worker URL", function(assert) {
-  var viz = new Viz({ workerURL: '../full.js.opaque' });
+  var viz = new Viz({ workerURL: '../full.render.js' });
   
   return viz.renderString("digraph { a -> b; }")
   .then(function(result) {
@@ -10,7 +10,7 @@ QUnit.test("should be able to construct a Viz.js instance with a worker URL", fu
 });
 
 QUnit.test("should be able to construct a Viz.js instance with a Worker instance", function(assert) {
-  var viz = new Viz({ worker: new Worker('../full.js.opaque') });
+  var viz = new Viz({ worker: new Worker('../full.render.js') });
   
   return viz.renderString("digraph { a -> b; }")
   .then(function(result) {

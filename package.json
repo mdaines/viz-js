@@ -15,8 +15,8 @@
   "files": [
     "viz.js",
     "viz.es.js",
-    "full.js.opaque",
-    "lite.js.opaque"
+    "full.render.js",
+    "lite.render.js"
   ],
   "browser": {
     "fs": false,

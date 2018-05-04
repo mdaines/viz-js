@@ -1,6 +1,6 @@
 class WorkerWrapper {
-  constructor(url) {
-    this.worker = new Worker(url);
+  constructor(worker) {
+    this.worker = worker;
     this.listeners = [];
     this.nextId = 0;
     
@@ -135,15 +135,17 @@ function svgXmlToImageElementFabric(svgXml, { scale = defaultScale(), mimeType =
 }
 
 class Viz {
-  constructor({ worker, Module, render } = {}) {
-    if (typeof worker !== 'undefined') {
+  constructor({ workerURL, worker, Module, render } = {}) {
+    if (typeof workerURL !== 'undefined') {
+      this.wrapper = new WorkerWrapper(new Worker(workerURL));
+    } else if (typeof worker !== 'undefined') {
       this.wrapper = new WorkerWrapper(worker);
     } else if (typeof Module !== 'undefined' && typeof render !== 'undefined') {
       this.wrapper = new ModuleWrapper(Module, render);
     } else if (typeof Viz.Module !== 'undefined' && typeof Viz.render !== 'undefined') {
       this.wrapper = new ModuleWrapper(Viz.Module, Viz.render);
     } else {
-      throw new Error(`Must specify worker option, Module and render options, or include one of full.js.opaque or lite.js.opaque after viz.js.`);
+      throw new Error(`Must specify workerURL or worker option, Module and render options, or include one of full.js.opaque or lite.js.opaque after viz.js.`);
     }
   }
   

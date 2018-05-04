@@ -24,7 +24,7 @@ function render(instance, src, options) {
   return resultString;
 }
 
-if (typeof WorkerGlobalScope !== 'undefined') {
+if (typeof importScripts === "function") {
   var instance = Module();
   
   onmessage = function(event) {
@@ -41,10 +41,10 @@ if (typeof WorkerGlobalScope !== 'undefined') {
   }
 }
 
-if (typeof define === 'function' && define.amd) {
-  define([], function() { return { render: render, Module: Module }; });
-} else if (typeof module === 'object' && module.exports) {
+if (typeof exports === 'object' && typeof module !== 'undefined') {
   module.exports = { render: render, Module: Module };
+} else if (typeof define === 'function' && define.amd) {
+  define(function() { return { render: render, Module: Module }; });
 }
 
 if (typeof global.Viz !== 'undefined') {

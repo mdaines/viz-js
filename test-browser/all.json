@@ -1,6 +1,6 @@
 [
   {
-    "files": ["full.html", "lite.html", "worker.html"],
+    "files": ["full.html", "lite.html", "worker.html", "requirejs.html"],
     "capabilities": [
       { "browserName": "chrome" },
       { "browserName": "safari" },

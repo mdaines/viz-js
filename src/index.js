@@ -145,7 +145,7 @@ class Viz {
     } else if (typeof Viz.Module !== 'undefined' && typeof Viz.render !== 'undefined') {
       this.wrapper = new ModuleWrapper(Viz.Module, Viz.render);
     } else {
-      throw new Error(`Must specify workerURL or worker option, Module and render options, or include one of full.js.opaque or lite.js.opaque after viz.js.`);
+      throw new Error(`Must specify workerURL or worker option, Module and render options, or include one of full.render.js or lite.render.js after viz.js.`);
     }
   }
   

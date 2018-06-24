@@ -36,7 +36,10 @@ if (typeof importScripts === "function") {
       var result = render(instance, src, options);
       postMessage({ id: id, result: result });
     } catch (error) {
-      postMessage({ id: id, error: { message: error.message, fileName: error.fileName, lineNumber: error.lineNumber } });
+      var error = error instanceof Error
+        ? { message: error.message, fileName: error.fileName, lineNumber: error.lineNumber }
+        : { message: error.toString() };
+      postMessage({ id: id, error: error });
     }
   }
 }

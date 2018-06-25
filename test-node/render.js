@@ -23,3 +23,27 @@ it('should render a graph using the Module and render functions exported by the 
     assert.ok(result);
   });
 });
+
+it('should throw descriptive error when not enough memory allocated', function() {
+  let worker = new Worker(path.resolve(__dirname, '../full.render.js'));
+  let viz = new Viz({ worker });
+  let dot = 'digraph {';
+  for (let i = 0; i < 50000; ++i) {
+    dot += `node${i} -> node${i + 1};`;
+  }
+  dot += '}';
+
+  return viz.renderString(dot).then(
+    () => {
+     worker.terminate();
+     assert.fail('should throw');
+    },
+    error => {
+      worker.terminate();
+      assert(
+        /Cannot enlarge memory arrays/.test(error.message),
+        'should return descriptive error',
+      );
+    },
+  );
+});

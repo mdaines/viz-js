@@ -23,6 +23,9 @@
     "path": false,
     "crypto": false
   },
+  "scripts": {
+    "test": "mocha test-node"
+  },
   "author": "Mike Daines <mdaines@fastmail.com>",
   "license": "MIT",
   "bugs": {

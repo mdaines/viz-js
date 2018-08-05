@@ -2,6 +2,7 @@
 #include <emscripten.h>
 
 extern int Y_invert;
+extern int Nop;
 
 extern gvplugin_library_t gvplugin_core_LTX_library;
 extern gvplugin_library_t gvplugin_dot_layout_LTX_library;
@@ -32,6 +33,11 @@ void vizCreateFile(char *path, char *data) {
 
 void vizSetY_invert(int invert) {
   Y_invert = invert;
+}
+
+void vizSetNop(int value) {
+  if (value != 0)
+    Nop = value;
 }
 
 char* vizRenderFromString(const char *src, const char *format, const char *engine) {

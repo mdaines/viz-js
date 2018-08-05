@@ -8,6 +8,7 @@ function render(instance, src, options) {
   }
 
   instance['ccall']('vizSetY_invert', 'number', ['number'], [options.yInvert ? 1 : 0]);
+  instance['ccall']('vizSetNop', 'number', ['number'], [options.nop ? options.nop : 0]);
   
   var resultPointer = instance['ccall']('vizRenderFromString', 'number', ['string', 'string', 'string'], [src, options.format, options.engine]);
   var resultString = instance['Pointer_stringify'](resultPointer);

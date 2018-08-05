@@ -149,7 +149,7 @@ class Viz {
     }
   }
   
-  renderString(src, { format = 'svg', engine = 'dot', files = [], images = [], yInvert = false } = {}) {
+  renderString(src, { format = 'svg', engine = 'dot', files = [], images = [], yInvert = false, nop = 0 } = {}) {
     for (let i = 0; i < images.length; i++) {
       files.push({
         path: images[i].path,
@@ -159,7 +159,7 @@ class Viz {
       });
     }
     
-    return this.wrapper.render(src, { format, engine, files, images, yInvert });
+    return this.wrapper.render(src, { format, engine, files, images, yInvert, nop });
   }
   
   renderSVGElement(src, options = {}) {

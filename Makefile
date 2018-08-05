@@ -67,7 +67,7 @@ $(PREFIX_FULL):
 
 expat-full: | build-full/expat-$(EXPAT_VERSION) $(PREFIX_FULL)
 	grep $(EXPAT_VERSION) build-full/expat-$(EXPAT_VERSION)/expat_config.h
-	cd build-full/expat-$(EXPAT_VERSION) && emconfigure ./configure --quiet --disable-shared --prefix=$(PREFIX_FULL) CFLAGS="-Oz -w"
+	cd build-full/expat-$(EXPAT_VERSION) && emconfigure ./configure --quiet --disable-shared --prefix=$(PREFIX_FULL) --libdir=$(PREFIX_FULL)/lib CFLAGS="-Oz -w"
 	cd build-full/expat-$(EXPAT_VERSION) && emmake make --quiet -C lib all install
 
 graphviz-full: | build-full/graphviz-$(GRAPHVIZ_VERSION) $(PREFIX_FULL)
@@ -76,7 +76,7 @@ graphviz-full: | build-full/graphviz-$(GRAPHVIZ_VERSION) $(PREFIX_FULL)
 	cd build-full/graphviz-$(GRAPHVIZ_VERSION)/lib/gvpr && make --quiet mkdefs CFLAGS="-w"
 	mkdir -p build-full/graphviz-$(GRAPHVIZ_VERSION)/FEATURE
 	cp hacks/FEATURE/sfio hacks/FEATURE/vmalloc build-full/graphviz-$(GRAPHVIZ_VERSION)/FEATURE
-	cd build-full/graphviz-$(GRAPHVIZ_VERSION) && emconfigure ./configure --quiet --without-sfdp --disable-ltdl --enable-static --disable-shared --prefix=$(PREFIX_FULL) CFLAGS="-Oz -w"
+	cd build-full/graphviz-$(GRAPHVIZ_VERSION) && emconfigure ./configure --quiet --without-sfdp --disable-ltdl --enable-static --disable-shared --prefix=$(PREFIX_FULL) --libdir=$(PREFIX_FULL)/lib CFLAGS="-Oz -w"
 	cd build-full/graphviz-$(GRAPHVIZ_VERSION) && emmake make --quiet lib plugin
 	cd build-full/graphviz-$(GRAPHVIZ_VERSION)/lib && emmake make --quiet install
 	cd build-full/graphviz-$(GRAPHVIZ_VERSION)/plugin && emmake make --quiet install
@@ -91,7 +91,7 @@ graphviz-lite: | build-lite/graphviz-$(GRAPHVIZ_VERSION) $(PREFIX_LITE)
 	cd build-lite/graphviz-$(GRAPHVIZ_VERSION)/lib/gvpr && make --quiet mkdefs CFLAGS="-w"
 	mkdir -p build-lite/graphviz-$(GRAPHVIZ_VERSION)/FEATURE
 	cp hacks/FEATURE/sfio hacks/FEATURE/vmalloc build-lite/graphviz-$(GRAPHVIZ_VERSION)/FEATURE
-	cd build-lite/graphviz-$(GRAPHVIZ_VERSION) && emconfigure ./configure --quiet --without-sfdp --disable-ltdl --enable-static --disable-shared --prefix=$(PREFIX_LITE) CFLAGS="-Oz -w"
+	cd build-lite/graphviz-$(GRAPHVIZ_VERSION) && emconfigure ./configure --quiet --without-sfdp --disable-ltdl --enable-static --disable-shared --prefix=$(PREFIX_LITE) --libdir=$(PREFIX_LITE)/lib CFLAGS="-Oz -w"
 	cd build-lite/graphviz-$(GRAPHVIZ_VERSION) && emmake make --quiet lib plugin
 	cd build-lite/graphviz-$(GRAPHVIZ_VERSION)/lib && emmake make --quiet install
 	cd build-lite/graphviz-$(GRAPHVIZ_VERSION)/plugin && emmake make --quiet install

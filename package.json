@@ -43,7 +43,7 @@
     "mocha": "^5.1.1",
     "rollup": "^0.58.2",
     "rollup-plugin-babel": "^3.0.4",
-    "selenium-webdriver": "^2.45.1",
+    "selenium-webdriver": "^3.6.0",
     "tiny-worker": "^2.1.2"
   }
 }

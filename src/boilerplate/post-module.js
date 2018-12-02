@@ -36,10 +36,13 @@ if (typeof importScripts === "function") {
     try {
       var result = render(instance, src, options);
       postMessage({ id: id, result: result });
-    } catch (error) {
-      var error = error instanceof Error
-        ? { message: error.message, fileName: error.fileName, lineNumber: error.lineNumber }
-        : { message: error.toString() };
+    } catch (e) {
+      var error;
+      if (e instanceof Error) {
+        error = { message: e.message, fileName: e.fileName, lineNumber: e.lineNumber };
+      } else {
+        error = { message: e.toString() };
+      }
       postMessage({ id: id, error: error });
     }
   }

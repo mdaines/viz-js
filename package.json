@@ -1,49 +1,11 @@
 {
-  "name": "viz.js",
-  "version": "2.1.2",
-  "description": "A hack to put Graphviz on the web.",
-  "main": "viz.js",
-  "module": "viz.es.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mdaines/viz.js.git"
-  },
-  "keywords": [
-    "graphviz",
-    "emscripten"
-  ],
-  "files": [
-    "viz.js",
-    "viz.es.js",
-    "full.render.js",
-    "lite.render.js"
-  ],
-  "browser": {
-    "fs": false,
-    "path": false,
-    "crypto": false
-  },
-  "scripts": {
-    "test": "mocha test-node"
-  },
-  "author": "Mike Daines <mdaines@fastmail.com>",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/mdaines/viz.js/issues"
-  },
-  "homepage": "https://github.com/mdaines/viz.js",
+  "browserslist": ["defaults"],
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-plugin-external-helpers": "^6.22.0",
-    "babel-plugin-transform-es2015-destructuring": "^6.23.0",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "bluebird": "^3.5.1",
-    "minimist": "^1.2.0",
-    "mocha": "^5.1.1",
-    "rollup": "^0.58.2",
-    "rollup-plugin-babel": "^3.0.4",
-    "selenium-webdriver": "^3.6.0",
-    "tiny-worker": "^2.1.2"
+    "@babel/core": "^7.21.4",
+    "@babel/preset-env": "^7.21.4",
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-terser": "^0.4.1",
+    "rollup": "^3.20.7"
   }
 }

@@ -1,0 +1,10 @@
+<!doctype html>
+<meta charset="utf8">
+<script src="./lib/viz.js"></script>
+<script>
+
+  Viz.instance().then(viz => {
+    document.body.appendChild(viz.renderSVGElement("digraph { a -> b }"));
+  });
+
+</script>

@@ -6,14 +6,6 @@ function render(module, src, options) {
   const resultString = module.UTF8ToString(resultPointer);
   module.ccall("free", "number", ["number"], [resultPointer]);
 
-  const errorMessagePointer = module.ccall("vizLastErrorMessage", "number", [], []);
-  const errorMessageString = module.UTF8ToString(errorMessagePointer);
-  module.ccall("free", "number", ["number"], [errorMessagePointer]);
-
-  if (errorMessageString != "") {
-    throw new Error(errorMessageString);
-  }
-
   return resultString;
 }
 

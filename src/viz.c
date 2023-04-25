@@ -15,17 +15,10 @@ lt_symlist_t lt_preloaded_symbols[] = {
   { 0, 0 }
 };
 
-char *errorMessage = NULL;
-
 EMSCRIPTEN_KEEPALIVE
 int vizErrorf(char *buf) {
-  errorMessage = buf;
+  EM_ASM({ console.error(UTF8ToString($0)); }, buf);
   return 0;
-}
-
-EMSCRIPTEN_KEEPALIVE
-char* vizLastErrorMessage() {
-  return errorMessage;
 }
 
 EMSCRIPTEN_KEEPALIVE

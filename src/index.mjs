@@ -31,4 +31,9 @@ export class Viz {
     const parser = new DOMParser();
     return parser.parseFromString(str, "image/svg+xml").documentElement;
   }
+
+  renderJSON(src, options = {}) {
+    const str = this.renderString(src, { ...options, format: "json" });
+    return JSON.parse(str);
+  }
 }

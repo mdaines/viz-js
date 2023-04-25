@@ -25,7 +25,7 @@ COPY --from=graphviz "${PREFIX}" "${PREFIX}"
 COPY viz.c encode-wasm.mjs .
 
 RUN mkdir -p "${OUTPUT}"
-RUN emcc -Oz --closure=0 --no-entry -sMODULARIZE=1 -sMINIMAL_RUNTIME=1 -sFILESYSTEM=0 -sASSERTIONS=0 -sALLOW_MEMORY_GROWTH=1 -sENVIRONMENT=web -sEXPORT_KEEPALIVE=1 -sEXPORTED_FUNCTIONS="['_free']" -s EXPORTED_RUNTIME_METHODS="['ccall', 'UTF8ToString']" -sINCOMING_MODULE_JS_API="['wasm']" -o "${OUTPUT}/module.mjs" viz.c -I"${PREFIX}/include" -I"${PREFIX}/include/graphviz" -L"${PREFIX}/lib" -L"${PREFIX}/lib/graphviz" -lgvplugin_core -lgvplugin_dot_layout -lgvplugin_neato_layout -lcdt -lcgraph -lgvc -lpathplan -lexpat -lxdot
+RUN emcc -Oz --closure=0 --no-entry -sMODULARIZE=1 -sMINIMAL_RUNTIME=1 -sFILESYSTEM=0 -sASSERTIONS=0 -sALLOW_MEMORY_GROWTH=1 -sENVIRONMENT=web -sEXPORT_KEEPALIVE=1 -sEXPORTED_FUNCTIONS="['_free']" -s EXPORTED_RUNTIME_METHODS="['ccall', 'UTF8ToString']" -sINCOMING_MODULE_JS_API="['wasm']" -o "${OUTPUT}/module.mjs" viz.c -I"${PREFIX}/include" -I"${PREFIX}/include/graphviz" -L"${PREFIX}/lib" -L"${PREFIX}/lib/graphviz" -lgvplugin_dot_layout -lgvplugin_neato_layout -lgvplugin_core -lgvc -lpathplan -lcgraph -lxdot -lcdt -lexpat
 RUN node encode-wasm.mjs "${OUTPUT}/module.wasm" "${OUTPUT}/encoded.mjs"
 
 

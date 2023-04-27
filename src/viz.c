@@ -15,50 +15,71 @@ lt_symlist_t lt_preloaded_symbols[] = {
   { 0, 0 }
 };
 
+static GVC_t *viz_context;
+
 EMSCRIPTEN_KEEPALIVE
-int vizErrorf(char *buf) {
-  EM_ASM({ console.error(UTF8ToString($0)); }, buf);
+int viz_errorf(char *buf) {
+  EM_ASM({ Module["errorMessages"].push(UTF8ToString($0)); }, buf);
   return 0;
 }
 
 EMSCRIPTEN_KEEPALIVE
-void vizSetY_invert(int invert) {
+void viz_init() {
+  if (!viz_context) {
+    viz_context = gvContextPlugins(lt_preloaded_symbols, 0);
+  }
+
+  agreseterrors();
+  agseterr(AGWARN);
+  agseterrf(viz_errorf);
+}
+
+EMSCRIPTEN_KEEPALIVE
+void viz_reset_errors() {
+  agreseterrors();
+}
+
+EMSCRIPTEN_KEEPALIVE
+int viz_errors() {
+  return agerrors();
+}
+
+EMSCRIPTEN_KEEPALIVE
+void viz_set_yinvert(int invert) {
   Y_invert = invert;
 }
 
 EMSCRIPTEN_KEEPALIVE
-void vizSetNop(int value) {
+void viz_set_nop(int value) {
   Nop = value;
 }
 
 EMSCRIPTEN_KEEPALIVE
-char* vizRenderFromString(const char *src, const char *format, const char *engine) {
-  GVC_t *context;
-  Agraph_t *graph;
-  char *result = NULL;
+Agraph_t *viz_read(char *string) {
+  return agmemread(string);
+}
+
+EMSCRIPTEN_KEEPALIVE
+void viz_rm_graph(Agraph_t *graph) {
+  agclose(graph);
+}
+
+EMSCRIPTEN_KEEPALIVE
+int viz_layout(Agraph_t *graph, const char *engine) {
+  gvFreeLayout(viz_context, graph);
+  return gvLayout(viz_context, graph, engine);
+}
+
+EMSCRIPTEN_KEEPALIVE
+char *viz_render(Agraph_t *graph, const char *format) {
+  char *data;
   unsigned int length;
 
-  context = gvContextPlugins(lt_preloaded_symbols, 0);
+  int err = gvRenderData(viz_context, graph, format, &data, &length);
 
-  agseterr(AGERR);
-  agseterrf(vizErrorf);
-
-  agreadline(1);
-
-  while ((graph = agmemread(src))) {
-    if (result == NULL) {
-      gvLayout(context, graph, engine);
-      gvRenderData(context, graph, format, &result, &length);
-      gvFreeLayout(context, graph);
-    }
-
-    agclose(graph);
-
-    src = "";
+  if (err) {
+    return NULL;
   }
 
-  gvFinalize(context);
-  gvFreeContext(context);
-
-  return result;
+  return data;
 }

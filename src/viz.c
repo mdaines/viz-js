@@ -28,8 +28,7 @@ void vizSetY_invert(int invert) {
 
 EMSCRIPTEN_KEEPALIVE
 void vizSetNop(int value) {
-  if (value != 0)
-    Nop = value;
+  Nop = value;
 }
 
 EMSCRIPTEN_KEEPALIVE

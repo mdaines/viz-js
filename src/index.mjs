@@ -1,6 +1,6 @@
 function render(module, src, options) {
   module.ccall("vizSetY_invert", "number", ["number"], [options.yInvert ? 1 : 0]);
-  module.ccall("vizSetNop", "number", ["number"], [options.nop ? 1 : 0]);
+  module.ccall("vizSetNop", "number", ["number"], [options.nop]);
 
   const resultPointer = module.ccall("vizRenderFromString", "number", ["string", "string", "string"], [src, options.format, options.engine]);
   const resultString = module.UTF8ToString(resultPointer);

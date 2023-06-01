@@ -2,8 +2,9 @@ name: Build and test
 
 on:
   push:
-    branches:
-      - v3
+    branches-ignore:
+      - v2
+      - gh-pages
 
 permissions:
   contents: read
@@ -52,4 +53,4 @@ jobs:
         with:
           node-version: "18.x"
 
-      - run: node test.mjs
+      - run: yarn install && yarn test

@@ -105,6 +105,18 @@ describe("standalone", function() {
       });
     });
 
+    it("returns error messages printed to stderr", function() {
+      const result = viz.render("graph { a [label=図] }");
+
+      assert.deepStrictEqual(result, {
+        status: "success",
+        output: "graph {\n\tgraph [bb=\"0,0,54,36\"];\n\tnode [label=\"\\N\"];\n\ta\t[height=0.5,\n\t\tlabel=図,\n\t\tpos=\"27,18\",\n\t\twidth=0.75];\n}\n",
+        errors: [
+          { message: "Warning: no value for width of non-ASCII character 229. Falling back to width of space character" }
+        ]
+      });
+    });
+
     it("returns error messages for invalid engine option", function() {
       const result = viz.render("graph a { }", { engine: "invalid" });
 

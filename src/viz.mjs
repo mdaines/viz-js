@@ -7,13 +7,13 @@ function parseErrorMessages(messages) {
     // If this pattern isn't recognized, just add the message to the result.
     if ((messages[i] == "Error" || messages[i] == "Warning") && messages[i + 1] == ": " && i + 2 < messages.length) {
       result.push({
-        message: messages[i + 2],
+        message: messages[i + 2].trim(),
         level: messages[i] == "Error" ? "error" : "warning"
       });
       i += 2;
     } else {
       result.push({
-        message: messages[i]
+        message: messages[i].trim()
       });
     }
   }

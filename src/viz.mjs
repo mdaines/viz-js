@@ -25,8 +25,6 @@ function render(module, src, options) {
   module.errorMessages = [];
 
   module.ccall("viz_init", "number", [], []);
-  module.ccall("viz_reset_errors", "number", [], []);
-
   module.ccall("viz_set_yinvert", "number", ["number"], [options.yInvert ? 1 : 0]);
   module.ccall("viz_set_nop", "number", ["number"], [options.nop]);
 

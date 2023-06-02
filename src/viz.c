@@ -35,11 +35,6 @@ void viz_init() {
 }
 
 EMSCRIPTEN_KEEPALIVE
-void viz_reset_errors() {
-  agreseterrors();
-}
-
-EMSCRIPTEN_KEEPALIVE
 int viz_errors() {
   return agerrors();
 }

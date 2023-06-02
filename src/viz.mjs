@@ -1,5 +1,24 @@
 function parseErrorMessages(messages) {
-  return messages.map(message => ({ message }));
+  let result = [];
+
+  for (let i = 0; i < messages.length; i++) {
+    // Calls to agerr result in three calls to cgraph's user error function. For example:
+    //   "Error", ": ", "error message"
+    // If this pattern isn't recognized, just add the message to the result.
+    if ((messages[i] == "Error" || messages[i] == "Warning") && messages[i + 1] == ": " && i + 2 < messages.length) {
+      result.push({
+        message: messages[i + 2],
+        level: messages[i] == "Error" ? "error" : "warning"
+      });
+      i += 2;
+    } else {
+      result.push({
+        message: messages[i]
+      });
+    }
+  }
+
+  return result;
 }
 
 function render(module, src, options) {
@@ -93,7 +112,7 @@ export default class Viz {
     const result = this.render(src, options);
 
     if (result.status != "success") {
-      throw new Error(`Error: ${result.errors.join("\n")}`);
+      throw new Error(`Error: ${result.errors.map(e => e.message).join("\n")}`);
     }
 
     if (typeof result.output != "string") {

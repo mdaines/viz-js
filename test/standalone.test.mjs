@@ -53,9 +53,7 @@ describe("standalone", function() {
         status: "failure",
         output: undefined,
         errors: [
-          { message: "Error" },
-          { message: ": " },
-          { message: "syntax error in line 1 near 'invalid'\n" }
+          { level: "error", message: "syntax error in line 1 near 'invalid'\n" }
         ]
       });
     });
@@ -77,9 +75,7 @@ describe("standalone", function() {
         status: "failure",
         output: undefined,
         errors: [
-          { message: "Error" },
-          { message: ": " },
-          { message: "Layout type: \"invalid\" not recognized. Use one of: circo dot fdp neato nop nop1 nop2 osage patchwork sfdp twopi\n" }
+          { level: "error", message: "Layout type: \"invalid\" not recognized. Use one of: circo dot fdp neato nop nop1 nop2 osage patchwork sfdp twopi\n" }
         ]
       });
     });
@@ -91,9 +87,20 @@ describe("standalone", function() {
         status: "success",
         output: "graph a {\n\tgraph [.3=y,\n\t\tbb=\"0,0,0,0\",\n\t\tx=1.2\n\t];\n\tnode [label=\"\\N\"];\n}\n",
         errors: [
-          { message: "Warning" },
-          { message: ": " },
-          { message: "syntax ambiguity - badly delimited number '1.2.' in line 1 of input splits into two tokens\n" }
+          { level: "warning", message: "syntax ambiguity - badly delimited number '1.2.' in line 1 of input splits into two tokens\n" }
+        ]
+      });
+    });
+
+    it("returns both warnings and errors", function() {
+      const result = viz.render("graph a { layout=invalid; x=1.2.3=y }");
+
+      assert.deepStrictEqual(result, {
+        status: "failure",
+        output: undefined,
+        errors: [
+          { level: "warning", message: "syntax ambiguity - badly delimited number '1.2.' in line 1 of input splits into two tokens\n" },
+          { level: "error", message: "Layout type: \"invalid\" not recognized. Use one of: circo dot fdp neato nop nop1 nop2 osage patchwork sfdp twopi\n" }
         ]
       });
     });
@@ -105,9 +112,7 @@ describe("standalone", function() {
         status: "failure",
         output: undefined,
         errors: [
-          { message: "Error" },
-          { message: ": " },
-          { message: "Layout type: \"invalid\" not recognized. Use one of: circo dot fdp neato nop nop1 nop2 osage patchwork sfdp twopi\n" }
+          { level: "error", message: "Layout type: \"invalid\" not recognized. Use one of: circo dot fdp neato nop nop1 nop2 osage patchwork sfdp twopi\n" }
         ]
       });
     });
@@ -119,9 +124,7 @@ describe("standalone", function() {
         status: "failure",
         output: undefined,
         errors: [
-          { message: "Error" },
-          { message: ": " },
-          { message: "Format: \"invalid\" not recognized. Use one of: canon cmap cmapx cmapx_np dot dot_json eps fig gv imap imap_np ismap json json0 mp pic plain plain-ext pov ps ps2 svg tk xdot xdot1.2 xdot1.4 xdot_json\n" }
+          { level: "error", message: "Format: \"invalid\" not recognized. Use one of: canon cmap cmapx cmapx_np dot dot_json eps fig gv imap imap_np ismap json json0 mp pic plain plain-ext pov ps ps2 svg tk xdot xdot1.2 xdot1.4 xdot_json\n" }
         ]
       });
     });

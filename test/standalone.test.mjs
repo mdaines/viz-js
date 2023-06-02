@@ -13,126 +13,117 @@ describe("standalone", function() {
     it("renders empty input", function() {
       const result = viz.render("");
 
-      assert.deepStrictEqual(result, []);
+      assert.deepStrictEqual(result, {
+        status: "success",
+        output: undefined,
+        errors: []
+      });
     });
 
     it("renders valid input with a single graph", function() {
       const result = viz.render("graph a { }");
 
-      assert.deepStrictEqual(result, [
-        {
-          status: "success",
-          output: "graph a {\n\tgraph [bb=\"0,0,0,0\"];\n\tnode [label=\"\\N\"];\n}\n",
-          errors: []
-        }
-      ]);
+      assert.deepStrictEqual(result, {
+        status: "success",
+        output: "graph a {\n\tgraph [bb=\"0,0,0,0\"];\n\tnode [label=\"\\N\"];\n}\n",
+        errors: []
+      });
     });
 
     it("renders valid input with multiple graphs", function() {
       const result = viz.render("graph a { } graph b { }");
 
-      assert.deepStrictEqual(result, [
-        {
-          status: "success",
-          output: "graph a {\n\tgraph [bb=\"0,0,0,0\"];\n\tnode [label=\"\\N\"];\n}\n",
-          errors: []
-        },
-        {
-          status: "success",
-          output: "graph b {\n\tgraph [bb=\"0,0,0,0\"];\n\tnode [label=\"\\N\"];\n}\n",
-          errors: []
-        }
-      ]);
+      assert.deepStrictEqual(result, {
+        status: "success",
+        output: "graph a {\n\tgraph [bb=\"0,0,0,0\"];\n\tnode [label=\"\\N\"];\n}\n",
+        errors: []
+      });
+    });
+
+    it("each call renders the first graph in input", function() {
+      assert.match(viz.render("graph a { } graph b { } graph c { }").output, /graph a {/);
+      assert.match(viz.render("graph d { } graph e { }").output, /graph d {/);
+      assert.match(viz.render("graph f { }").output, /graph f {/);
     });
 
     it("returns error messages for invalid input", function() {
       const result = viz.render("invalid");
 
-      assert.deepStrictEqual(result, [
-        {
-          status: "failure",
-          errors: ["Error", ": ", "syntax error in line 1 near 'invalid'\n"]
-        }
-      ]);
+      assert.deepStrictEqual(result, {
+        status: "failure",
+        output: undefined,
+        errors: [
+          { message: "Error" },
+          { message: ": " },
+          { message: "syntax error in line 1 near 'invalid'\n" }
+        ]
+      });
     });
 
-    it("renders valid input and returns error messages for invalid input", function() {
+    it("renders valid input without error messages, even when followed by a graph with a syntax error", function() {
       const result = viz.render("graph a { } graph {");
 
-      assert.deepStrictEqual(result, [
-        {
-          status: "success",
-          output: "graph a {\n\tgraph [bb=\"0,0,0,0\"];\n\tnode [label=\"\\N\"];\n}\n",
-          errors: []
-        },
-        {
-          status: "failure",
-          errors: ["Error", ": ", "syntax error in line 1\n"]
-        }
-      ]);
+      assert.deepStrictEqual(result, {
+        status: "success",
+        output: "graph a {\n\tgraph [bb=\"0,0,0,0\"];\n\tnode [label=\"\\N\"];\n}\n",
+        errors: []
+      });
     });
 
-    it("returns error messages for layout errors and renders remaining graphs without layout errors", function() {
+    it("returns error messages for layout errors", function() {
       const result = viz.render("graph a { layout=invalid } graph b { layout=dot }");
 
-      assert.deepStrictEqual(result, [
-        {
-          status: "failure",
-          errors: ["Error", ": ", "Layout type: \"invalid\" not recognized. Use one of: circo dot fdp neato nop nop1 nop2 osage patchwork sfdp twopi\n"]
-        },
-        {
-          status: "success",
-          output: "graph b {\n\tgraph [bb=\"0,0,0,0\",\n\t\tlayout=dot\n\t];\n\tnode [label=\"\\N\"];\n}\n",
-          errors: []
-        }
-      ]);
+      assert.deepStrictEqual(result, {
+        status: "failure",
+        output: undefined,
+        errors: [
+          { message: "Error" },
+          { message: ": " },
+          { message: "Layout type: \"invalid\" not recognized. Use one of: circo dot fdp neato nop nop1 nop2 osage patchwork sfdp twopi\n" }
+        ]
+      });
     });
 
     it("renders graphs with syntax warnings", function() {
       const result = viz.render("graph a { x=1.2.3=y } graph b { }");
 
-      assert.deepStrictEqual(result, [
-        {
-          status: "success",
-          output: "graph a {\n\tgraph [.3=y,\n\t\tbb=\"0,0,0,0\",\n\t\tx=1.2\n\t];\n\tnode [label=\"\\N\"];\n}\n",
-          errors: ["Warning", ": ", "syntax ambiguity - badly delimited number '1.2.' in line 1 of input splits into two tokens\n"]
-        },
-        {
-          status: "success",
-          output: "graph b {\n\tgraph [bb=\"0,0,0,0\"];\n\tnode [label=\"\\N\"];\n}\n",
-          errors: []
-        }
-      ]);
+      assert.deepStrictEqual(result, {
+        status: "success",
+        output: "graph a {\n\tgraph [.3=y,\n\t\tbb=\"0,0,0,0\",\n\t\tx=1.2\n\t];\n\tnode [label=\"\\N\"];\n}\n",
+        errors: [
+          { message: "Warning" },
+          { message: ": " },
+          { message: "syntax ambiguity - badly delimited number '1.2.' in line 1 of input splits into two tokens\n" }
+        ]
+      });
     });
 
     it("returns error messages for invalid engine option", function() {
-      const result = viz.render("graph a { } graph b { }", { engine: "invalid" });
+      const result = viz.render("graph a { }", { engine: "invalid" });
 
-      assert.deepStrictEqual(result, [
-        {
-          status: "failure",
-          errors: ["Error", ": ", "Layout type: \"invalid\" not recognized. Use one of: circo dot fdp neato nop nop1 nop2 osage patchwork sfdp twopi\n"]
-        },
-        {
-          status: "failure",
-          errors: ["Error", ": ", "Layout type: \"invalid\" not recognized. Use one of: circo dot fdp neato nop nop1 nop2 osage patchwork sfdp twopi\n"]
-        }
-      ]);
+      assert.deepStrictEqual(result, {
+        status: "failure",
+        output: undefined,
+        errors: [
+          { message: "Error" },
+          { message: ": " },
+          { message: "Layout type: \"invalid\" not recognized. Use one of: circo dot fdp neato nop nop1 nop2 osage patchwork sfdp twopi\n" }
+        ]
+      });
     });
 
     it("returns error messages for invalid format option", function() {
-      const result = viz.render("graph a { } graph b { }", { format: "invalid" });
+      const result = viz.render("graph a { }", { format: "invalid" });
 
-      assert.deepStrictEqual(result, [
-        {
-          status: "failure",
-          errors: ["Error", ": ", "Format: \"invalid\" not recognized. Use one of: canon cmap cmapx cmapx_np dot dot_json eps fig gv imap imap_np ismap json json0 mp pic plain plain-ext pov ps ps2 svg tk xdot xdot1.2 xdot1.4 xdot_json\n"]
-        },
-        {
-          status: "failure",
-          errors: ["Error", ": ", "Format: \"invalid\" not recognized. Use one of: canon cmap cmapx cmapx_np dot dot_json eps fig gv imap imap_np ismap json json0 mp pic plain plain-ext pov ps ps2 svg tk xdot xdot1.2 xdot1.4 xdot_json\n"]
-        }
-      ]);
+      assert.deepStrictEqual(result,{
+        status: "failure",
+        output: undefined,
+        errors: [
+          { message: "Error" },
+          { message: ": " },
+          { message: "Format: \"invalid\" not recognized. Use one of: canon cmap cmapx cmapx_np dot dot_json eps fig gv imap imap_np ismap json json0 mp pic plain plain-ext pov ps ps2 svg tk xdot xdot1.2 xdot1.4 xdot_json\n" }
+        ]
+      });
     });
   });
 
@@ -147,8 +138,8 @@ describe("standalone", function() {
       assert.throws(() => { viz.renderString("graph {"); });
     });
 
-    it("throws an error if the first graph has a layout error", function() {
-      assert.throws(() => { viz.renderString("graph { layout=invalid } graph { layout=dot }"); });
+    it("throws an error for layout errors", function() {
+      assert.throws(() => { viz.renderString("graph { layout=invalid }"); });
     });
 
     it("throws an error if there are no graphs in the input", function() {
@@ -205,8 +196,12 @@ describe("standalone", function() {
       }
     });
 
-    it("throws an error if the first graph has a syntax error", function() {
-      assert.throws(() => { viz.renderSVGElement(`graph { ! }`); });
+    it("throws an error for syntax errors", function() {
+      assert.throws(() => { viz.renderSVGElement(`graph {`); });
+    });
+
+    it("throws an error if there are no graphs in the input", function() {
+      assert.throws(() => { viz.renderSVGElement(""); });
     });
   });
 
@@ -215,8 +210,12 @@ describe("standalone", function() {
       assert.deepStrictEqual(viz.renderJSON("digraph a { }").name, "a");
     });
 
-    it("throws an error if the first graph has a syntax error", function() {
-      assert.throws(() => { viz.renderJSON(`invalid`); });
+    it("throws an error for syntax errors", function() {
+      assert.throws(() => { viz.renderJSON(`graph {`); });
+    });
+
+    it("throws an error if there are no graphs in the input", function() {
+      assert.throws(() => { viz.renderJSON(""); });
     });
   });
 });

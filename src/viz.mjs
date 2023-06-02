@@ -1,81 +1,83 @@
+function parseErrorMessages(messages) {
+  return messages.map(message => ({ message }));
+}
+
 function render(module, src, options) {
+  module.errorMessages = [];
+
   module.ccall("viz_init", "number", [], []);
+  module.ccall("viz_reset_errors", "number", [], []);
 
   module.ccall("viz_set_yinvert", "number", ["number"], [options.yInvert ? 1 : 0]);
   module.ccall("viz_set_nop", "number", ["number"], [options.nop]);
 
-
   const srcLength = module.lengthBytesUTF8(src);
-
   const srcPointer = module.ccall("malloc", "number", ["number"], [srcLength + 1]);
-
   module.stringToUTF8(src, srcPointer, srcLength + 1);
 
+  let graphPointer;
 
-  let result = [];
-  let inputPointer = srcPointer;
-
-  while (true) {
-    module.ccall("viz_reset_errors", "number", [], []);
-    module.errorMessages = [];
-
-    const graphPointer = module.ccall("viz_read", "number", ["number"], [inputPointer]);
+  try {
+    graphPointer = module.ccall("viz_read", "number", ["number"], [srcPointer]);
 
     if (graphPointer == 0) {
       if (module.ccall("viz_errors", "number", [], []) != 0) {
-        result.push({
+        return {
           status: "failure",
-          errors: module.errorMessages.slice()
-        });
+          output: undefined,
+          errors: parseErrorMessages(module.errorMessages)
+        };
+      } else {
+        return {
+          status: "success",
+          output: undefined,
+          errors: parseErrorMessages(module.errorMessages)
+        }
       }
-
-      break;
     }
-
-    inputPointer = 0;
 
     const layoutResult = module.ccall("viz_layout", "number", ["number", "string"], [graphPointer, options.engine]);
 
     if (layoutResult != 0) {
-      result.push({
+      return {
         status: "failure",
-        errors: module.errorMessages.slice()
-      });
-
-      module.ccall("viz_rm_graph", "number", ["number"], [graphPointer]);
-
-      continue;
+        output: undefined,
+        errors: parseErrorMessages(module.errorMessages)
+      };
     }
 
     const resultPointer = module.ccall("viz_render", "number", ["number", "string"], [graphPointer, options.format]);
 
     if (resultPointer == 0) {
-      result.push({
+      return {
         status: "failure",
-        errors: module.errorMessages.slice()
-      });
-
-      module.ccall("viz_rm_graph", "number", ["number"], [graphPointer]);
-
-      continue;
+        output: undefined,
+        errors: parseErrorMessages(module.errorMessages)
+      };
     }
 
     const resultString = module.UTF8ToString(resultPointer);
-
     module.ccall("free", "number", ["number"], [resultPointer]);
 
-    result.push({
+    return {
       status: "success",
       output: resultString,
-      errors: module.errorMessages.slice()
-    });
+      errors: parseErrorMessages(module.errorMessages)
+    };
+  } finally {
+    let ignoredGraphPointer;
+    do {
+      ignoredGraphPointer = module.ccall("viz_read", "number", ["number"], [0]);
+    } while (ignoredGraphPointer != 0);
 
-    module.ccall("viz_rm_graph", "number", ["number"], [graphPointer]);
+    if (graphPointer) {
+      module.ccall("viz_rm_graph", "number", ["number"], [graphPointer]);
+    }
+
+    if (srcPointer) {
+      module.ccall("free", "number", ["number"], [srcPointer]);
+    }
   }
-
-  module.ccall("free", "number", ["number"], [srcPointer]);
-
-  return result;
 }
 
 export default class Viz {
@@ -90,15 +92,15 @@ export default class Viz {
   renderString(src, options = {}) {
     const result = this.render(src, options);
 
-    if (result.length == 0) {
-      throw "No input";
+    if (result.status != "success") {
+      throw new Error(`Error: ${result.errors.join("\n")}`);
     }
 
-    if (result[0].status != "success") {
-      throw `Error: ${result[0].errors.join("\n")}`;
+    if (typeof result.output != "string") {
+      throw new Error("No output");
     }
 
-    return result[0].output;
+    return result.output;
   }
 
   renderSVGElement(src, options = {}) {

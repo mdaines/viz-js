@@ -18,12 +18,6 @@ lt_symlist_t lt_preloaded_symbols[] = {
 static GVC_t *viz_context;
 
 EMSCRIPTEN_KEEPALIVE
-int viz_errorf(char *buf) {
-  EM_ASM({ Module["errorMessages"].push(UTF8ToString($0)); }, buf);
-  return 0;
-}
-
-EMSCRIPTEN_KEEPALIVE
 void viz_init() {
   if (!viz_context) {
     viz_context = gvContextPlugins(lt_preloaded_symbols, 0);
@@ -31,7 +25,6 @@ void viz_init() {
 
   agreseterrors();
   agseterr(AGWARN);
-  agseterrf(viz_errorf);
 }
 
 EMSCRIPTEN_KEEPALIVE

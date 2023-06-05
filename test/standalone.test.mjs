@@ -58,6 +58,27 @@ describe("standalone", function() {
       });
     });
 
+    it("returns only the error messages emitted for the current call", function() {
+      const result1 = viz.render("invalid1");
+      const result2 = viz.render("invalid2");
+
+      assert.deepStrictEqual(result1, {
+        status: "failure",
+        output: undefined,
+        errors: [
+          { level: "error", message: "syntax error in line 1 near 'invalid1'" }
+        ]
+      });
+
+      assert.deepStrictEqual(result2, {
+        status: "failure",
+        output: undefined,
+        errors: [
+          { level: "error", message: "syntax error in line 1 near 'invalid2'" }
+        ]
+      });
+    });
+
     it("renders valid input without error messages, even when followed by a graph with a syntax error", function() {
       const result = viz.render("graph a { } graph {");
 
@@ -112,7 +133,7 @@ describe("standalone", function() {
         status: "success",
         output: "graph {\n\tgraph [bb=\"0,0,54,36\"];\n\tnode [label=\"\\N\"];\n\ta\t[height=0.5,\n\t\tlabel=図,\n\t\tpos=\"27,18\",\n\t\twidth=0.75];\n}\n",
         errors: [
-          { message: "Warning: no value for width of non-ASCII character 229. Falling back to width of space character" }
+          { level: "warning", message: "no value for width of non-ASCII character 229. Falling back to width of space character" }
         ]
       });
     });

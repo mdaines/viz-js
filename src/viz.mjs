@@ -1,24 +1,22 @@
+const errorPatterns = [
+  [/^Error: (.*)/, "error"],
+  [/^Warning: (.*)/, "warning"]
+];
+
 function parseErrorMessages(messages) {
-  let result = [];
+  return messages.map(message => {
+    for (let i = 0; i < errorPatterns.length; i++) {
+      const [pattern, level] = errorPatterns[i];
 
-  for (let i = 0; i < messages.length; i++) {
-    // Calls to agerr result in three calls to cgraph's user error function. For example:
-    //   "Error", ": ", "error message"
-    // If this pattern isn't recognized, just add the message to the result.
-    if ((messages[i] == "Error" || messages[i] == "Warning") && messages[i + 1] == ": " && i + 2 < messages.length) {
-      result.push({
-        message: messages[i + 2].trim(),
-        level: messages[i] == "Error" ? "error" : "warning"
-      });
-      i += 2;
-    } else {
-      result.push({
-        message: messages[i].trim()
-      });
+      let match;
+
+      if ((match = pattern.exec(message)) !== null) {
+        return { message: match[1], level };
+      }
     }
-  }
 
-  return result;
+    return { message };
+  });
 }
 
 function render(module, src, options) {

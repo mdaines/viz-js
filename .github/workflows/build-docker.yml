@@ -30,7 +30,11 @@ jobs:
         with:
           node-version: "18.x"
 
-      - run: yarn install && yarn rollup -c
+      - run: |
+          yarn install
+          test -f lib/module.mjs && touch lib/module.mjs
+          test -f lib/module.wasm && touch lib/module.wasm
+          make
 
       - uses: actions/upload-artifact@v3
         with:

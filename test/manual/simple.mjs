@@ -1,4 +1,4 @@
-import { instance } from "../src/standalone.mjs";
+import { instance } from "../../src/standalone.mjs";
 
 const viz = await instance();
 

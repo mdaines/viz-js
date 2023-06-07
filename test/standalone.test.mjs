@@ -79,13 +79,15 @@ describe("standalone", function() {
       });
     });
 
-    it("renders valid input without error messages, even when followed by a graph with a syntax error", function() {
+    it("renders valid input but includes error messges when followed by a graph with a syntax error", function() {
       const result = viz.render("graph a { } graph {");
 
       assert.deepStrictEqual(result, {
         status: "success",
         output: "graph a {\n\tgraph [bb=\"0,0,0,0\"];\n\tnode [label=\"\\N\"];\n}\n",
-        errors: []
+        errors: [
+          { level: "error", message: "syntax error in line 1" }
+        ]
       });
     });
 

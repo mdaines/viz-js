@@ -3,3 +3,41 @@
 This project builds [Graphviz](http://www.graphviz.org) with [Emscripten](https://emscripten.org) and provides a simple wrapper for using it on the web.
 
 This is the development branch for version 3. The version 2 branch is [v2](https://github.com/mdaines/viz.js/tree/v2).
+
+
+## Usage
+
+See examples/ for usage examples.
+
+
+## API
+
+### `Viz.instance()`
+
+Returns a `Promise` which fulfills with a new `Viz` instance.
+
+### `viz.render(src[, options])`
+
+* `src: string`: the graph to render in DOT format
+* `options.format: string`: the output format to render (default is "dot")
+* `options.engine: string`: the engine to use for graph layout (default is "dot")
+* `options.yInvert: boolean`: invert y coordinates in output
+* `options.nop: number`: indicates to the neato layout engine that nodes have already been positioned. With 1, performs adjustments to remove node-node overlaps. With 2 or greater, uses node positions and edge layouts as specified.
+
+Returns an object with the result of rendering:
+
+* `status: "success" | "failure"`: string indicating whether rendering succeeded or failed
+* `output: string`: the rendered output, or undefined if nothing was rendered
+* `errors: Array<{ level?: "error" | "warning", message: string }>`: an array of error message objects
+
+### `viz.renderString(src[, options])
+
+Returns a string with the output of rendering. If rendering failed, or there was no output, throws an error. This accepts the same options as `viz.render`.
+
+### `viz.renderSVGElement(src[, options])
+
+Convenience method that parses the output and returns an SVG element that can be inserted into the document. This accepts the same options as `viz.render`, except that the `format` option is always `"svg"`.
+
+### `viz.renderJSON(src[, options])
+
+Convenience method that parses the output and returns a JSON object. This accepts the same options as `viz.render`, except that the `format` option is always `"json"`.

@@ -33,7 +33,6 @@ function render(module, src, options) {
     module.stringToUTF8(src, srcPointer, srcLength + 1);
 
     resultPointer = module.ccall("viz_render_string", "number", ["number", "string", "string"], [srcPointer, options.format, options.engine]);
-    const resultString = module.UTF8ToString(resultPointer);
 
     if (resultPointer === 0) {
       return {
@@ -45,7 +44,7 @@ function render(module, src, options) {
 
     return {
       status: "success",
-      output: resultString,
+      output: module.UTF8ToString(resultPointer),
       errors: parseErrorMessages(module.errorMessages)
     };
   } finally {

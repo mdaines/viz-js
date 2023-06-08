@@ -10,18 +10,6 @@ describe("standalone", function() {
   });
 
   describe("render", function() {
-    it("renders empty input", function() {
-      const result = viz.render("");
-
-      assert.deepStrictEqual(result, {
-        status: "failure",
-        output: undefined,
-        errors: [
-          { level: "error", message: "no valid graph in input" }
-        ]
-      });
-    });
-
     it("renders valid input with a single graph", function() {
       const result = viz.render("graph a { }");
 
@@ -46,6 +34,18 @@ describe("standalone", function() {
       assert.match(viz.render("graph a { } graph b { } graph c { }").output, /graph a {/);
       assert.match(viz.render("graph d { } graph e { }").output, /graph d {/);
       assert.match(viz.render("graph f { }").output, /graph f {/);
+    });
+
+    it("returns an error for empty input", function() {
+      const result = viz.render("");
+
+      assert.deepStrictEqual(result, {
+        status: "failure",
+        output: undefined,
+        errors: [
+          { level: "error", message: "no valid graph in input" }
+        ]
+      });
     });
 
     it("returns error messages for invalid input", function() {

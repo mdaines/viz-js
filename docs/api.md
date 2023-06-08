@@ -15,12 +15,12 @@ Returns a `Promise` which fulfills with a new `Viz` instance.
 Returns an object with the result of rendering:
 
 * `status: "success" | "failure"`: string indicating whether rendering succeeded or failed
-* `output: string | undefined`: the rendered output, or undefined if nothing was rendered
+* `output: string | undefined`: the rendered output, or undefined if rendering failed
 * `errors: Array<{ level?: "error" | "warning", message: string }>`: an array of error message objects
 
 ## `viz.renderString(src[, options])`
 
-Returns a string with the output of rendering. If rendering failed, or there was no output, throws an error. This accepts the same options as `viz.render`.
+Returns a string with the output of rendering. If rendering failed, throws an error. This accepts the same options as `viz.render`.
 
 ## `viz.renderSVGElement(src[, options])`
 

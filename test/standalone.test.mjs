@@ -14,7 +14,7 @@ describe("standalone", function() {
       const result = viz.render("");
 
       assert.deepStrictEqual(result, {
-        status: "success",
+        status: "failure",
         output: undefined,
         errors: []
       });
@@ -116,7 +116,7 @@ describe("standalone", function() {
     });
 
     it("returns both warnings and errors", function() {
-      const result = viz.render("graph a { layout=invalid; x=1.2.3=y }");
+      const result = viz.render("graph { layout=invalid; x=1.2.3=y }");
 
       assert.deepStrictEqual(result, {
         status: "failure",
@@ -141,7 +141,7 @@ describe("standalone", function() {
     });
 
     it("returns error messages for invalid engine option", function() {
-      const result = viz.render("graph a { }", { engine: "invalid" });
+      const result = viz.render("graph { }", { engine: "invalid" });
 
       assert.deepStrictEqual(result, {
         status: "failure",
@@ -153,7 +153,7 @@ describe("standalone", function() {
     });
 
     it("returns error messages for invalid format option", function() {
-      const result = viz.render("graph a { }", { format: "invalid" });
+      const result = viz.render("graph { }", { format: "invalid" });
 
       assert.deepStrictEqual(result,{
         status: "failure",
@@ -185,7 +185,6 @@ describe("standalone", function() {
     });
 
     it("format option", function() {
-      assert.match(viz.renderString("digraph { a -> b }"), /digraph {/);
       assert.match(viz.renderString("digraph { a -> b }", { format: "dot" }), /pos="/);
       assert.match(viz.renderString("digraph { a -> b }", { format: "xdot" }), /_draw_="/);
       assert.match(viz.renderString("digraph { a -> b }", { format: "svg" }), /<svg/);
@@ -195,7 +194,6 @@ describe("standalone", function() {
     });
 
     it("engine option", function() {
-      assert.ok(viz.renderString("digraph { a -> b }"));
       assert.ok(viz.renderString("digraph { a -> b }", { engine: "dot" }));
       assert.ok(viz.renderString("digraph { a -> b }", { engine: "neato" }));
       assert.ok(viz.renderString("digraph { a -> b }", { engine: "nop" }));

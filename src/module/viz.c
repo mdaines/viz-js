@@ -32,55 +32,65 @@ void viz_set_nop(int value) {
 
 EMSCRIPTEN_KEEPALIVE
 char *viz_render_string(char *string, const char *format, const char *engine) {
-  GVC_t *context;
-  Agraph_t *graph, *otherGraph;
-  char *data;
-  unsigned int length;
+  GVC_t *context = NULL;
+  Agraph_t *graph = NULL;
+  Agraph_t *other_graph = NULL;
+  char *data = NULL;
+  unsigned int length = 0;
+  int layout_error = 0;
+  int render_error = 0;
 
-  agseterr(AGWARN);
-
-  agreseterrors();
+  // Initialize context
 
   context = gvContextPlugins(lt_preloaded_symbols, 0);
 
+  // Reset errors
+
+  agseterr(AGWARN);
+  agreseterrors();
+
+  // Read one graph and consume the rest of the input
+
   graph = agmemread(string);
 
-  if (!graph) {
-    gvFinalize(context);
-    gvFreeContext(context);
-
-    return NULL;
-  }
-
   do {
-    otherGraph = agmemread(NULL);
-    if (otherGraph) {
-      agclose(otherGraph);
+    other_graph = agmemread(NULL);
+    if (other_graph) {
+      agclose(other_graph);
     }
-  } while (otherGraph);
+  } while (other_graph);
 
-  if (gvLayout(context, graph, engine) != 0) {
-    gvFreeLayout(context, graph);
-    agclose(graph);
-    gvFinalize(context);
-    gvFreeContext(context);
+  // Layout (if there is a graph)
 
-    return NULL;
+  if (graph) {
+    layout_error = gvLayout(context, graph, engine);
   }
 
-  if (gvRenderData(context, graph, format, &data, &length) != 0) {
-    gvFreeLayout(context, graph);
-    agclose(graph);
-    gvFinalize(context);
-    gvFreeContext(context);
+  // Render (if there is a graph and layout was successful)
 
-    return NULL;
+  if (graph && !layout_error) {
+    render_error = gvRenderData(context, graph, format, &data, &length);
+
+    if (render_error) {
+      gvFreeRenderData(data);
+      data = NULL;
+    }
   }
 
-  gvFreeLayout(context, graph);
-  agclose(graph);
+  // Free the layout, graph, and context
+
+  if (graph) {
+    gvFreeLayout(context, graph);
+  }
+
+  if (graph) {
+    agclose(graph);
+  }
+
   gvFinalize(context);
   gvFreeContext(context);
+
+  // Return the result (if successful, the rendered graph; otherwise, null)
 
   return data;
 }

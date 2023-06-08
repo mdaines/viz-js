@@ -3,81 +3,29 @@ import { makeGraph } from "./utils.mjs";
 
 const viz = await instance();
 
-let src;
+const basicGraph = makeGraph(100, 10);
 
-console.log("valid input");
+const matrix = [
+  { label: "valid input", src: basicGraph, options: {} },
+  { label: "valid input containing multiple graphs", src: `${basicGraph}${basicGraph}`, options: {} },
+  { label: "invalid input", src: "graph {", options: {} },
+  { label: "invalid layout engine option", src: basicGraph, options: { engine: "invalid" } },
+  { label: "invalid format option", src: basicGraph, options: { format: "invalid" } }
+];
 
-src = makeGraph(100);
+matrix.forEach(({ label, src, options }) => {
+  console.log(label);
 
-for (let i = 0; i < 10000; i++) {
-  viz.render(src);
+  let previous = 0;
 
-  if (i % 1000 == 0) {
-    console.log(process.memoryUsage.rss());
+  for (let i = 0; i < 10000; i++) {
+    viz.render(src, options);
+
+    const current = process.memoryUsage.rss();
+
+    if (i % 1000 == 999) {
+      console.log(`count: ${i+1}`, `rss: ${current}`, previous > 0 ? `change: ${current - previous}` : "");
+      previous = current;
+    }
   }
-}
-
-
-console.log("valid input containing multiple graphs");
-
-src = makeGraph(100) + makeGraph(100);
-
-for (let i = 0; i < 10000; i++) {
-  viz.render(src);
-
-  if (i % 1000 == 0) {
-    console.log(process.memoryUsage.rss());
-  }
-}
-
-
-console.log("larger valid input");
-
-src = makeGraph(500);
-
-for (let i = 0; i < 10000; i++) {
-  viz.render(src);
-
-  if (i % 1000 == 0) {
-    console.log(process.memoryUsage.rss());
-  }
-}
-
-
-console.log("invalid input");
-
-src = "graph {";
-
-for (let i = 0; i < 10000; i++) {
-  viz.render(src);
-
-  if (i % 1000 == 0) {
-    console.log(process.memoryUsage.rss());
-  }
-}
-
-
-console.log("invalid layout engine option");
-
-src = "graph { a }";
-
-for (let i = 0; i < 10000; i++) {
-  viz.render(src, { engine: "invalid" });
-
-  if (i % 1000 == 0) {
-    console.log(process.memoryUsage.rss());
-  }
-}
-
-
-console.log("invalid format option");
-
-src = "graph { a }";
-
-for (let i = 0; i < 10000; i++) {
-  viz.render(src, { format: "invalid" });
-
-  if (i % 1000 == 0) {
-    console.log(process.memoryUsage.rss());
-  }
-}
+});

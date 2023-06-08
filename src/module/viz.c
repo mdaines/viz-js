@@ -44,9 +44,15 @@ char *viz_render_string(char *string, const char *format, const char *engine) {
   agseterr(AGWARN);
   agreseterrors();
 
-  // Read one graph and consume the rest of the input
+  // Try to read one graph
 
   graph = agmemread(string);
+
+  if (!graph) {
+    agerrorf("no valid graph in input\n");
+  }
+
+  // Consume the rest of the input
 
   do {
     other_graph = agmemread(NULL);

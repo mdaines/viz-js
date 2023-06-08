@@ -71,7 +71,7 @@ export default class Viz {
     const result = this.render(src, options);
 
     if (result.status !== "success") {
-      throw new Error(`Error: ${result.errors.map(e => e.message).join("\n")}`);
+      throw new Error(result.errors.find(e => e.level == "error")?.message || "render failed");
     }
 
     return result.output;

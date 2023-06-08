@@ -16,7 +16,9 @@ describe("standalone", function() {
       assert.deepStrictEqual(result, {
         status: "failure",
         output: undefined,
-        errors: []
+        errors: [
+          { level: "error", message: "no valid graph in input" }
+        ]
       });
     });
 
@@ -53,7 +55,8 @@ describe("standalone", function() {
         status: "failure",
         output: undefined,
         errors: [
-          { level: "error", message: "syntax error in line 1 near 'invalid'" }
+          { level: "error", message: "syntax error in line 1 near 'invalid'" },
+          { level: "error", message: "no valid graph in input" }
         ]
       });
     });
@@ -66,7 +69,8 @@ describe("standalone", function() {
         status: "failure",
         output: undefined,
         errors: [
-          { level: "error", message: "syntax error in line 1 near 'invalid1'" }
+          { level: "error", message: "syntax error in line 1 near 'invalid1'" },
+          { level: "error", message: "no valid graph in input" }
         ]
       });
 
@@ -74,7 +78,8 @@ describe("standalone", function() {
         status: "failure",
         output: undefined,
         errors: [
-          { level: "error", message: "syntax error in line 1 near 'invalid2'" }
+          { level: "error", message: "syntax error in line 1 near 'invalid2'" },
+          { level: "error", message: "no valid graph in input" }
         ]
       });
     });
@@ -173,15 +178,19 @@ describe("standalone", function() {
     });
 
     it("throws an error if the first graph has a syntax error", function() {
-      assert.throws(() => { viz.renderString("graph {"); });
+      assert.throws(() => { viz.renderString("graph {"); }, /^Error: syntax error/);
     });
 
     it("throws an error for layout errors", function() {
-      assert.throws(() => { viz.renderString("graph { layout=invalid }"); });
+      assert.throws(() => { viz.renderString("graph { layout=invalid }"); }, /^Error: Layout type: "invalid" not recognized/);
     });
 
     it("throws an error if there are no graphs in the input", function() {
-      assert.throws(() => { viz.renderString(""); });
+      assert.throws(() => { viz.renderString(""); }, /^Error: no valid graph in input/);
+    });
+
+    it("throws an error with the first render error message", function() {
+      assert.throws(() => { viz.renderString("graph { layout=invalid; x=1.2.3=y }"); }, /^Error: Layout type: "invalid" not recognized/);
     });
 
     it("format option", function() {
@@ -190,7 +199,7 @@ describe("standalone", function() {
       assert.match(viz.renderString("digraph { a -> b }", { format: "svg" }), /<svg/);
       assert.match(viz.renderString("digraph { a -> b }", { format: "json" }), /"name": "a"/);
 
-      assert.throws(() => { viz.renderString("graph { }", { format: "invalid" }); });
+      assert.throws(() => { viz.renderString("graph { }", { format: "invalid" }); }, /^Error: Format: "invalid" not recognized/);
     });
 
     it("engine option", function() {
@@ -205,7 +214,7 @@ describe("standalone", function() {
       assert.ok(viz.renderString("graph { a }", { engine: "patchwork" }));
       assert.ok(viz.renderString("graph { a }", { engine: "osage" }));
 
-      assert.throws(() => { viz.renderString("graph { }", { engine: "invalid" }); });
+      assert.throws(() => { viz.renderString("graph { }", { engine: "invalid" }); }, /^Error: Layout type: "invalid" not recognized/);
     });
 
     it("non-ASCII character", function() {
@@ -213,7 +222,7 @@ describe("standalone", function() {
     });
 
     it("a graph with unterminated string followed by another call with a valid graph", function() {
-      assert.throws(() => { viz.renderString("graph { a[label=\"blah"); });
+      assert.throws(() => { viz.renderString("graph { a[label=\"blah"); }, /^Error: syntax error/);
       assert.ok(viz.renderString("graph { a }"));
     });
   });
@@ -233,11 +242,11 @@ describe("standalone", function() {
     });
 
     it("throws an error for syntax errors", function() {
-      assert.throws(() => { viz.renderSVGElement(`graph {`); });
+      assert.throws(() => { viz.renderSVGElement(`graph {`); }, /^Error: syntax error/);
     });
 
     it("throws an error if there are no graphs in the input", function() {
-      assert.throws(() => { viz.renderSVGElement(""); });
+      assert.throws(() => { viz.renderSVGElement(""); }, /^Error: no valid graph in input/);
     });
   });
 
@@ -247,11 +256,11 @@ describe("standalone", function() {
     });
 
     it("throws an error for syntax errors", function() {
-      assert.throws(() => { viz.renderJSON(`graph {`); });
+      assert.throws(() => { viz.renderJSON(`graph {`); }, /^Error: syntax error/);
     });
 
     it("throws an error if there are no graphs in the input", function() {
-      assert.throws(() => { viz.renderJSON(""); });
+      assert.throws(() => { viz.renderJSON(""); }, /^Error: no valid graph in input/);
     });
   });
 });

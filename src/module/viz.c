@@ -16,11 +16,6 @@ lt_symlist_t lt_preloaded_symbols[] = {
 };
 
 EMSCRIPTEN_KEEPALIVE
-int viz_errors() {
-  return agerrors();
-}
-
-EMSCRIPTEN_KEEPALIVE
 void viz_set_yinvert(int invert) {
   Y_invert = invert;
 }

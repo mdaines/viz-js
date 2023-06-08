@@ -1,8 +1,6 @@
 import { instance } from "../../src/standalone.mjs";
 import { makeGraph } from "./utils.mjs";
 
-const viz = await instance();
-
 const basicGraph = makeGraph(100, 10);
 
 const matrix = [
@@ -13,7 +11,9 @@ const matrix = [
   { label: "invalid format option", src: basicGraph, options: { format: "invalid" } }
 ];
 
-matrix.forEach(({ label, src, options }) => {
+for (const { label, src, options } of matrix) {
+  const viz = await instance();
+
   console.log(label);
 
   let previous = 0;
@@ -28,4 +28,4 @@ matrix.forEach(({ label, src, options }) => {
       previous = current;
     }
   }
-});
+}

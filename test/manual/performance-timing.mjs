@@ -1,8 +1,6 @@
 import { instance } from "../../src/standalone.mjs";
 import { makeGraph } from "./utils.mjs";
 
-const viz = await instance();
-
 const matrix = [
   { nodeCount: 100, randomEdgeCount: 0, iterations: 1000 },
   { nodeCount: 1000, randomEdgeCount: 0, iterations: 100 },
@@ -12,7 +10,8 @@ const matrix = [
   { nodeCount: 5000, randomEdgeCount: 500, iterations: 10 }
 ];
 
-matrix.forEach(({ nodeCount, randomEdgeCount, iterations }) => {
+for (const { nodeCount, randomEdgeCount, iterations } of matrix) {
+  const viz = await instance();
   const label = `${nodeCount} nodes, ${randomEdgeCount} edges, ${iterations} iterations`;
   const src = makeGraph(nodeCount, randomEdgeCount);
 
@@ -23,4 +22,4 @@ matrix.forEach(({ nodeCount, randomEdgeCount, iterations }) => {
   }
 
   console.timeEnd(label);
-});
+}

@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "dependencies": {
+    "parcel": "^2.9.2"
+  },
+  "source": "index.html",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "scripts": {
+    "serve": "parcel serve",
+    "build": "parcel build"
+  }
+}

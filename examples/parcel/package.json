@@ -1,6 +1,7 @@
 {
   "private": true,
   "dependencies": {
+    "@viz-js/viz": "file:../..",
     "parcel": "^2.9.2"
   },
   "source": "index.html",

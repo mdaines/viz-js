@@ -2,12 +2,12 @@
   "name": "@viz-js/viz",
   "version": "3.0.0-pre.1",
   "license": "MIT",
-  "main": "lib/viz.js",
+  "main": "lib/viz-standalone.js",
   "files": [
     "lib/encoded.mjs",
     "lib/module.mjs",
     "lib/module.wasm",
-    "lib/viz.js",
+    "lib/viz-standalone.js",
     "src/standalone.mjs",
     "src/viz.mjs"
   ],

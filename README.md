@@ -11,7 +11,7 @@ Make, Docker, and Yarn are prerequisites. After installing the JavaScript depend
 
 Build products will be in the `lib/` directory:
 
-- `viz.js` Standalone JavaScript file that can be included with a script tag.
+- `viz-standalone.js` JavaScript source file that can be included with a script tag or imported with a bundler (UMD format).
 - `encoded.mjs` JavaScript module file which encodes a copy of the WebAssembly module. It exports a `decode()` function that returns an `ArrayBuffer` which can be used with the Emscripten module.
-- `module.mjs` The Emscripten module code (JavaScript).
+- `module.mjs` The [Emscripten module](https://emscripten.org/docs/api_reference/module.html).
 - `module.wasm` The WebAssembly binary.

@@ -5,7 +5,7 @@ export default {
   input: 'src/standalone.mjs',
   output: {
     name: 'Viz',
-    file: 'lib/viz.js',
+    file: 'lib/viz-standalone.js',
     format: 'umd',
     plugins: [
       terser()

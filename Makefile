@@ -1,4 +1,4 @@
-lib/viz.js: lib/encoded.mjs lib/module.mjs src/viz.mjs src/standalone.mjs rollup.config.mjs
+lib/viz-standalone.js: lib/encoded.mjs lib/module.mjs src/viz.mjs src/standalone.mjs rollup.config.mjs
 	yarn rollup -c rollup.config.mjs
 
 lib/encoded.mjs: lib/module.wasm scripts/encode-wasm.mjs
@@ -11,4 +11,4 @@ lib/module.%: src/module/Dockerfile src/module/viz.c src/module/pre.js
 
 .PHONY: clean
 clean:
-	rm -f lib/module.mjs lib/module.wasm lib/encoded.mjs lib/viz.js
+	rm -f lib/module.mjs lib/module.wasm lib/encoded.mjs lib/viz-standalone.js

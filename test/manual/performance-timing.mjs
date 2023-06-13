@@ -1,7 +1,7 @@
 import { instance } from "../../src/standalone.mjs";
 import { makeGraph } from "./utils.mjs";
 
-const matrix = [
+const tests = [
   { nodeCount: 100, randomEdgeCount: 0 },
   { nodeCount: 1000, randomEdgeCount: 0 },
   { nodeCount: 5000, randomEdgeCount: 0 },
@@ -15,7 +15,7 @@ const matrix = [
 
 const timeLimit = 5000;
 
-for (const { nodeCount, randomEdgeCount } of matrix) {
+for (const { nodeCount, randomEdgeCount } of tests) {
   const viz = await instance();
   const label = `${nodeCount} nodes, ${randomEdgeCount} edges`;
   const src = makeGraph(nodeCount, randomEdgeCount);

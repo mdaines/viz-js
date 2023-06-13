@@ -3,7 +3,7 @@ import { makeGraph } from "./utils.mjs";
 
 const basicGraph = makeGraph(100, 10);
 
-const matrix = [
+const tests = [
   { label: "valid input", src: basicGraph, options: {} },
   { label: "valid input containing multiple graphs", src: `${basicGraph}${basicGraph}`, options: {} },
   { label: "invalid input", src: "graph {", options: {} },
@@ -11,7 +11,7 @@ const matrix = [
   { label: "invalid format option", src: basicGraph, options: { format: "invalid" } }
 ];
 
-for (const { label, src, options } of matrix) {
+for (const { label, src, options } of tests) {
   const viz = await instance();
 
   console.log(label);

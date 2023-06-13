@@ -17,7 +17,6 @@ const timeLimit = 5000;
 
 for (const { nodeCount, randomEdgeCount } of tests) {
   const viz = await instance();
-  const label = `${nodeCount} nodes, ${randomEdgeCount} edges`;
   const src = makeGraph(nodeCount, randomEdgeCount);
 
   let callCount = 0;
@@ -33,5 +32,5 @@ for (const { nodeCount, randomEdgeCount } of tests) {
   const duration = (stopTime - startTime) / 1000;
   const speed = callCount / duration;
 
-  console.log(`${label}: ${callCount} in ${duration.toFixed(2)} s, ${speed.toFixed(2)} calls/s`);
+  console.log(`${nodeCount} nodes, ${randomEdgeCount} edges: ${callCount} in ${duration.toFixed(2)} s, ${speed.toFixed(2)} calls/s`);
 }

@@ -28,8 +28,10 @@ function render(module, src, options) {
     const srcLength = module.lengthBytesUTF8(src);
     srcPointer = module.ccall("malloc", "number", ["number"], [srcLength + 1]);
     module.stringToUTF8(src, srcPointer, srcLength + 1);
+    
+    module.ccall("viz_set_y_invert", "number", ["number"], [options.yInvert ? 1 : 0]);
 
-    resultPointer = module.ccall("viz_render_string", "number", ["number", "string", "string", "number", "number"], [srcPointer, options.format, options.engine, options.yInvert ? 1 : 0, options.nop || 0]);
+    resultPointer = module.ccall("viz_render_string", "number", ["number", "string", "string"], [srcPointer, options.format, options.engine]);
 
     if (resultPointer === 0) {
       return {

@@ -2,7 +2,6 @@
 #include <emscripten.h>
 
 extern int Y_invert;
-extern int Nop;
 
 extern gvplugin_library_t gvplugin_core_LTX_library;
 extern gvplugin_library_t gvplugin_dot_layout_LTX_library;
@@ -16,7 +15,12 @@ lt_symlist_t lt_preloaded_symbols[] = {
 };
 
 EMSCRIPTEN_KEEPALIVE
-char *viz_render_string(char *string, const char *format, const char *engine, int yinvert_value, int nop_value) {
+void viz_set_y_invert(int value) {
+  Y_invert = value;
+}
+
+EMSCRIPTEN_KEEPALIVE
+char *viz_render_string(char *string, const char *format, const char *engine) {
   GVC_t *context = NULL;
   Agraph_t *graph = NULL;
   Agraph_t *other_graph = NULL;
@@ -24,11 +28,6 @@ char *viz_render_string(char *string, const char *format, const char *engine, in
   unsigned int length = 0;
   int layout_error = 0;
   int render_error = 0;
-
-  // Set Graphviz globals
-
-  Y_invert = yinvert_value;
-  Nop = nop_value;
 
   // Initialize context
 

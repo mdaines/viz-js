@@ -10,7 +10,6 @@ Returns a `Promise` which fulfills with a new `Viz` instance.
 * `options.format: string`: the output format to render (default is "dot")
 * `options.engine: string`: the engine to use for graph layout (default is "dot")
 * `options.yInvert: boolean`: invert y coordinates in output (default is false)
-* `options.nop: number`: if 1 or greater, indicates to the neato layout engine that nodes have already been positioned (default is 0). With 1, performs adjustments to remove node-node overlaps. With 2 or greater, uses node positions and edge layouts as specified.
 
 Returns an object with the result of rendering:
 

@@ -76,15 +76,6 @@ describe("standalone", function() {
       });
     });
 
-    it("accepts nop option", function() {
-      const result1 = viz.render("digraph { a -> b }");
-      const result2 = viz.render(result1.output, { engine: "neato", nop: 0 });
-      const result3 = viz.render(result1.output, { engine: "neato", nop: 2 });
-
-      assert.notStrictEqual(result2.output, result1.output);
-      assert.strictEqual(result3.output, result1.output);
-    });
-
     it("returns an error for empty input", function() {
       const result = viz.render("");
 

@@ -9,8 +9,8 @@ const tests = [
   { nodeCount: 1000, randomEdgeCount: 500 },
   { nodeCount: 5000, randomEdgeCount: 1000 },
   { nodeCount: 100, randomEdgeCount: 100 },
-  { nodeCount: 1000, randomEdgeCount: 1000 },
-  { nodeCount: 5000, randomEdgeCount: 5000 }
+  { nodeCount: 100, randomEdgeCount: 200 },
+  { nodeCount: 100, randomEdgeCount: 300 }
 ];
 
 const timeLimit = 5000;

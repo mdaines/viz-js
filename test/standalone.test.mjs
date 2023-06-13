@@ -110,6 +110,10 @@ describe("standalone", function() {
       });
     });
 
+    it("throws if input is not a string", function() {
+      assert.throws(() => { viz.render(undefined); }, /^Error: src must be a string/);
+    });
+
     it("returns only the error messages emitted for the current call", function() {
       const result1 = viz.render("invalid1");
       const result2 = viz.render("invalid2");

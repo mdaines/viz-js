@@ -61,6 +61,10 @@ export default class Viz {
   }
 
   render(src, options = {}) {
+    if (typeof src !== "string") {
+      throw new Error("src must be a string");
+    }
+
     return render(this.module, src, { format: "dot", engine: "dot", ...options });
   }
 

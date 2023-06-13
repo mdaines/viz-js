@@ -28,3 +28,7 @@ Convenience method that parses the output and returns an SVG element that can be
 ## `viz.renderJSON(src[, options])`
 
 Convenience method that parses the output and returns a JSON object. This accepts the same options as `viz.render`, except that the `format` option is always `"json"`.
+
+## `viz.graphvizVersion`
+
+Returns a string indicating the version of Graphviz used for this build of Viz.js. For example, `"8.0.4"`.

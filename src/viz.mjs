@@ -28,7 +28,7 @@ function render(module, src, options) {
     const srcLength = module.lengthBytesUTF8(src);
     srcPointer = module.ccall("malloc", "number", ["number"], [srcLength + 1]);
     module.stringToUTF8(src, srcPointer, srcLength + 1);
-    
+
     module.ccall("viz_set_y_invert", "number", ["number"], [options.yInvert ? 1 : 0]);
 
     resultPointer = module.ccall("viz_render_string", "number", ["number", "string", "string"], [srcPointer, options.format, options.engine]);
@@ -57,9 +57,18 @@ function render(module, src, options) {
   }
 }
 
+function getGraphvizVersion(module) {
+  const versionPointer = module.ccall("viz_get_graphviz_version", "number", [], []);
+  return module.UTF8ToString(versionPointer);
+}
+
 export default class Viz {
   constructor(module) {
     this.module = module;
+  }
+
+  get graphvizVersion() {
+    return getGraphvizVersion(this.module);
   }
 
   render(src, options = {}) {

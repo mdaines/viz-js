@@ -213,6 +213,12 @@ describe("standalone", function() {
       });
     });
   });
+  
+  describe("graphvizVersion", function() {
+    it("returns the Graphviz version", function() {
+      assert.strictEqual(viz.graphvizVersion, "8.0.4");
+    });
+  });
 
   describe("renderString", function() {
     it("returns the output for the first graph, even if subsequent graphs have errors", function() {

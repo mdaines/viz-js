@@ -36,6 +36,55 @@ describe("standalone", function() {
       assert.match(viz.render("graph f { }").output, /graph f {/);
     });
 
+    it("accepts the format option, defaulting to dot", function() {
+      assert.match(viz.render("digraph { a -> b }").output, /pos="/);
+      assert.match(viz.render("digraph { a -> b }", { format: "dot" }).output, /pos="/);
+      assert.match(viz.render("digraph { a -> b }", { format: "xdot" }).output, /_draw_="/);
+      assert.match(viz.render("digraph { a -> b }", { format: "svg" }).output, /<svg/);
+      assert.match(viz.render("digraph { a -> b }", { format: "json" }).output, /"name": "a"/);
+    });
+
+    it("accepts other engine options", function() {
+      const src = "digraph { a -> b }";
+      const dotOutput = viz.render(src).output;
+
+      assert.strictEqual(viz.render(src, { engine: "dot" }).output, dotOutput);
+      assert.notStrictEqual(viz.render(src, { engine: "neato" }).output, dotOutput);
+      assert.notStrictEqual(viz.render(src, { engine: "nop2" }).output, dotOutput);
+      assert.notStrictEqual(viz.render(src, { engine: "twopi" }).output, dotOutput);
+      assert.notStrictEqual(viz.render(src, { engine: "circo" }).output, dotOutput);
+      assert.notStrictEqual(viz.render(src, { engine: "fdp" }).output, dotOutput);
+      assert.notStrictEqual(viz.render(src, { engine: "sfdp" }).output, dotOutput);
+      assert.notStrictEqual(viz.render(src, { engine: "patchwork" }).output, dotOutput);
+      assert.notStrictEqual(viz.render(src, { engine: "osage" }).output, dotOutput);
+    });
+
+    it("accepts yInvert option", function() {
+      const result1 = viz.render("graph { a }", { yInvert: false });
+      const result2 = viz.render("graph { a }", { yInvert: true });
+
+      assert.deepStrictEqual(result1, {
+        status: "success",
+        output: "graph {\n\tgraph [bb=\"0,0,54,36\"];\n\tnode [label=\"\\N\"];\n\ta\t[height=0.5,\n\t\tpos=\"27,18\",\n\t\twidth=0.75];\n}\n",
+        errors: []
+      });
+
+      assert.deepStrictEqual(result2, {
+        status: "success",
+        output: "graph {\n\tgraph [bb=\"0,36,54,0\"];\n\tnode [label=\"\\N\"];\n\ta\t[height=0.5,\n\t\tpos=\"27,18\",\n\t\twidth=0.75];\n}\n",
+        errors: []
+      });
+    });
+
+    it("accepts nop option", function() {
+      const result1 = viz.render("digraph { a -> b }");
+      const result2 = viz.render(result1.output, { engine: "neato", nop: 0 });
+      const result3 = viz.render(result1.output, { engine: "neato", nop: 2 });
+
+      assert.notStrictEqual(result2.output, result1.output);
+      assert.strictEqual(result3.output, result1.output);
+    });
+
     it("returns an error for empty input", function() {
       const result = viz.render("");
 
@@ -193,31 +242,15 @@ describe("standalone", function() {
       assert.throws(() => { viz.renderString("graph { layout=invalid; x=1.2.3=y }"); }, /^Error: Layout type: "invalid" not recognized/);
     });
 
-    it("format option", function() {
-      assert.match(viz.renderString("digraph { a -> b }", { format: "dot" }), /pos="/);
-      assert.match(viz.renderString("digraph { a -> b }", { format: "xdot" }), /_draw_="/);
-      assert.match(viz.renderString("digraph { a -> b }", { format: "svg" }), /<svg/);
-      assert.match(viz.renderString("digraph { a -> b }", { format: "json" }), /"name": "a"/);
-
+    it("throws for invalid format option", function() {
       assert.throws(() => { viz.renderString("graph { }", { format: "invalid" }); }, /^Error: Format: "invalid" not recognized/);
     });
 
-    it("engine option", function() {
-      assert.ok(viz.renderString("digraph { a -> b }", { engine: "dot" }));
-      assert.ok(viz.renderString("digraph { a -> b }", { engine: "neato" }));
-      assert.ok(viz.renderString("digraph { a -> b }", { engine: "nop" }));
-      assert.ok(viz.renderString("digraph { a -> b }", { engine: "nop2" }));
-      assert.ok(viz.renderString("digraph { a -> b }", { engine: "twopi" }));
-      assert.ok(viz.renderString("digraph { a -> b }", { engine: "circo" }));
-      assert.ok(viz.renderString("digraph { a -> b }", { engine: "fdp" }));
-      assert.ok(viz.renderString("digraph { a -> b }", { engine: "sfdp" }));
-      assert.ok(viz.renderString("graph { a }", { engine: "patchwork" }));
-      assert.ok(viz.renderString("graph { a }", { engine: "osage" }));
-
+    it("throws for invalid engine option", function() {
       assert.throws(() => { viz.renderString("graph { }", { engine: "invalid" }); }, /^Error: Layout type: "invalid" not recognized/);
     });
 
-    it("non-ASCII character", function() {
+    it("accepts a non-ASCII character", function() {
       assert.match(viz.renderString("digraph { a [label=図] }"), /label=図/);
     });
 

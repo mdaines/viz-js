@@ -58,8 +58,30 @@ function render(module, src, options) {
 }
 
 function getGraphvizVersion(module) {
-  const versionPointer = module.ccall("viz_get_graphviz_version", "number", [], []);
-  return module.UTF8ToString(versionPointer);
+  const resultPointer = module.ccall("viz_get_graphviz_version", "number", [], []);
+  return module.UTF8ToString(resultPointer);
+}
+
+function getPluginList(module, kind) {
+  const resultPointer = module.ccall("viz_get_plugin_list", "number", ["string"], [kind]);
+
+  if (resultPointer == 0) {
+    throw new Error(`couldn't get plugin list: ${kind}`);
+  }
+
+  const list = [];
+  let itemPointer = resultPointer;
+  let stringPointer;
+
+  while (stringPointer = module.getValue(itemPointer, "*")) {
+    list.push(module.UTF8ToString(stringPointer));
+    module.ccall("free", "number", ["number"], [stringPointer]);
+    itemPointer += 4;
+  }
+
+  module.ccall("free", "number", ["number"], [resultPointer]);
+
+  return list;
 }
 
 export default class Viz {
@@ -69,6 +91,14 @@ export default class Viz {
 
   get graphvizVersion() {
     return getGraphvizVersion(this.module);
+  }
+
+  get formats() {
+    return getPluginList(this.module, "device");
+  }
+
+  get engines() {
+    return getPluginList(this.module, "layout");
   }
 
   render(src, options = {}) {

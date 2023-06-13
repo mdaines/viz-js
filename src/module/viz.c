@@ -22,14 +22,33 @@ void viz_set_y_invert(int value) {
 
 EMSCRIPTEN_KEEPALIVE
 char *viz_get_graphviz_version() {
-  GVC_t *context = gvContextPlugins(lt_preloaded_symbols, 0);
+  GVC_t *context = NULL;
+  char *result = NULL;
 
-  char *version = gvcVersion(context);
+  context = gvContextPlugins(lt_preloaded_symbols, 0);
+
+  result = gvcVersion(context);
 
   gvFinalize(context);
   gvFreeContext(context);
 
-  return version;
+  return result;
+}
+
+EMSCRIPTEN_KEEPALIVE
+char *viz_get_plugin_list(const char *kind) {
+  GVC_t *context = NULL;
+  char **list = NULL;
+  int count = 0;
+
+  context = gvContextPlugins(lt_preloaded_symbols, 0);
+
+  list = gvPluginList(context, kind, &count, NULL);
+
+  gvFinalize(context);
+  gvFreeContext(context);
+
+  return list;
 }
 
 EMSCRIPTEN_KEEPALIVE

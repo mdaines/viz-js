@@ -220,6 +220,58 @@ describe("standalone", function() {
     });
   });
 
+  describe("formats", function() {
+    it("returns the list of formats", function() {
+      assert.deepStrictEqual(viz.formats, [
+        "canon",
+        "cmap",
+        "cmapx",
+        "cmapx_np",
+        "dot",
+        "dot_json",
+        "eps",
+        "fig",
+        "gv",
+        "imap",
+        "imap_np",
+        "ismap",
+        "json",
+        "json0",
+        "mp",
+        "pic",
+        "plain",
+        "plain-ext",
+        "pov",
+        "ps",
+        "ps2",
+        "svg",
+        "tk",
+        "xdot",
+        "xdot1.2",
+        "xdot1.4",
+        "xdot_json"
+      ]);
+    });
+  });
+
+  describe("engines", function() {
+    it("returns the list of layout engines", function() {
+      assert.deepStrictEqual(viz.engines, [
+        "circo",
+        "dot",
+        "fdp",
+        "neato",
+        "nop",
+        "nop1",
+        "nop2",
+        "osage",
+        "patchwork",
+        "sfdp",
+        "twopi"
+      ]);
+    });
+  });
+
   describe("renderString", function() {
     it("returns the output for the first graph, even if subsequent graphs have errors", function() {
       const result = viz.renderString("graph a { } graph {");

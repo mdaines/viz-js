@@ -32,3 +32,11 @@ Convenience method that parses the output and returns a JSON object. This accept
 ## `viz.graphvizVersion`
 
 Returns a string indicating the version of Graphviz used for this build of Viz.js. For example, `"8.0.4"`.
+
+## `viz.engines`
+
+Returns an array of strings indicating the supported Graphviz layout engines.
+
+## `viz.formats`
+
+Returns an array of strings indicating the supported Graphviz output formats.

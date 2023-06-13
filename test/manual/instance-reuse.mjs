@@ -2,16 +2,20 @@ import { instance } from "../../src/standalone.mjs";
 import { makeGraph } from "./utils.mjs";
 
 const basicGraph = makeGraph(100, 10);
+const multipleGraphs = `${basicGraph}${basicGraph}`;
+const invalidInput = "graph {";
 
 const tests = [
-  { label: "valid input", src: basicGraph, options: {} },
-  { label: "valid input containing multiple graphs", src: `${basicGraph}${basicGraph}`, options: {} },
-  { label: "invalid input", src: "graph {", options: {} },
-  { label: "invalid layout engine option", src: basicGraph, options: { engine: "invalid" } },
-  { label: "invalid format option", src: basicGraph, options: { format: "invalid" } }
+  { label: "valid input", fn: viz => viz.render(basicGraph) },
+  { label: "valid input containing multiple graphs", fn: viz => viz.render(multipleGraphs) },
+  { label: "invalid input", fn: viz => viz.render(invalidInput) },
+  { label: "invalid layout engine option", fn: viz => viz.render(basicGraph, { engine: "invalid" }) },
+  { label: "invalid format option", fn: viz => viz.render(basicGraph, { format: "invalid" }) },
+  { label: "list layout engines", fn: viz => viz.engines },
+  { label: "list formats", fn: viz => viz.formats }
 ];
 
-for (const { label, src, options } of tests) {
+for (const { label, fn } of tests) {
   const viz = await instance();
 
   console.log(label);
@@ -19,7 +23,7 @@ for (const { label, src, options } of tests) {
   let previous = 0;
 
   for (let i = 0; i < 10000; i++) {
-    viz.render(src, options);
+    fn(viz);
 
     const current = process.memoryUsage.rss();
 

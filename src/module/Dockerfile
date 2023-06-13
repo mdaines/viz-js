@@ -8,7 +8,7 @@ RUN mkdir -p expat && tar -zxf ./expat.tar.gz --strip-components 1 --directory e
 RUN cd expat && emconfigure ./configure --host=wasm32 --disable-shared --prefix="${PREFIX}" --libdir="${PREFIX}/lib" CFLAGS="-Oz" CXXFLAGS="-Oz"
 RUN cd expat/lib && emmake make all install
 
-ADD "https://gitlab.com/api/v4/projects/4207231/packages/generic/graphviz-releases/8.0.4/graphviz-8.0.4.tar.gz" ./graphviz.tar.gz
+ADD "https://gitlab.com/api/v4/projects/4207231/packages/generic/graphviz-releases/8.0.5/graphviz-8.0.5.tar.gz" ./graphviz.tar.gz
 
 RUN mkdir -p graphviz && tar -zxf ./graphviz.tar.gz --strip-components 1 --directory graphviz
 RUN cd graphviz && emconfigure ./configure --host=wasm32 --disable-ltdl --prefix="${PREFIX}" --libdir="${PREFIX}/lib" CFLAGS="-Oz" CXXFLAGS="-Oz"

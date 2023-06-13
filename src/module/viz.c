@@ -36,7 +36,7 @@ char *viz_get_graphviz_version() {
 }
 
 EMSCRIPTEN_KEEPALIVE
-char *viz_get_plugin_list(const char *kind) {
+char **viz_get_plugin_list(const char *kind) {
   GVC_t *context = NULL;
   char **list = NULL;
   int count = 0;

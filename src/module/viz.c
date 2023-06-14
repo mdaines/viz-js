@@ -2,7 +2,6 @@
 #include <emscripten.h>
 
 extern int Y_invert;
-extern char *Version;
 
 extern gvplugin_library_t gvplugin_core_LTX_library;
 extern gvplugin_library_t gvplugin_dot_layout_LTX_library;

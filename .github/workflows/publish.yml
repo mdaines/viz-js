@@ -23,6 +23,8 @@ jobs:
 
       - run: |
           gh release create --prerelease ${{ github.ref }} lib/*
+        env:
+          GH_TOKEN: ${{ github.token }}
 
   publish:
     needs: [build, release]

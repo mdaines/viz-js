@@ -32,7 +32,7 @@ jobs:
           node-version: "18.x"
 
       - run: |
-          yarn install
+          yarn install --frozen-lockfile
           test -f lib/module.mjs && touch lib/module.mjs
           test -f lib/module.wasm && touch lib/module.wasm
           make
@@ -58,4 +58,6 @@ jobs:
         with:
           node-version: "18.x"
 
-      - run: yarn install && yarn test
+      - run: yarn install --frozen-lockfile
+
+      - run: yarn test

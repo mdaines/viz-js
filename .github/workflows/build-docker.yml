@@ -7,9 +7,6 @@ on:
       - gh-pages
   workflow_call: {}
 
-concurrency:
-  group: build-${{ github.ref }}
-
 permissions:
   contents: read
 

@@ -1,19 +1,34 @@
-name: Publish to NPM
+name: Publish release and NPM package
 
 on:
-  release:
-    types: [published]
+  push:
+    tags: ["v*"]
 
 jobs:
   build:
     uses: ./.github/workflows/build-docker.yml
 
-  publish:
+  release:
     needs: build
     runs-on: ubuntu-latest
     permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: lib
+          path: lib
+
+      - run: |
+          gh release create --prerelease ${{ github.ref }} lib/*
+
+  publish:
+    needs: [build, release]
+    runs-on: ubuntu-latest
+    permissions:
       contents: read
-      id-token: write
     steps:
       - uses: actions/checkout@v3
 

@@ -26,7 +26,7 @@ jobs:
           path: lib
 
       - run: |
-          gh release create ${{ contains(github.ref, ".pre-") && "--prerelease" || "" }} ${{ github.ref }} lib/*
+          gh release create ${{ contains(github.ref, '.pre-') && '--prerelease' || '' }} ${{ github.ref }} lib/*
         env:
           GH_TOKEN: ${{ github.token }}
 

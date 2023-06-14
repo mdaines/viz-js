@@ -8,11 +8,8 @@ jobs:
   build:
     uses: ./.github/workflows/build-docker.yml
 
-  test:
-    uses: ./.github/workflows/build-docker.yml
-
   publish:
-    needs: [build, test]
+    needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: read

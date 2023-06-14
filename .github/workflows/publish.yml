@@ -26,7 +26,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
 
   publish:
-    needs: [build, release]
+    needs: release
     runs-on: ubuntu-latest
     permissions:
       contents: read

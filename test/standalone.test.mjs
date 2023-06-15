@@ -82,9 +82,7 @@ describe("standalone", function() {
       assert.deepStrictEqual(result, {
         status: "failure",
         output: undefined,
-        errors: [
-          { level: "error", message: "no valid graph in input" }
-        ]
+        errors: []
       });
     });
 
@@ -95,8 +93,7 @@ describe("standalone", function() {
         status: "failure",
         output: undefined,
         errors: [
-          { level: "error", message: "syntax error in line 1 near 'invalid'" },
-          { level: "error", message: "no valid graph in input" }
+          { level: "error", message: "syntax error in line 1 near 'invalid'" }
         ]
       });
     });
@@ -113,8 +110,7 @@ describe("standalone", function() {
         status: "failure",
         output: undefined,
         errors: [
-          { level: "error", message: "syntax error in line 1 near 'invalid1'" },
-          { level: "error", message: "no valid graph in input" }
+          { level: "error", message: "syntax error in line 1 near 'invalid1'" }
         ]
       });
 
@@ -122,8 +118,7 @@ describe("standalone", function() {
         status: "failure",
         output: undefined,
         errors: [
-          { level: "error", message: "syntax error in line 1 near 'invalid2'" },
-          { level: "error", message: "no valid graph in input" }
+          { level: "error", message: "syntax error in line 1 near 'invalid2'" }
         ]
       });
     });
@@ -220,8 +215,7 @@ describe("standalone", function() {
         status: "failure",
         output: undefined,
         errors: [
-          { level: "error", message: "syntax error in line 1 scanning a quoted string (missing endquote? longer than 16384?)\nString starting:\" }" },
-          { level: "error", message: "no valid graph in input" }
+          { level: "error", message: "syntax error in line 1 scanning a quoted string (missing endquote? longer than 16384?)\nString starting:\" }" }
         ]
       });
     });
@@ -314,7 +308,7 @@ describe("standalone", function() {
     });
 
     it("throws an error if there are no graphs in the input", function() {
-      assert.throws(() => { viz.renderString(""); }, /^Error: no valid graph in input/);
+      assert.throws(() => { viz.renderString(""); }, /^Error: render failed/);
     });
 
     it("throws an error with the first render error message", function() {
@@ -358,7 +352,7 @@ describe("standalone", function() {
     });
 
     it("throws an error if there are no graphs in the input", function() {
-      assert.throws(() => { viz.renderSVGElement(""); }, /^Error: no valid graph in input/);
+      assert.throws(() => { viz.renderSVGElement(""); }, /^Error: render failed/);
     });
   });
 
@@ -372,7 +366,7 @@ describe("standalone", function() {
     });
 
     it("throws an error if there are no graphs in the input", function() {
-      assert.throws(() => { viz.renderJSON(""); }, /^Error: no valid graph in input/);
+      assert.throws(() => { viz.renderJSON(""); }, /^Error: render failed/);
     });
   });
 });

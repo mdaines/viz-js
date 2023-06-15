@@ -79,10 +79,6 @@ char *viz_render_string(char *string, const char *format, const char *engine) {
 
   graph = agmemread(string);
 
-  if (!graph) {
-    agerrorf("no valid graph in input\n");
-  }
-
   // Consume the rest of the input
 
   do {

@@ -20,9 +20,6 @@
     "src/standalone.mjs",
     "src/viz.mjs"
   ],
-  "browserslist": [
-    "defaults"
-  ],
   "devDependencies": {
     "@babel/core": "^7.21.4",
     "@babel/preset-env": "^7.21.4",

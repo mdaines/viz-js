@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.0.1
 
 * Catch the error Emscripten throws when exit() is called.
 

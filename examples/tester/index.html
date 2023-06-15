@@ -1,0 +1,79 @@
+<!doctype html>
+<meta charset="utf8">
+
+<style>
+  #src {
+    width: 300px;
+    height: 100px;
+  }
+
+  table {
+    border-collapse: collapse;
+  }
+
+  td {
+    border: 1px solid #eee;
+    padding: 4px;
+  }
+
+  #result-errors, #result-output {
+    white-space: pre-wrap;
+    font-family: monospace;
+  }
+</style>
+
+<p>
+  <textarea id="src">
+digraph { a -> b }
+</textarea>
+</p>
+
+<p>
+  <button id="render" disabled>Render</button>
+</p>
+
+<table>
+  <tr>
+    <td>Status</td>
+    <td id="result-status"></td>
+  </tr>
+  <tr>
+    <td>Errors</td>
+    <td id="result-errors"></td>
+  </tr>
+  <tr>
+    <td>Output</td>
+    <td id="result-output"></td>
+  </tr>
+</table>
+
+<script src="../../lib/viz-standalone.js"></script>
+<script>
+
+  var viz;
+
+  function render() {
+    if (typeof viz === "undefined") {
+      return;
+    }
+
+    var src = document.getElementById("src").value;
+    var result = viz.render(src);
+
+    document.getElementById("result-status").textContent = result.status;
+    document.getElementById("result-errors").textContent = JSON.stringify(result.errors, null, 2);
+    document.getElementById("result-output").textContent = result.output ? result.output : "(no output)";
+  }
+
+  Viz.instance().then(function(instance) {
+    viz = instance;
+
+    var renderButton = document.getElementById("render");
+
+    renderButton.disabled = false;
+    renderButton.addEventListener("click", function() {
+      render();
+    });
+  });
+
+</script>

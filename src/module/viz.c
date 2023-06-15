@@ -50,6 +50,11 @@ char **viz_get_plugin_list(const char *kind) {
   return list;
 }
 
+EM_JS(int, viz_errorf, (char *text), {
+  Module["agerrMessages"].push(UTF8ToString(text));
+  return 0;
+});
+
 EMSCRIPTEN_KEEPALIVE
 char *viz_render_string(char *string, const char *format, const char *engine) {
   GVC_t *context = NULL;
@@ -66,6 +71,7 @@ char *viz_render_string(char *string, const char *format, const char *engine) {
 
   // Reset errors
 
+  agseterrf(viz_errorf);
   agseterr(AGWARN);
   agreseterrors();
 

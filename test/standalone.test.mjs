@@ -212,6 +212,32 @@ describe("standalone", function() {
         ]
       });
     });
+
+    it("returns an error that contains newlines as a single item", function() {
+      const result = viz.render("graph { \" }");
+
+      assert.deepStrictEqual(result,{
+        status: "failure",
+        output: undefined,
+        errors: [
+          { level: "error", message: "syntax error in line 1 scanning a quoted string (missing endquote? longer than 16384?)\nString starting:\" }" },
+          { level: "error", message: "no valid graph in input" }
+        ]
+      });
+    });
+
+    it("returns an error that uses AGPREV with the correct level", function() {
+      const result = viz.render("graph { _background=123 }");
+
+      assert.deepStrictEqual(result,{
+        status: "success",
+        output: "graph {\n\tgraph [_background=123,\n\t\tbb=\"0,0,0,0\"\n\t];\n\tnode [label=\"\\N\"];\n}\n",
+        errors: [
+          { level: "warning", message: "Could not parse \"_background\" attribute in graph %3" },
+          { level: "warning", message: "  \"123\"" }
+        ]
+      });
+    });
   });
 
   describe("graphvizVersion", function() {

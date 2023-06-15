@@ -1,2 +1,3 @@
-Module["errorMessages"] = [];
-err = text => Module["errorMessages"].push(text);
+Module["agerrMessages"] = [];
+Module["stderrMessages"] = [];
+err = text => Module["stderrMessages"].push(text);

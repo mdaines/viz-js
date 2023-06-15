@@ -3,7 +3,7 @@ const errorPatterns = [
   [/^Warning: (.*)/, "warning"]
 ];
 
-function parseErrorMessages(messages) {
+function parseStderrMessages(messages) {
   return messages.map(message => {
     for (let i = 0; i < errorPatterns.length; i++) {
       const [pattern, level] = errorPatterns[i];
@@ -11,19 +11,39 @@ function parseErrorMessages(messages) {
       let match;
 
       if ((match = pattern.exec(message)) !== null) {
-        return { message: match[1], level };
+        return { message: match[1].trimEnd(), level };
       }
     }
 
-    return { message };
+    return { message: message.trimEnd() };
   });
+}
+
+function parseAgerrMessages(messages) {
+  const result = [];
+  let level = undefined;
+
+  for (let i = 0; i < messages.length; i++) {
+    if (messages[i] == "Error" && messages[i+1] == ": ") {
+      level = "error";
+      i += 1;
+    } else if (messages[i] == "Warning" && messages[i+1] == ": ") {
+      level = "warning";
+      i += 1;
+    } else {
+      result.push({ message: messages[i].trimEnd(), level });
+    }
+  }
+
+  return result;
 }
 
 function render(module, src, options) {
   let srcPointer, resultPointer;
 
   try {
-    module.errorMessages = [];
+    module["agerrMessages"] = [];
+    module["stderrMessages"] = [];
 
     const srcLength = module.lengthBytesUTF8(src);
     srcPointer = module.ccall("malloc", "number", ["number"], [srcLength + 1]);
@@ -33,18 +53,20 @@ function render(module, src, options) {
 
     resultPointer = module.ccall("viz_render_string", "number", ["number", "string", "string"], [srcPointer, options.format, options.engine]);
 
+    const errors = parseAgerrMessages(module["agerrMessages"]).concat(parseStderrMessages(module["stderrMessages"]));
+
     if (resultPointer === 0) {
       return {
         status: "failure",
         output: undefined,
-        errors: parseErrorMessages(module.errorMessages)
+        errors
       };
     }
 
     return {
       status: "success",
       output: module.UTF8ToString(resultPointer),
-      errors: parseErrorMessages(module.errorMessages)
+      errors
     };
   } finally {
     if (srcPointer) {

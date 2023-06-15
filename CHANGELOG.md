@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Improve error message handling when an error reported from agerr has multiple lines.
+
 ## 3.0.0
 
 * Viz.js now uses WebAssembly.

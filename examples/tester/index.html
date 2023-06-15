@@ -16,7 +16,7 @@
     padding: 4px;
   }
 
-  #result-errors, #result-output {
+  #result-errors, #result-output, #svg-element-output, #json-output {
     white-space: pre-wrap;
     font-family: monospace;
   }
@@ -29,10 +29,26 @@ digraph { a -> b }
 </p>
 
 <p>
+  <label for="engine">Engine:</label> <select id="engine"></select>
+</p>
+
+<p>
+  <label for="format">Format:</label> <select id="format"></select>
+</p>
+
+<p>
+  <input type="checkbox" id="y-invert"> <label for="y-invert">Invert Y coordinates in output</label>
+</p>
+
+<p>
   <button id="render" disabled>Render</button>
 </p>
 
 <table>
+  <tr>
+    <td>Graphviz version</td>
+    <td id="graphviz-version"></td>
+  </tr>
   <tr>
     <td>Status</td>
     <td id="result-status"></td>
@@ -44,6 +60,14 @@ digraph { a -> b }
   <tr>
     <td>Output</td>
     <td id="result-output"></td>
+  </tr>
+  <tr>
+    <td>Output (SVG element)</td>
+    <td id="svg-element-output"></td>
+  </tr>
+  <tr>
+    <td>Output (JSON)</td>
+    <td id="json-output"></td>
   </tr>
 </table>
 
@@ -58,15 +82,76 @@ digraph { a -> b }
     }
 
     var src = document.getElementById("src").value;
-    var result = viz.render(src);
+    var options = {
+      engine: document.getElementById("engine").value,
+      format: document.getElementById("format").value,
+      yInvert: document.getElementById("y-invert").checked
+    };
+
+    // render()
+
+    var result = viz.render(src, options);
 
     document.getElementById("result-status").textContent = result.status;
     document.getElementById("result-errors").textContent = JSON.stringify(result.errors, null, 2);
     document.getElementById("result-output").textContent = result.output ? result.output : "(no output)";
+
+    // renderSVGElement()
+
+    try {
+      var svgElement = viz.renderSVGElement(src, options);
+
+      document.getElementById("svg-element-output").innerHTML = "";
+      document.getElementById("svg-element-output").appendChild(svgElement);
+    } catch (error) {
+      document.getElementById("svg-element-output").textContent = error;
+    }
+
+    // renderJSON()
+
+    try {
+      var json = viz.renderJSON(src, options);
+
+      document.getElementById("json-output").textContent = JSON.stringify(json, null, 2);
+    } catch (error) {
+      document.getElementById("json-output").textContent = error;
+    }
   }
 
   Viz.instance().then(function(instance) {
     viz = instance;
+
+    // Graphviz version
+
+    document.getElementById("graphviz-version").textContent = viz.graphvizVersion;
+
+    // Engine options
+
+    var engineSelect = document.getElementById("engine");
+
+    viz.engines.forEach(function(engine) {
+      var option = document.createElement("option");
+      option.value = engine;
+      option.textContent = engine;
+      engineSelect.appendChild(option);
+    });
+
+    engineSelect.value = "dot";
+
+    // Format options
+
+    var formatSelect = document.getElementById("format");
+
+    viz.formats.forEach(function(format) {
+      var option = document.createElement("option");
+      option.value = format;
+      option.textContent = format;
+      formatSelect.appendChild(option);
+    });
+
+    formatSelect.value = "dot";
+
+    // Enable the render button
 
     var renderButton = document.getElementById("render");
 

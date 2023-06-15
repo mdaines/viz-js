@@ -38,6 +38,10 @@ function parseAgerrMessages(messages) {
   return result;
 }
 
+function parseErrorMessages(module) {
+  return parseAgerrMessages(module["agerrMessages"]).concat(parseStderrMessages(module["stderrMessages"]));
+}
+
 function render(module, src, options) {
   let srcPointer, resultPointer;
 
@@ -53,21 +57,29 @@ function render(module, src, options) {
 
     resultPointer = module.ccall("viz_render_string", "number", ["number", "string", "string"], [srcPointer, options.format, options.engine]);
 
-    const errors = parseAgerrMessages(module["agerrMessages"]).concat(parseStderrMessages(module["stderrMessages"]));
-
     if (resultPointer === 0) {
       return {
         status: "failure",
         output: undefined,
-        errors
+        errors: parseErrorMessages(module)
       };
     }
 
     return {
       status: "success",
       output: module.UTF8ToString(resultPointer),
-      errors
+      errors: parseErrorMessages(module)
     };
+  } catch (error) {
+    if (/^exit\(\d+\)/.test(error)) {
+      return {
+        status: "failure",
+        output: undefined,
+        errors: parseErrorMessages(module)
+      };
+    } else {
+      throw error;
+    }
   } finally {
     if (srcPointer) {
       module.ccall("free", "number", ["number"], [srcPointer]);

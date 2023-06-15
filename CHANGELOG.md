@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* Catch the error Emscripten throws when exit() is called.
+
 * Don't add an error message about no valid graphs in input.
 
 * Improve error message handling when an error reported from agerr has multiple lines.

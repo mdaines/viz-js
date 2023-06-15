@@ -232,6 +232,19 @@ describe("standalone", function() {
         ]
       });
     });
+
+    it("returns an error if exit() is called", function() {
+      const result = viz.render("graph { a[label=<>] }");
+
+      assert.deepStrictEqual(result,{
+        status: "failure",
+        output: undefined,
+        errors: [
+          { level: "error", message: "syntax error in line 1" },
+          { level: "error", message: "... <HTML></HTML> ..." }
+        ]
+      });
+    });
   });
 
   describe("graphvizVersion", function() {

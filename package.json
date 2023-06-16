@@ -12,12 +12,20 @@
   },
   "license": "MIT",
   "main": "lib/viz-standalone.js",
+  "module": "lib/viz-standalone.mjs",
+  "exports": {
+    ".": {
+      "import": "./lib/viz-standalone.mjs",
+      "require": "./lib/viz-standalone.js"
+    }
+  },
   "types": "types/index.d.ts",
   "files": [
     "lib/encoded.mjs",
     "lib/module.mjs",
     "lib/module.wasm",
     "lib/viz-standalone.js",
+    "lib/viz-standalone.mjs",
     "src/standalone.mjs",
     "src/viz.mjs",
     "types/index.d.ts"
@@ -32,6 +40,6 @@
     "rollup": "^3.20.7"
   },
   "scripts": {
-    "test": "mocha --recursive --extension \".test.mjs\""
+    "test": "mocha --recursive --ignore \"node_modules/**/*\" --extension \".test.mjs\""
   }
 }

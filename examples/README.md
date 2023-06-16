@@ -1,10 +1,14 @@
 # Examples
 
-These examples assume that the build products (the `viz.js` file, etc.) are available in the lib/ directory.
+These examples assume that the build products (the `viz-standalone.js` file, etc.) are available in the lib/ directory.
 
 ## Script tag
 
 The simplest way to use Viz.js in a webpage.
+
+## Module script tag
+
+Viz.js can be imported from a module script tag.
 
 ## Parcel
 

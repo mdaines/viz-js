@@ -62,6 +62,34 @@ jobs:
 
       - run: yarn test
 
+  test-consume:
+    name: Test import and require
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: lib
+          path: lib
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+
+      - run: yarn install --frozen-lockfile
+        working-directory: test/module-import
+
+      - run: node index.js
+        working-directory: test/module-import
+
+      - run: yarn install --frozen-lockfile
+        working-directory: test/commonjs-require
+
+      - run: node index.js
+        working-directory: test/commonjs-require
+
   test-types:
     name: Test types
     runs-on: ubuntu-latest

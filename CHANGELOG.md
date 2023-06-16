@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* Include an ES module build as well as UMD.
+
 * Add Typescript declarations.
 
 ## 3.0.1

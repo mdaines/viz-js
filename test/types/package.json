@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "dependencies": {
+    "@viz-js/viz": "link:../..",
+    "typescript": "^5.1.3"
+  },
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --lib es2015,dom --strict --noEmit index.ts"
+  }
+}

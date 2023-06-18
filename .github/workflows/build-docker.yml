@@ -61,3 +61,20 @@ jobs:
       - run: yarn install --frozen-lockfile
 
       - run: yarn test
+
+  test-types:
+    name: Test types
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: test/types
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+
+      - run: yarn install --frozen-lockfile
+
+      - run: yarn typecheck

@@ -12,13 +12,15 @@
   },
   "license": "MIT",
   "main": "lib/viz-standalone.js",
+  "types": "types/index.d.ts",
   "files": [
     "lib/encoded.mjs",
     "lib/module.mjs",
     "lib/module.wasm",
     "lib/viz-standalone.js",
     "src/standalone.mjs",
-    "src/viz.mjs"
+    "src/viz.mjs",
+    "types/index.d.ts"
   ],
   "devDependencies": {
     "@babel/core": "^7.21.4",

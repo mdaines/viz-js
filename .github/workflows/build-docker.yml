@@ -78,24 +78,19 @@ jobs:
         with:
           node-version: "18.x"
 
-      - run: yarn install --frozen-lockfile
+      - run: |
+          yarn install --frozen-lockfile
+          node index.js
         working-directory: test/module-import
 
-      - run: node index.js
-        working-directory: test/module-import
-
-      - run: yarn install --frozen-lockfile
-        working-directory: test/commonjs-require
-
-      - run: node index.js
+      - run: |
+          yarn install --frozen-lockfile
+          node index.js
         working-directory: test/commonjs-require
 
   test-types:
     name: Test types
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: test/types
     steps:
       - uses: actions/checkout@v3
 
@@ -103,6 +98,7 @@ jobs:
         with:
           node-version: "18.x"
 
-      - run: yarn install --frozen-lockfile
-
-      - run: yarn typecheck
+      - run: |
+          yarn install --frozen-lockfile
+          yarn typecheck
+        working-directory: test/types

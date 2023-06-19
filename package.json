@@ -13,13 +13,19 @@
   "license": "MIT",
   "main": "lib/viz-standalone.js",
   "module": "lib/viz-standalone.mjs",
+  "types": "types/index.d.ts",
   "exports": {
     ".": {
-      "import": "./lib/viz-standalone.mjs",
-      "require": "./lib/viz-standalone.js"
+      "import": {
+        "types": "./types/index.d.ts",
+        "default": "./lib/viz-standalone.mjs"
+      },
+      "require": {
+        "types": "./types/index.d.ts",
+        "default": "./lib/viz-standalone.js"
+      }
     }
   },
-  "types": "types/index.d.ts",
   "files": [
     "lib/encoded.mjs",
     "lib/module.mjs",

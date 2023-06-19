@@ -1,7 +1,25 @@
-import { instance } from "@viz-js/viz";
+import { instance, type RenderOptions, type RenderResult } from "@viz-js/viz";
 
 instance().then(viz => {
-  let result;
+  let options: RenderOptions = {};
+
+  options.format = "dot";
+  options.engine = "dot";
+  options.yInvert = true;
+
+  // @ts-expect-error
+  options.format = false;
+
+  // @ts-expect-error
+  options.engine = 123;
+
+  // @ts-expect-error
+  options.yInvert = 1;
+
+  // @ts-expect-error
+  options.whatever = 123;
+
+  let result: RenderResult;
 
   result = viz.render("digraph { a -> b }");
   result = viz.render("digraph { a -> b }", { format: "svg" });

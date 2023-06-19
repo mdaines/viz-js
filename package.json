@@ -46,6 +46,6 @@
     "rollup": "^3.20.7"
   },
   "scripts": {
-    "test": "mocha --recursive --ignore \"node_modules/**/*\" --extension \".test.mjs\""
+    "test": "mocha --include \"test/*.test.mjs\""
   }
 }

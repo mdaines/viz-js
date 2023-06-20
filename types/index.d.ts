@@ -1,38 +1,38 @@
-interface RenderOptions {
-  format?: string | undefined;
-  engine?: string | undefined;
-  yInvert?: boolean | undefined;
-}
+export type RenderOptions = {
+  format?: string;
+  engine?: string;
+  yInvert?: boolean;
+};
 
-interface RenderError {
+export type RenderError = {
   level?: "error" | "warning";
   message: string;
-}
+};
 
-interface SuccessResult {
+type SuccessResult = {
   status: "success";
   output: string;
-  errors: Array<RenderError>;
-}
+  errors: RenderError[];
+};
 
-interface FailureResult {
+type FailureResult = {
   status: "failure";
   output: undefined;
-  errors: Array<RenderError>;
-}
+  errors: RenderError[];
+};
 
-type RenderResult = SuccessResult | FailureResult;
+export type RenderResult = SuccessResult | FailureResult;
 
 declare class Viz {
   get graphvizVersion(): string;
-  get engines(): Array<string>;
-  get formats(): Array<string>;
+  get formats(): string[];
+  get engines(): string[];
 
   render(src: string, options?: RenderOptions): RenderResult;
-
   renderString(src: string, options?: RenderOptions): string;
   renderSVGElement(src: string, options?: RenderOptions): SVGSVGElement;
   renderJSON(src: string, options?: RenderOptions): object;
 }
+export {};
 
 export function instance(): Promise<Viz>;

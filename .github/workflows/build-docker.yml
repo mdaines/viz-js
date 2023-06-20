@@ -102,8 +102,8 @@ jobs:
         with:
           node-version: "18.x"
 
-      - name: "Run typecheck test"
+      - name: "Run check-types"
         run: |
           yarn install --frozen-lockfile
-          yarn typecheck
+          yarn check-types
         working-directory: test/types

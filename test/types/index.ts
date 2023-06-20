@@ -1,4 +1,16 @@
-import { instance, type RenderOptions, type RenderResult } from "@viz-js/viz";
+import { instance, type RenderOptions, type RenderResult, type RenderError } from "@viz-js/viz";
+
+// @ts-expect-error
+import { Viz } from "@viz-js/viz";
+
+// @ts-expect-error
+import { type Viz } from "@viz-js/viz";
+
+// @ts-expect-error
+import { type SuccessResult } from "@viz-js/viz";
+
+// @ts-expect-error
+import { type FailureResult } from "@viz-js/viz";
 
 instance().then(viz => {
   let options: RenderOptions = {};

@@ -11,20 +11,10 @@
     "url": "https://github.com/mdaines/viz-js.git"
   },
   "license": "MIT",
-  "main": "lib/viz-standalone.js",
-  "module": "lib/viz-standalone.mjs",
   "types": "types/index.d.ts",
   "exports": {
-    ".": {
-      "import": {
-        "types": "./types/index.d.ts",
-        "default": "./lib/viz-standalone.mjs"
-      },
-      "require": {
-        "types": "./types/index.d.ts",
-        "default": "./lib/viz-standalone.js"
-      }
-    }
+    "import": "./lib/viz-standalone.mjs",
+    "require": "./lib/viz-standalone.js"
   },
   "files": [
     "lib/encoded.mjs",

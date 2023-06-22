@@ -17,13 +17,8 @@
     "require": "./lib/viz-standalone.js"
   },
   "files": [
-    "lib/encoded.mjs",
-    "lib/module.mjs",
-    "lib/module.wasm",
     "lib/viz-standalone.js",
     "lib/viz-standalone.mjs",
-    "src/standalone.mjs",
-    "src/viz.mjs",
     "types/index.d.ts"
   ],
   "devDependencies": {

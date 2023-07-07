@@ -8,7 +8,19 @@ Viz.js is published on NPM as `@viz-js/viz`. You can also download it from the [
 
 ## Usage
 
-Call `Viz.instance()`, which returns a `Promise` that resolves to a new `Viz` instance. Then call any of the instance's `render` methods to render a graph written in [the DOT language](https://www.graphviz.org/doc/info/lang.html). The `renderSVGElement()` method is convenient for displaying a graph in a webpage. The instance can be reused for multiple `render` calls.
+Call `instance()`, which returns a `Promise` that resolves to a new `Viz` instance. Then call any of the instance's `render` methods to render a graph written in [the DOT language](https://www.graphviz.org/doc/info/lang.html). The `renderSVGElement()` method is convenient for displaying a graph in a webpage. The instance can be reused for multiple `render` calls.
+
+```js
+<script type="module">
+  
+  import { instance } from "@viz-js/viz";
+
+  instance().then(function(viz) {
+    document.body.appendChild(viz.renderSVGElement("digraph { a -> b }"));
+  });
+
+</script>
+```
 
 ```js
 <script src="viz-standalone.js"></script>
@@ -25,11 +37,25 @@ See the examples directory for more.
 
 ## API
 
-### `Viz.instance()`
+### `instance()`
 
-Returns a `Promise` that resolves to a new `Viz` instance.
+Returns a `Promise` that resolves to a new instance of `Viz`.
 
-### `viz.render(src[, options])`
+### `graphvizVersion`
+
+The version of Graphviz used for this build of Viz.js.
+
+### `engines`
+
+The supported Graphviz layout engines.
+
+### `formats`
+
+The supported Graphviz output formats.
+
+### class `Viz`
+
+#### `Viz.render(src[, options])`
 
 * `src: string`: the graph to render in DOT format
 * `options.format: string`: the output format to render (default is "dot")
@@ -42,27 +68,27 @@ Returns an object with the result of rendering:
 * `output: string | undefined`: the rendered output, or undefined if rendering failed
 * `errors: Array<{ level?: "error" | "warning", message: string }>`: an array of error message objects
 
-### `viz.renderString(src[, options])`
+#### `Viz.renderString(src[, options])`
 
 Returns a string with the output of rendering. If rendering failed, throws an error. This accepts the same options as `viz.render`.
 
-### `viz.renderSVGElement(src[, options])`
+#### `Viz.renderSVGElement(src[, options])`
 
 Convenience method that parses the output and returns an SVG element that can be inserted into the document. This accepts the same options as `viz.render`, except that the `format` option is always `"svg"`.
 
-### `viz.renderJSON(src[, options])`
+#### `Viz.renderJSON(src[, options])`
 
 Convenience method that parses the output and returns a JSON object. This accepts the same options as `viz.render`, except that the `format` option is always `"json"`.
 
-### `viz.graphvizVersion`
+#### `Viz.graphvizVersion`
 
 Returns a string indicating the version of Graphviz used for this build of Viz.js. For example, `"8.0.4"`.
 
-### `viz.engines`
+#### `Viz.engines`
 
 Returns an array of strings indicating the supported Graphviz layout engines.
 
-### `viz.formats`
+#### `Viz.formats`
 
 Returns an array of strings indicating the supported Graphviz output formats.
 

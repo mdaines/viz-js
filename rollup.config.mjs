@@ -12,14 +12,8 @@ Viz.js ${packageVersion}
 Copyright (c) 2023 Michael Daines
 
 This distribution contains other software in object code form:
-
-Graphviz
-https://www.graphviz.org
-
-Expat
-Copyright (c) 1998-2000 Thai Open Source Software Center Ltd and Clark Cooper
-Copyright (c) 2001-2022 Expat maintainers
-https://libexpat.github.io
+Graphviz https://www.graphviz.org
+Expat https://libexpat.github.io
 */`;
 }
 

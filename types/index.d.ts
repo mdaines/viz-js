@@ -36,3 +36,9 @@ declare class Viz {
 export {};
 
 export function instance(): Promise<Viz>;
+
+export const graphvizVersion: string;
+
+export const formats: string[];
+
+export const engines: string[];

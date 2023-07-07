@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* Export the Graphviz version, supported formats, and supported engines as constants generated at build time.
+
 * Include an ES module build as well as UMD.
 
 * Add Typescript declarations.

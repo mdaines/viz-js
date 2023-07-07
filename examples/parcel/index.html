@@ -1,12 +1,22 @@
 <!doctype html>
 <meta charset="utf8">
 
+<div id="version">
+</div>
+
+<div id="output">
+</div>
+
 <script type="module">
+
+  import { graphvizVersion } from "@viz-js/viz";
+
+  document.getElementById("version").appendChild(document.createTextNode(graphvizVersion));
 
   import("@viz-js/viz")
     .then(module => module.instance())
     .then(viz => {
-      document.body.appendChild(viz.renderSVGElement("digraph { a -> b }"));
+      document.getElementById("output").appendChild(viz.renderSVGElement("digraph { a -> b }"));
     });
 
 </script>

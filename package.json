@@ -16,6 +16,8 @@
     "import": "./lib/viz-standalone.mjs",
     "require": "./lib/viz-standalone.js"
   },
+  "main": "lib/viz-standalone.js",
+  "module": "lib/viz-standalone.mjs",
   "files": [
     "lib/viz-standalone.js",
     "lib/viz-standalone.mjs",

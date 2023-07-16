@@ -3,7 +3,7 @@
 
 <script type="module">
 
-  import * as Viz from "../../lib/viz-standalone.mjs"
+  import * as Viz from "../../packages/viz/lib/viz-standalone.mjs"
 
   Viz.instance().then(function(viz) {
     document.body.appendChild(viz.renderSVGElement("digraph { a -> b }"));

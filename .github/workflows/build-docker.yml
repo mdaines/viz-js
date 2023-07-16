@@ -11,8 +11,25 @@ permissions:
   contents: read
 
 jobs:
-  build:
-    name: Build
+  lang-dot-test:
+    name: Build and test lang-dot package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+
+      - name: "Run build and test"
+        run: |
+          yarn install --frozen-lockfile
+          yarn build
+          yarn test
+        working-directory: packages/lang-dot
+
+  viz-build:
+    name: Build viz package
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -21,9 +38,9 @@ jobs:
 
       - uses: docker/build-push-action@v4
         with:
-          context: src/module
+          context: packages/viz/src/module
           push: false
-          outputs: type=local,dest=lib
+          outputs: type=local,dest=packages/viz/lib
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -37,15 +54,16 @@ jobs:
           test -f lib/module.mjs && touch lib/module.mjs
           test -f lib/module.wasm && touch lib/module.wasm
           make
+        working-directory: packages/viz
 
       - uses: actions/upload-artifact@v3
         with:
           name: lib
-          path: lib
+          path: packages/viz/lib
 
-  test:
-    name: Test
-    needs: build
+  viz-test:
+    name: Test viz package
+    needs: viz-build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -53,7 +71,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: lib
-          path: lib
+          path: packages/viz/lib
 
       - uses: actions/setup-node@v3
         with:
@@ -63,10 +81,11 @@ jobs:
         run: |
           yarn install --frozen-lockfile
           yarn test
+        working-directory: packages/viz
 
-  test-consume:
-    name: Test import and require
-    needs: build
+  viz-test-consume:
+    name: Test import and require for viz package
+    needs: viz-build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -74,7 +93,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: lib
-          path: lib
+          path: packages/viz/lib
 
       - uses: actions/setup-node@v3
         with:
@@ -84,16 +103,16 @@ jobs:
         run: |
           yarn install --frozen-lockfile
           node index.js
-        working-directory: test/module-import
+        working-directory: packages/viz/test/module-import
 
       - name: "Run commonjs-require test"
         run: |
           yarn install --frozen-lockfile
           node index.js
-        working-directory: test/commonjs-require
+        working-directory: packages/viz/test/commonjs-require
 
-  test-types:
-    name: Test types
+  viz-test-types:
+    name: Test types for viz package
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -106,4 +125,4 @@ jobs:
         run: |
           yarn install --frozen-lockfile
           yarn check-types
-        working-directory: test/types
+        working-directory: packages/viz/test/types

@@ -1,0 +1,319 @@
+# Minimal
+
+graph {}
+
+==> 
+
+Graph(Header(graph), Body)
+
+
+# Header
+
+strict digraph test {}
+
+==> 
+
+Graph(Header(strict, digraph, Name), Body)
+
+
+# Node
+
+graph { a }
+
+==>
+
+Graph(Header(graph), Body(SimpleStatement(Node(Name))))
+
+
+# Ports
+
+graph {
+  a:b
+  a:b:c
+}
+
+==>
+
+Graph(Header(graph), Body(
+  SimpleStatement(Node(Name, Port(Name))),
+  SimpleStatement(Node(Name, Port(Name, Name)))
+))
+
+
+# Optional semicolon for statements
+
+graph {
+  a;
+  b
+}
+
+==>
+
+Graph(Header(graph), Body(SimpleStatement(Node(Name)), SimpleStatement(Node(Name))))
+
+
+# Node list
+
+graph { a, b:x:y; c }
+
+==>
+
+Graph(Header(graph), Body(
+  SimpleStatement(NodeList(Node(Name), Node(Name, Port(Name, Name)))),
+  SimpleStatement(Node(Name))
+))
+
+
+# Subgraph
+
+graph {
+  { a b }
+  subgraph another { c d }
+}
+
+==>
+
+Graph(Header(graph), Body(
+  SimpleStatement(Subgraph(Body(
+    SimpleStatement(Node(Name)),
+    SimpleStatement(Node(Name))
+  )))
+  SimpleStatement(Subgraph(SubgraphHeader(subgraph, Name), Body(
+    SimpleStatement(Node(Name)),
+    SimpleStatement(Node(Name))
+  )))
+))
+
+
+# Edge statement
+
+graph {
+  a -- b
+}
+
+==>
+
+Graph(Header(graph), Body(
+  EdgeStatement(Node(Name), Node(Name))
+))
+
+
+# Edges
+
+graph {
+  a -- b:p:s
+  c, d -- { e f } -- g
+}
+
+==>
+
+Graph(Header(graph), Body(
+  EdgeStatement(Node(Name), Node(Name, Port(Name, Name))),
+  EdgeStatement(
+    NodeList(Node(Name), Node(Name)),
+    Subgraph(Body(SimpleStatement(Node(Name)), SimpleStatement(Node(Name)))),
+    Node(Name)
+  )
+))
+
+
+# More edges
+
+digraph {
+  a -> b -> c -> d -> e
+}
+
+==>
+
+Graph(Header(digraph), Body(
+  EdgeStatement(Node(Name), Node(Name), Node(Name), Node(Name), Node(Name))
+))
+
+
+# Attributes
+
+graph {
+  a [x=y, z=w w=w; y=x]
+  b -- c -- d [m=n] [n=o]
+}
+
+==>
+
+Graph(Header(graph), Body(
+  SimpleStatement(Node(Name), Attributes(Attribute(AttributeName(Name), AttributeValue(Name)), Attribute(AttributeName(Name), AttributeValue(Name)), Attribute(AttributeName(Name), AttributeValue(Name)), Attribute(AttributeName(Name), AttributeValue(Name))))
+  EdgeStatement(Node(Name), Node(Name), Node(Name), Attributes(Attribute(AttributeName(Name), AttributeValue(Name))), Attributes(Attribute(AttributeName(Name), AttributeValue(Name)))),
+))
+
+
+# Attribute statements
+
+graph {
+  x=y
+  graph [a=b]
+  edge [c=d]
+  node [e=f]
+}
+
+==>
+
+Graph(Header(graph), Body(
+  GraphAttributeStatement(Attribute(AttributeName(Name), AttributeValue(Name))),
+  AttributeStatement(graph, Attributes(Attribute(AttributeName(Name), AttributeValue(Name)))),
+  AttributeStatement(edge, Attributes(Attribute(AttributeName(Name), AttributeValue(Name)))),
+  AttributeStatement(node, Attributes(Attribute(AttributeName(Name), AttributeValue(Name))))
+))
+
+
+# Numbers
+
+graph 123 {
+  123=.99
+  123 [8=9]
+  1 -- -2 -- 3.
+  subgraph 4 { }
+  5:6:7
+}
+
+==>
+
+Graph(Header(graph, Number), Body(
+  GraphAttributeStatement(Attribute(AttributeName(Number), AttributeValue(Number))),
+  SimpleStatement(Node(Number), Attributes(Attribute(AttributeName(Number), AttributeValue(Number)))),
+  EdgeStatement(Node(Number), Node(Number), Node(Number)),
+  SimpleStatement(Subgraph(SubgraphHeader(subgraph, Number), Body())),
+  SimpleStatement(Node(Number, Port(Number, Number)))
+))
+
+
+# Strings
+
+graph "abc" {
+  "a"="b"
+  "test" ["x"="y"]
+  "x" -- "y" -- "z"
+  subgraph "\"test\"" { }
+  "a":"b":"c"
+}
+
+==>
+
+Graph(Header(graph, String), Body(
+  GraphAttributeStatement(Attribute(AttributeName(String), AttributeValue(String))),
+  SimpleStatement(Node(String), Attributes(Attribute(AttributeName(String), AttributeValue(String)))),
+  EdgeStatement(Node(String), Node(String), Node(String)),
+  SimpleStatement(Subgraph(SubgraphHeader(subgraph, String), Body())),
+  SimpleStatement(Node(String, Port(String, String)))
+))
+
+
+# HTML-like strings
+
+graph <> {
+  <abc>=<<TABLE>
+    <TR>
+      <TD BGCOLOR="blue">lorem</TD>
+      <TD BGCOLOR="green">ipsum</TD>
+      <TD BGCOLOR="yellow" PORT="abc">dolor</TD>
+    </TR>
+  </TABLE>>
+  <<b>test</b>> [<x>=<y>]
+  <<br/>> -- <<br/>> -- <<br/><!-- comment ->>
+  subgraph <y> { }
+  <a>:<b>:<c>
+}
+
+==>
+
+Graph(Header(graph, HTMLString(HTMLStringContent)), Body(
+  GraphAttributeStatement(Attribute(AttributeName(HTMLString(HTMLStringContent)), AttributeValue(HTMLString(HTMLStringContent)))),
+  SimpleStatement(Node(HTMLString(HTMLStringContent)), Attributes(Attribute(AttributeName(HTMLString(HTMLStringContent)), AttributeValue(HTMLString(HTMLStringContent))))),
+  EdgeStatement(Node(HTMLString(HTMLStringContent)), Node(HTMLString(HTMLStringContent)), Node(HTMLString(HTMLStringContent))),
+  SimpleStatement(Subgraph(SubgraphHeader(subgraph, HTMLString(HTMLStringContent)), Body())),
+  SimpleStatement(Node(HTMLString(HTMLStringContent), Port(HTMLString(HTMLStringContent), HTMLString(HTMLStringContent))))
+))
+
+
+# Multi-line strings
+
+graph {
+  "test
+test\
+test"
+}
+
+==>
+
+Graph(Header(graph), Body(
+  SimpleStatement(Node(String))
+))
+
+
+# Concatenated strings
+
+graph {
+  "a" + "b" +
+  "c"
+  d
+}
+
+==>
+
+Graph(Header(graph), Body(
+  SimpleStatement(Node(ConcatString(String, String, String))),
+  SimpleStatement(Node(Name))
+))
+
+
+# Line comments
+
+graph {
+  a // line comment
+  b # line comment
+}
+
+==>
+
+Graph(Header(graph), Body(
+  SimpleStatement(Node(Name)),
+  LineComment
+  SimpleStatement(Node(Name)),
+  LineComment
+))
+
+
+# Block comments
+
+graph {
+  a /*
+  comment
+  */ b
+}
+
+==>
+
+Graph(Header(graph), Body(
+  SimpleStatement(Node(Name)),
+  BlockComment
+  SimpleStatement(Node(Name))
+))
+
+
+# Case insensitive keywords
+
+STRICT DIGRAPH {
+  SUBGRAPH {
+    Graph []
+    Node []
+    Edge []
+  }
+}
+
+==>
+
+Graph(Header(strict, digraph), Body(
+  SimpleStatement(Subgraph(SubgraphHeader(subgraph), Body(
+    AttributeStatement(graph, Attributes),
+    AttributeStatement(node, Attributes),
+    AttributeStatement(edge, Attributes)
+  )))
+))

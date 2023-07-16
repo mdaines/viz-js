@@ -1,0 +1,129 @@
+@top Graph {
+  Header Body
+}
+
+Header {
+  strict? graphtype atom?
+}
+
+graphtype {
+  graph | digraph
+}
+
+Body {
+  "{" (statement ";"?)* "}"
+}
+
+statement {
+  SimpleStatement { simple attributeList? } |
+  EdgeStatement { simple (edgeop simple)+ attributeList? } |
+  GraphAttributeStatement { Attribute } |
+  AttributeStatement { attrtype attributeList }
+}
+
+simple {
+  Node |
+  NodeList |
+  Subgraph
+}
+
+attrtype {
+  graph |
+  node |
+  edge
+}
+
+Node {
+  atom Port?
+}
+
+Port {
+  ":" atom |
+  ":" atom ":" atom
+}
+
+NodeList {
+  Node ("," Node)+
+}
+
+Subgraph {
+  SubgraphHeader? Body
+}
+
+SubgraphHeader {
+  subgraph atom |
+  subgraph
+}
+
+attributeList {
+  Attributes+
+}
+
+Attributes {
+  "[" attrs* "]"
+}
+
+attrs {
+  Attribute (";" | ",")?
+}
+
+Attribute {
+  AttributeName { atom } "=" AttributeValue { atom }
+}
+
+@external specialize {Name} keywords from "./tokens.js" {
+  strict[@name=strict],
+  graph[@name=graph],
+  digraph[@name=digraph],
+  subgraph[@name=subgraph],
+  node[@name=node],
+  edge[@name=edge]
+}
+
+atom { Name | Number | String | ConcatString | HTMLString }
+
+ConcatString {
+  String ("+" String)+
+}
+
+@skip {} {
+  HTMLString { "<" HTMLStringContent htmlEnd }
+  HTMLStringContent { htmlBody }
+  htmlBody { (htmlStart htmlBody htmlEnd | htmlContent)* }
+}
+
+@local tokens {
+  htmlStart { "<" }
+  htmlEnd { ">" }
+  @else htmlContent
+}
+
+@skip { space | LineComment | BlockComment }
+
+@tokens {
+  space { $[ \t\n\r]+ }
+  
+  LineComment { ("//" | "#") ![\n]* }
+  
+  BlockComment { "/*" blockCommentRest }
+  blockCommentRest { ![*] blockCommentRest | "*" blockCommentAfterStar }
+  blockCommentAfterStar { "/" | "*" blockCommentAfterStar | ![/*] blockCommentRest }
+  
+  letter { $[A-Za-z_\u{200}-\u{377}] }
+  
+  digit { $[0-9] }
+  
+  Name { letter (letter | digit)* }
+  
+  Number { "-"? ("." digit+ | (digit+) ("." digit*)?) }
+  
+  String { '"' (![\\"] | "\\" _)* '"' }
+  
+  edgeop { "--" | "->" }
+  
+  "{" "}"
+  
+  "[" "]"
+  
+  "<" ">"
+}

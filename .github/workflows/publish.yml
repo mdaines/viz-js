@@ -9,7 +9,7 @@ jobs:
     uses: ./.github/workflows/build-docker.yml
 
   release:
-    needs: build
+    needs: viz-build
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -19,14 +19,15 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: lib
-          path: lib
+          path: packages/viz/lib
 
       - run: gh release create "${{ github.ref }}" lib/* --draft --title "${{ github.ref }}"
         env:
           GH_TOKEN: ${{ github.token }}
+        working-directory: packages/viz
 
   publish:
-    needs: release
+    needs: viz-build
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -37,7 +38,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: lib
-          path: lib
+          path: packages/viz/lib
 
       - uses: actions/setup-node@v3
         with:
@@ -49,3 +50,4 @@ jobs:
       - run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        working-directory: packages/viz

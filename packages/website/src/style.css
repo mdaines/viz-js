@@ -1,0 +1,209 @@
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  height: 100%;
+  font: 14px helvetica, sans-serif;
+}
+
+.wrap {
+  width: 100%;
+  height: 100%;
+
+  display: grid;
+  grid-template-areas: "header" "app";
+  grid-template-rows: max-content minmax(0, 1fr);
+}
+
+#app {
+  grid-area: app;
+  display: grid;
+  grid-template-areas: "editor toolbar" "editor output" "editor errors";
+  grid-template-columns: 50% 1fr;
+  grid-template-rows: max-content 1fr fit-content(20%);
+}
+
+header {
+  grid-area: header;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+
+  background: #111;
+  color: #fff;
+}
+
+header a {
+  color: #fff;
+}
+
+header .logo {
+  height: 32px;
+}
+
+header p {
+  margin: 0;
+}
+
+header nav {
+  flex-grow: 1;
+}
+
+header nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+header nav li a {
+  padding: 6px 8px;
+  border-radius: 4px;
+  text-decoration: none;
+  background: #333;
+}
+
+header nav li a:hover {
+  background: #444;
+}
+
+
+.editor {
+  grid-area: editor;
+  border-right: 1px solid #ccc;
+}
+
+.cm-editor {
+  height: 100%;
+  overflow: auto;
+  background: #fff;
+}
+
+.cm-editor.cm-focused {
+  outline: none;
+}
+
+.cm-editor .cm-scroller {
+  overflow: auto;
+}
+
+
+.errors {
+  grid-area: errors;
+  background: #eee;
+  border-top: 1px solid #ccc;
+  margin: 0;
+  overflow: auto;
+}
+
+.errors table {
+  border-collapse: collapse;
+  border-style: hidden;
+}
+
+.errors td {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+.errors .level {
+  text-align: center;
+}
+
+.errors .message {
+  width: 100%;
+}
+
+.errors .level span {
+  padding: 3px 4px 2px 4px;
+  border-radius: 2px;
+  text-transform: capitalize;
+  font-size: 12px;
+}
+
+.errors .level span.error {
+  color: #fff;
+  background: #f33;
+}
+
+.errors .level span.warning {
+  color: #000;
+  background: #fc3;
+}
+
+
+.toolbar {
+  grid-area: toolbar;
+  padding: 8px;
+  background: #eee;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.toolbar .toolbar-item {
+  display: grid;
+  gap: 4px;
+}
+
+.toolbar .toolbar-item-group {
+  display: flex;
+  gap: 4px;
+}
+
+.toolbar-item label {
+  text-align: center;
+  font-size: 14px;
+}
+
+
+.output {
+  grid-area: output;
+  background: #ddd;
+  display: grid;
+  overflow: hidden;
+  position: relative;
+}
+
+.output.invalid > * {
+  opacity: 0.5;
+  transition-delay: 0.2s;
+  transition-duration: 0;
+  transition-property: opacity;
+}
+
+.output .raw {
+  padding: 8px;
+  font-family: monospace;
+  white-space: pre-wrap;
+  overflow: auto;
+}
+
+@media (max-width: 750px) {
+  #app {
+    grid-template-areas: "editor" "toolbar" "output" "errors";
+    grid-template-columns: auto;
+    grid-template-rows: 30% max-content 1fr fit-content(20%);
+  }
+
+  .editor {
+    border-right: none;
+  }
+
+  .toolbar {
+    border-top: 1px solid #ccc;
+  }
+}
+
+@media (max-width: 450px) {
+  .editor {
+    font-size: 16px;
+  }
+}

@@ -1,7 +1,7 @@
 {
   "private": true,
   "dependencies": {
-    "@viz-js/viz": "link:../..",
+    "@viz-js/viz": "link:../../packages/viz",
     "parcel": "^2.9.2"
   },
   "source": "index.html",

@@ -1,0 +1,8 @@
+.container {
+  overflow: auto;
+
+  display: grid;
+  grid-template-columns: minmax(0, max-content);
+  justify-content: center;
+  align-items: center;
+}

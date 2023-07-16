@@ -5,7 +5,7 @@ on:
     tags: ["v*"]
 
 jobs:
-  build:
+  viz-build:
     uses: ./.github/workflows/build-docker.yml
 
   release:

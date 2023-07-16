@@ -1,12 +1,11 @@
 <!doctype html>
 <meta charset="utf8">
 
-<script type="module">
-
-  import * as Viz from "../../packages/viz/lib/viz-standalone.mjs"
-
+<script src="../../viz/lib/viz-standalone.js"></script>
+<script>
+  
   Viz.instance().then(function(viz) {
     document.body.appendChild(viz.renderSVGElement("digraph { a -> b }"));
   });
-
+  
 </script>

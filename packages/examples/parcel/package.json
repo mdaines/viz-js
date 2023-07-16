@@ -1,0 +1,14 @@
+{
+  "name": "@viz-js/parcel-example",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "@viz-js/viz": "3.0.1",
+    "parcel": "^2.9.3"
+  },
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "scripts": {
+    "serve": "parcel serve index.html",
+    "build": "parcel build index.html"
+  }
+}

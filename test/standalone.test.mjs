@@ -5,7 +5,7 @@ import { JSDOM } from "jsdom";
 describe("standalone", function() {
   describe("graphvizVersion", function() {
     it("returns the Graphviz version", function() {
-      assert.strictEqual(Viz.graphvizVersion, "8.0.5");
+      assert.strictEqual(Viz.graphvizVersion, "8.1.0");
     });
   });
 
@@ -308,7 +308,7 @@ describe("standalone", function() {
 
     describe("graphvizVersion", function() {
       it("returns the Graphviz version", function() {
-        assert.strictEqual(viz.graphvizVersion, "8.0.5");
+        assert.strictEqual(viz.graphvizVersion, "8.1.0");
       });
     });
 

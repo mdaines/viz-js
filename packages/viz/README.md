@@ -37,68 +37,8 @@ See the examples directory for more.
 
 ## API
 
-### `instance()`
-
-Returns a `Promise` that resolves to a new instance of `Viz`.
-
-### `graphvizVersion`
-
-The version of Graphviz used for this build of Viz.js.
-
-### `engines`
-
-The supported Graphviz layout engines.
-
-### `formats`
-
-The supported Graphviz output formats.
-
-### class `Viz`
-
-#### `Viz.render(src[, options])`
-
-* `src: string`: the graph to render in DOT format
-* `options.format: string`: the output format to render (default is "dot")
-* `options.engine: string`: the engine to use for graph layout (default is "dot")
-* `options.yInvert: boolean`: invert y coordinates in output (default is false)
-
-Returns an object with the result of rendering:
-
-* `status: "success" | "failure"`: string indicating whether rendering succeeded or failed
-* `output: string | undefined`: the rendered output, or undefined if rendering failed
-* `errors: Array<{ level?: "error" | "warning", message: string }>`: an array of error message objects
-
-#### `Viz.renderString(src[, options])`
-
-Returns a string with the output of rendering. If rendering failed, throws an error. This accepts the same options as `viz.render`.
-
-#### `Viz.renderSVGElement(src[, options])`
-
-Convenience method that parses the output and returns an SVG element that can be inserted into the document. This accepts the same options as `viz.render`, except that the `format` option is always `"svg"`.
-
-#### `Viz.renderJSON(src[, options])`
-
-Convenience method that parses the output and returns a JSON object. This accepts the same options as `viz.render`, except that the `format` option is always `"json"`.
-
-#### `Viz.graphvizVersion`
-
-Returns a string indicating the version of Graphviz used for this build of Viz.js. For example, `"8.0.4"`.
-
-#### `Viz.engines`
-
-Returns an array of strings indicating the supported Graphviz layout engines.
-
-#### `Viz.formats`
-
-Returns an array of strings indicating the supported Graphviz output formats.
+See [the wiki](https://github.com/mdaines/viz-js/wiki/API).
 
 ## Build
 
-Make, Docker, and Yarn are prerequisites. After installing the JavaScript dependencies with `yarn install`, run `make` to build everything.
-
-Build products will be in the `lib/` directory:
-
-- `viz-standalone.js` JavaScript source file that can be included with a script tag or imported with a bundler (UMD format).
-- `encoded.mjs` JavaScript module file which encodes a copy of the WebAssembly module. It exports a `decode()` function that returns an `ArrayBuffer` which can be used with the Emscripten module.
-- `module.mjs` The [Emscripten module](https://emscripten.org/docs/api_reference/module.html).
-- `module.wasm` The WebAssembly binary.
+Make, Docker, and Yarn are prerequisites. Install the JavaScript dependencies with `yarn install` and then run `make` to build everything.

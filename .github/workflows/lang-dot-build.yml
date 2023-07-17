@@ -1,0 +1,31 @@
+name: Build and test lang-dot package
+
+on:
+  push:
+    branches-ignore:
+      - v2
+      - gh-pages
+    paths:
+      - "packages/lang-dot/**"
+  workflow_call: {}
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build and test lang-dot package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+
+      - name: "Run build and test"
+        run: |
+          yarn install --frozen-lockfile
+          yarn build
+          yarn test
+        working-directory: packages/lang-dot

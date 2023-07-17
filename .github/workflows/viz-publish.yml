@@ -1,15 +1,15 @@
-name: Publish release and NPM package
+name: Publish viz
 
 on:
   push:
     tags: ["v*"]
 
 jobs:
-  viz-build:
-    uses: ./.github/workflows/build-docker.yml
+  build:
+    uses: ./.github/workflows/viz-build.yml
 
   release:
-    needs: viz-build
+    needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -27,7 +27,7 @@ jobs:
         working-directory: packages/viz
 
   publish:
-    needs: viz-build
+    needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: read

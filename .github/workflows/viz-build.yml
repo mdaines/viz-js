@@ -1,35 +1,20 @@
-name: Build and test
+name: Build and test viz package
 
 on:
   push:
     branches-ignore:
       - v2
       - gh-pages
+    paths:
+      - "packages/viz/**"
   workflow_call: {}
 
 permissions:
   contents: read
 
 jobs:
-  lang-dot-test:
-    name: Build and test lang-dot package
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "18.x"
-
-      - name: "Run build and test"
-        run: |
-          yarn install --frozen-lockfile
-          yarn build
-          yarn test
-        working-directory: packages/lang-dot
-
-  viz-build:
-    name: Build viz package
+  build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -61,9 +46,9 @@ jobs:
           name: lib
           path: packages/viz/lib
 
-  viz-test:
-    name: Test viz package
-    needs: viz-build
+  test:
+    name: Test
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -83,9 +68,9 @@ jobs:
           yarn test
         working-directory: packages/viz
 
-  viz-test-consume:
-    name: Test import and require for viz package
-    needs: viz-build
+  test-consume:
+    name: Test import and require
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -111,8 +96,8 @@ jobs:
           node index.js
         working-directory: packages/viz/test/commonjs-require
 
-  viz-test-types:
-    name: Test types for viz package
+  test-types:
+    name: Test types
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

@@ -2,7 +2,7 @@
 
 This is a collection of packages for working with <a href="https://graphviz.org">Graphviz</a> in JavaScript. The main package, `viz`, is a WebAssembly build of Graphviz with a simple JavaScript wrapper.
 
-With Viz.js, you can easily render a graph described in [Graphviz's DOT language](https://www.graphviz.org/doc/info/lang.html) and display it as an SVG element in a webpage:
+With Viz.js, you can easily render a graph written in [Graphviz's DOT language](https://www.graphviz.org/doc/info/lang.html) and display it as an SVG element in a webpage:
 
 ```js
 import { instance } from "@viz-js/viz";

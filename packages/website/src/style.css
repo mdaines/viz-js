@@ -166,6 +166,7 @@ header nav li a:hover {
   display: grid;
   overflow: hidden;
   position: relative;
+  grid-template-rows: 100%;
 }
 
 .output.invalid > * {

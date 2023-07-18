@@ -1,8 +1,18 @@
 .container {
-  overflow: auto;
-
   display: grid;
-  grid-template-columns: minmax(0, max-content);
   justify-content: center;
   align-items: center;
+  overflow: auto;
+  grid-template-columns: minmax(0, max-content);
+}
+
+.container.fit {
+  overflow: hidden;
+  grid-template-rows: minmax(0, 100%);
+  grid-template-columns: auto;
+}
+
+.container.fit img {
+  max-width: 100%;
+  max-height: 100%;
 }

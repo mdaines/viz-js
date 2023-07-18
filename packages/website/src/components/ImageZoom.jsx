@@ -5,11 +5,17 @@ export const zoomLevels = [
   0.05, 0.1, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 3, 4
 ];
 
-function updateImageZoomStyle(image, dimensions, zoom) {
+function updateZoom(container, image, dimensions, zoom) {
   if (zoom == "fit") {
-    image.style = `max-width: 100%; max-height: 100%`;
+    container.classList.add(imageZoomClasses.fit);
+
+    image.width = dimensions.width;
+    image.height = dimensions.height;
   } else {
-    image.style = `width: ${dimensions.width * zoom}px; height: ${dimensions.height * zoom}px`;
+    container.classList.remove(imageZoomClasses.fit);
+
+    image.width = dimensions.width * zoom;
+    image.height = dimensions.height * zoom;
   }
 }
 
@@ -84,7 +90,7 @@ const ImageZoom = forwardRef(function ImageZoom({ svg, zoom, onZoomChange }, ref
     }
 
     adjustScroll(containerRef.current, () => {
-      updateImageZoomStyle(imageRef.current, dimensionsRef.current, zoom);
+      updateZoom(containerRef.current, imageRef.current, dimensionsRef.current, zoom);
     });
   }, [zoom]);
 
@@ -105,7 +111,7 @@ const ImageZoom = forwardRef(function ImageZoom({ svg, zoom, onZoomChange }, ref
       containerRef.current.innerHTML = "";
       containerRef.current.appendChild(imageRef.current);
 
-      updateImageZoomStyle(imageRef.current, dimensionsRef.current, zoom);
+      updateZoom(containerRef.current, imageRef.current, dimensionsRef.current, zoom);
     });
 
     if (blobURLRef.current) {

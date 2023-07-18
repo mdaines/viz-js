@@ -21,7 +21,7 @@ Other packages:
 
 ## Install
 
-Viz.js is published on NPM as `@viz-js/viz`. You can also download it from the [releases page](https://github.com/mdaines/viz-js/releases).
+Viz.js is published on NPM as `@viz-js/viz`.
 
 ## API
 

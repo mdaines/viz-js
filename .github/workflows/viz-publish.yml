@@ -21,7 +21,7 @@ jobs:
           name: lib
           path: packages/viz/lib
 
-      - run: gh release create "${{ github.ref }}" lib/* --draft --title "${{ github.ref_name }}"
+      - run: gh release create "${{ github.ref }}" --draft --title "${{ github.ref_name }}"
         env:
           GH_TOKEN: ${{ github.token }}
         working-directory: packages/viz

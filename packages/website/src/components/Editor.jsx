@@ -8,8 +8,47 @@ import Errors from "./Errors.jsx";
 
 const syntaxLinter = linter((view) => {
   let diagnostics = [];
+  let graphtype;
 
-  syntaxTree(view.state).cursor().iterate((node) => {
+  syntaxTree(view.state).cursor().iterate(node => {
+    if (!graphtype && node.matchContext(["Graphtype"])) {
+      graphtype = node.name;
+    }
+
+    if (node.type.is("--") && graphtype == "digraph") {
+      diagnostics.push({
+        from: node.from,
+        to: node.to,
+        severity: "error",
+        message: "Syntax error: undirected edge in directed graph",
+        actions: [
+          {
+            name: "Replace with directed edge",
+            apply(view, from, to) {
+              view.dispatch({ changes: { from, to, insert: "->" }});
+            }
+          }
+        ]
+      });
+    }
+
+    if (node.type.is("->") && graphtype == "graph") {
+      diagnostics.push({
+        from: node.from,
+        to: node.to,
+        severity: "error",
+        message: "Syntax error: directed edge in undirected graph",
+        actions: [
+          {
+            name: "Replace with undirected edge",
+            apply(view, from, to) {
+              view.dispatch({ changes: { from, to, insert: "--" }});
+            }
+          }
+        ]
+      });
+    }
+
     if (node.type.isError) {
       diagnostics.push({
         from: node.from,

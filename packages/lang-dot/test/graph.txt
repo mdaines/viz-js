@@ -4,7 +4,7 @@ graph {}
 
 ==> 
 
-Graph(Header(graph), Body)
+Graph(Header(Graphtype(graph)), Body)
 
 
 # Header
@@ -13,7 +13,7 @@ strict digraph test {}
 
 ==> 
 
-Graph(Header(strict, digraph, Name), Body)
+Graph(Header(strict, Graphtype(digraph), Name), Body)
 
 
 # Node
@@ -22,7 +22,7 @@ graph { a }
 
 ==>
 
-Graph(Header(graph), Body(SimpleStatement(Node(Name))))
+Graph(Header(...), Body(SimpleStatement(Node(Name))))
 
 
 # Ports
@@ -34,7 +34,7 @@ graph {
 
 ==>
 
-Graph(Header(graph), Body(
+Graph(Header(...), Body(
   SimpleStatement(Node(Name, Port(Name))),
   SimpleStatement(Node(Name, Port(Name, Name)))
 ))
@@ -49,7 +49,7 @@ graph {
 
 ==>
 
-Graph(Header(graph), Body(SimpleStatement(Node(Name)), SimpleStatement(Node(Name))))
+Graph(Header(...), Body(SimpleStatement(Node(Name)), SimpleStatement(Node(Name))))
 
 
 # Node list
@@ -58,7 +58,7 @@ graph { a, b:x:y; c }
 
 ==>
 
-Graph(Header(graph), Body(
+Graph(Header(...), Body(
   SimpleStatement(NodeList(Node(Name), Node(Name, Port(Name, Name)))),
   SimpleStatement(Node(Name))
 ))
@@ -73,7 +73,7 @@ graph {
 
 ==>
 
-Graph(Header(graph), Body(
+Graph(Header(...), Body(
   SimpleStatement(Subgraph(Body(
     SimpleStatement(Node(Name)),
     SimpleStatement(Node(Name))
@@ -93,8 +93,8 @@ graph {
 
 ==>
 
-Graph(Header(graph), Body(
-  EdgeStatement(Node(Name), Node(Name))
+Graph(Header(...), Body(
+  EdgeStatement(Node(Name), Edgeop("--"), Node(Name))
 ))
 
 
@@ -107,11 +107,13 @@ graph {
 
 ==>
 
-Graph(Header(graph), Body(
-  EdgeStatement(Node(Name), Node(Name, Port(Name, Name))),
+Graph(Header(...), Body(
+  EdgeStatement(Node(Name), Edgeop("--"), Node(Name, Port(Name, Name))),
   EdgeStatement(
     NodeList(Node(Name), Node(Name)),
+    Edgeop("--"),
     Subgraph(Body(SimpleStatement(Node(Name)), SimpleStatement(Node(Name)))),
+    Edgeop("--"),
     Node(Name)
   )
 ))
@@ -125,8 +127,18 @@ digraph {
 
 ==>
 
-Graph(Header(digraph), Body(
-  EdgeStatement(Node(Name), Node(Name), Node(Name), Node(Name), Node(Name))
+Graph(Header(...), Body(
+  EdgeStatement(
+    Node(Name),
+    Edgeop("->"),
+    Node(Name),
+    Edgeop("->"),
+    Node(Name),
+    Edgeop("->"),
+    Node(Name),
+    Edgeop("->"),
+    Node(Name)
+  )
 ))
 
 
@@ -139,9 +151,9 @@ graph {
 
 ==>
 
-Graph(Header(graph), Body(
+Graph(Header(...), Body(
   SimpleStatement(Node(Name), Attributes(Attribute(AttributeName(Name), AttributeValue(Name)), Attribute(AttributeName(Name), AttributeValue(Name)), Attribute(AttributeName(Name), AttributeValue(Name)), Attribute(AttributeName(Name), AttributeValue(Name))))
-  EdgeStatement(Node(Name), Node(Name), Node(Name), Attributes(Attribute(AttributeName(Name), AttributeValue(Name))), Attributes(Attribute(AttributeName(Name), AttributeValue(Name)))),
+  EdgeStatement(Node(Name), Edgeop("--"), Node(Name), Edgeop("--"), Node(Name), Attributes(Attribute(AttributeName(Name), AttributeValue(Name))), Attributes(Attribute(AttributeName(Name), AttributeValue(Name)))),
 ))
 
 
@@ -156,7 +168,7 @@ graph {
 
 ==>
 
-Graph(Header(graph), Body(
+Graph(Header(...), Body(
   GraphAttributeStatement(Attribute(AttributeName(Name), AttributeValue(Name))),
   AttributeStatement(graph, Attributes(Attribute(AttributeName(Name), AttributeValue(Name)))),
   AttributeStatement(edge, Attributes(Attribute(AttributeName(Name), AttributeValue(Name)))),
@@ -176,10 +188,10 @@ graph 123 {
 
 ==>
 
-Graph(Header(graph, Number), Body(
+Graph(Header(Graphtype(graph), Number), Body(
   GraphAttributeStatement(Attribute(AttributeName(Number), AttributeValue(Number))),
   SimpleStatement(Node(Number), Attributes(Attribute(AttributeName(Number), AttributeValue(Number)))),
-  EdgeStatement(Node(Number), Node(Number), Node(Number)),
+  EdgeStatement(Node(Number), Edgeop("--"), Node(Number), Edgeop("--"), Node(Number)),
   SimpleStatement(Subgraph(SubgraphHeader(subgraph, Number), Body())),
   SimpleStatement(Node(Number, Port(Number, Number)))
 ))
@@ -197,10 +209,10 @@ graph "abc" {
 
 ==>
 
-Graph(Header(graph, String), Body(
+Graph(Header(Graphtype(graph), String), Body(
   GraphAttributeStatement(Attribute(AttributeName(String), AttributeValue(String))),
   SimpleStatement(Node(String), Attributes(Attribute(AttributeName(String), AttributeValue(String)))),
-  EdgeStatement(Node(String), Node(String), Node(String)),
+  EdgeStatement(Node(String), Edgeop("--"), Node(String), Edgeop("--"), Node(String)),
   SimpleStatement(Subgraph(SubgraphHeader(subgraph, String), Body())),
   SimpleStatement(Node(String, Port(String, String)))
 ))
@@ -224,10 +236,10 @@ graph <> {
 
 ==>
 
-Graph(Header(graph, HTMLString(HTMLStringContent)), Body(
+Graph(Header(Graphtype(graph), HTMLString(HTMLStringContent)), Body(
   GraphAttributeStatement(Attribute(AttributeName(HTMLString(HTMLStringContent)), AttributeValue(HTMLString(HTMLStringContent)))),
   SimpleStatement(Node(HTMLString(HTMLStringContent)), Attributes(Attribute(AttributeName(HTMLString(HTMLStringContent)), AttributeValue(HTMLString(HTMLStringContent))))),
-  EdgeStatement(Node(HTMLString(HTMLStringContent)), Node(HTMLString(HTMLStringContent)), Node(HTMLString(HTMLStringContent))),
+  EdgeStatement(Node(HTMLString(HTMLStringContent)), Edgeop("--"), Node(HTMLString(HTMLStringContent)), Edgeop("--"), Node(HTMLString(HTMLStringContent))),
   SimpleStatement(Subgraph(SubgraphHeader(subgraph, HTMLString(HTMLStringContent)), Body())),
   SimpleStatement(Node(HTMLString(HTMLStringContent), Port(HTMLString(HTMLStringContent), HTMLString(HTMLStringContent))))
 ))
@@ -243,7 +255,7 @@ test"
 
 ==>
 
-Graph(Header(graph), Body(
+Graph(Header(...), Body(
   SimpleStatement(Node(String))
 ))
 
@@ -258,7 +270,7 @@ graph {
 
 ==>
 
-Graph(Header(graph), Body(
+Graph(Header(...), Body(
   SimpleStatement(Node(ConcatString(String, String, String))),
   SimpleStatement(Node(Name))
 ))
@@ -273,7 +285,7 @@ graph {
 
 ==>
 
-Graph(Header(graph), Body(
+Graph(Header(...), Body(
   SimpleStatement(Node(Name)),
   LineComment
   SimpleStatement(Node(Name)),
@@ -291,7 +303,7 @@ graph {
 
 ==>
 
-Graph(Header(graph), Body(
+Graph(Header(...), Body(
   SimpleStatement(Node(Name)),
   BlockComment
   SimpleStatement(Node(Name))
@@ -310,7 +322,7 @@ STRICT DIGRAPH {
 
 ==>
 
-Graph(Header(strict, digraph), Body(
+Graph(Header(strict, Graphtype(digraph)), Body(
   SimpleStatement(Subgraph(SubgraphHeader(subgraph), Body(
     AttributeStatement(graph, Attributes),
     AttributeStatement(node, Attributes),

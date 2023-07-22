@@ -3,10 +3,10 @@
 }
 
 Header {
-  strict? graphtype atom?
+  strict? Graphtype atom?
 }
 
-graphtype {
+Graphtype {
   graph | digraph
 }
 
@@ -16,7 +16,7 @@ Body {
 
 statement {
   SimpleStatement { simple attributeList? } |
-  EdgeStatement { simple (edgeop simple)+ attributeList? } |
+  EdgeStatement { simple (Edgeop simple)+ attributeList? } |
   GraphAttributeStatement { Attribute } |
   AttributeStatement { attrtype attributeList }
 }
@@ -26,6 +26,8 @@ simple {
   NodeList |
   Subgraph
 }
+
+Edgeop { "--" | "->" }
 
 attrtype {
   graph |
@@ -119,7 +121,7 @@ ConcatString {
   
   String { '"' (![\\"] | "\\" _)* '"' }
   
-  edgeop { "--" | "->" }
+  "--" "->"
   
   "{" "}"
   

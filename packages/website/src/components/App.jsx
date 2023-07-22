@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useRef } from "react";
-import { throttle } from "lodash-es";
+import { debounce } from "lodash-es";
 import ReloadablePromiseWorker, { TerminatedError } from "../reloadable-promise-worker.js";
 import Editor from "./Editor.jsx";
 import Toolbar from "./Toolbar.jsx";
@@ -33,12 +33,12 @@ export default function App() {
   const imageZoomRef = useRef(null);
 
   const handleSrcChange = useMemo(() => {
-    return throttle(setSrc, 500);
-  }, [setSrc]);
+    return debounce(setSrc, 750);
+  }, []);
 
   const handleOptionChange = useMemo(() => {
     return (k, v) => setOptions(o => ({ ...o, [k]: v }));
-  }, [setOptions]);
+  }, []);
 
   useEffect(() => {
     let ignore = false;

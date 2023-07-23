@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Update Emscripten SDK to 3.1.43.
+
 ## 3.1.0
 
 * Update Graphviz to 8.1.0.

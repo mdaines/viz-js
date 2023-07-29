@@ -35,22 +35,5 @@ export default [
         ignore: ["./lib/encoded.mjs"]
       })
     ]
-  },
-  {
-    input: "src/standalone.mjs",
-    output: {
-      file: "lib/viz-standalone.mjs",
-      format: "es",
-      banner: getBanner,
-      plugins: [
-        terser()
-      ]
-    },
-    plugins: [
-      babel({
-        babelHelpers: "bundled",
-        ignore: ["./lib/encoded.mjs"]
-      })
-    ]
   }
 ];

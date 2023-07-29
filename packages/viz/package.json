@@ -13,14 +13,14 @@
   "license": "MIT",
   "types": "types/index.d.ts",
   "exports": {
-    "import": "./lib/viz-standalone.mjs",
+    "import": "./src/wrapper.mjs",
     "require": "./lib/viz-standalone.js"
   },
   "main": "lib/viz-standalone.js",
-  "module": "lib/viz-standalone.mjs",
+  "module": "src/wrapper.mjs",
   "files": [
     "lib/viz-standalone.js",
-    "lib/viz-standalone.mjs",
+    "src/wrapper.mjs",
     "types/index.d.ts"
   ],
   "devDependencies": {

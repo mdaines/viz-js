@@ -111,7 +111,7 @@ ConcatString {
   blockCommentRest { ![*] blockCommentRest | "*" blockCommentAfterStar }
   blockCommentAfterStar { "/" | "*" blockCommentAfterStar | ![/*] blockCommentRest }
   
-  letter { $[A-Za-z_\u{200}-\u{377}] }
+  letter { $[A-Za-z_$\u{80}-\u{10ffff}] }
   
   digit { $[0-9] }
   

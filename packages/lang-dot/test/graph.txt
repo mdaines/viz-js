@@ -176,6 +176,27 @@ Graph(Header(...), Body(
 ))
 
 
+# Names
+
+graph {
+  a
+  A_1
+  café
+   
+  図
+}
+
+==>
+
+Graph(Header(...), Body(
+  SimpleStatement(Node(Name(...))),
+  SimpleStatement(Node(Name(...))),
+  SimpleStatement(Node(Name(...))),
+  SimpleStatement(Node(Name(...))),
+  SimpleStatement(Node(Name(...)))
+))
+
+
 # Numbers
 
 graph 123 {

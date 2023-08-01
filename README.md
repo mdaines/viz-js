@@ -14,14 +14,14 @@ instance().then(viz => {
 
 Other packages:
 
-- [lang-dot](./packages/lang-dot) — CodeMirror mode for the DOT language.
+- [lang-dot](./packages/lang-dot) — CodeMirror language support for the Graphviz DOT language.
 - [website](./packages/website) — Try out Graphviz and Viz.js. Render a graph visualization in your browser.
 - [examples/parcel](./packages/examples/parcel) — Example of using Viz.js with the Parcel bundler.
 - [examples/script-tag](./packages/examples/script-tag) — Example of using the UMD build of Viz.js.
 
 ## Install
 
-Viz.js is published on NPM as `@viz-js/viz`.
+- Viz.js is published on NPM as [`@viz-js/viz`](https://www.npmjs.com/package/@viz-js/viz).
 
 ## API
 

@@ -13,6 +13,10 @@
     "import": "./dist/index.js",
     "require": "./dist/index.cjs"
   },
+  "files": [
+    "dist/index.js",
+    "dist/index.cjs"
+  ],
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "devDependencies": {

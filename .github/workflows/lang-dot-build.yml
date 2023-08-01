@@ -29,3 +29,8 @@ jobs:
           yarn build
           yarn test
         working-directory: packages/lang-dot
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: packages/lang-dot/dist

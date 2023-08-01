@@ -2,7 +2,7 @@ name: Publish viz
 
 on:
   push:
-    tags: ["v*"]
+    tags: ["viz-release-*"]
 
 jobs:
   build:

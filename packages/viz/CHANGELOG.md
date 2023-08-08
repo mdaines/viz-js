@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+* Accept default attributes for graphs, nodes, and edges in render options. This is similar to the -G, -N, -E options provided by the Graphviz command-line.
+
+  Setting the default shape for nodes:
+
+    viz.render("digraph { a -> b }", { defaultAttributes: { node: { shape: "circle" } } });
+  
+  These attributes take precedence over default attributes specified in string and object input.
+
 * Accept an object that represents a graph as input for render(). This is a JSON object similar in structure to the Graphviz DOT syntax.
 
   Rendering with an object:

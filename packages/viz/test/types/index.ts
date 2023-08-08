@@ -42,6 +42,54 @@ instance().then(viz => {
   result = viz.render("digraph { a -> b }");
   result = viz.render("digraph { a -> b }", { format: "svg" });
   result = viz.render("digraph { a -> b }", { format: "svg", engine: "dot", yInvert: false });
+  result = viz.render({});
+  result = viz.render({
+    edges: [
+      { tail: "a", head: "b" }
+    ]
+  });
+  result = viz.render({
+    directed: false,
+    strict: false,
+    name: "G",
+    defaultAttributes: {
+      node: {
+        shape: "circle"
+      }
+    },
+    attributes: {
+      label: "Test"
+    },
+    nodes: [
+      { name: "a", attributes: { label: "A" } }
+    ],
+    edges: [
+      { tail: "a", head: "b" }
+    ],
+    subgraphs: [
+      {
+        name: "cluster1",
+        defaultAttributes: {
+          edge: {
+            color: "blue"
+          }
+        },
+        attributes: {
+          color: "green"
+        },
+        subgraphs: [
+          {
+            nodes: [
+              { name: "b" }
+            ]
+          }
+        ]
+      }
+    ]
+  });
+
+  // @ts-expect-error
+  result = viz.render({ a: "b" });
 
   switch (result.status) {
   case "success":

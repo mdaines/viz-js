@@ -1,18 +1,38 @@
-export function makeGraph(nodeCount, randomEdgeCount = 0) {
-  let src = "digraph { ";
+export function randomGraph(nodeCount, randomEdgeCount = 0) {
+  const result = {
+    nodes: [],
+    edges: []
+  };
 
   for (let i = 0; i < nodeCount; i++) {
-    src += `node${i}; `;
+    result.nodes.push({ name: `node${i}` });
   }
 
   for (let i = 0; i < randomEdgeCount; i++) {
-    const s = Math.floor(nodeCount * Math.random());
     const t = Math.floor(nodeCount * Math.random());
+    const h = Math.floor(nodeCount * Math.random());
 
-    src += `node${s} -> node${t}; `;
+    result.edges.push({ tail: `node${t}`, head: `node${h}` });
   }
 
-  src += "}";
+  return result;
+}
 
-  return src;
+export function dotStringify(obj) {
+  const edges = Array.from(obj);
+  const result = [];
+
+  result.push("digraph {\n");
+
+  for (const node of obj.nodes) {
+    result.push(node.name, ";\n");
+  }
+
+  for (const edge of obj.edges) {
+    result.push(edge.tail, " -> ", edge.head, ";\n");
+  }
+
+  result.push("}\n");
+
+  return result.join("");
 }

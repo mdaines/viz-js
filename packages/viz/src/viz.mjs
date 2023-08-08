@@ -42,20 +42,120 @@ function parseErrorMessages(module) {
   return parseAgerrMessages(module["agerrMessages"]).concat(parseStderrMessages(module["stderrMessages"]));
 }
 
-function render(module, src, options) {
-  let srcPointer, resultPointer;
+function setDefaultAttributes(module, graphPointer, defaultAttributes) {
+  if (defaultAttributes.graph) {
+    for (const [name, value] of Object.entries(defaultAttributes.graph)) {
+      module.ccall("viz_set_default_graph_attribute", "number", ["number", "string", "string"], [graphPointer, name, String(value)]);
+    }
+  }
+
+  if (defaultAttributes.node) {
+    for (const [name, value] of Object.entries(defaultAttributes.node)) {
+      module.ccall("viz_set_default_node_attribute", "number", ["number", "string", "string"], [graphPointer, name, String(value)]);
+    }
+  }
+
+  if (defaultAttributes.edge) {
+    for (const [name, value] of Object.entries(defaultAttributes.edge)) {
+      module.ccall("viz_set_default_edge_attribute", "number", ["number", "string", "string"], [graphPointer, name, String(value)]);
+    }
+  }
+}
+
+function readStringInput(module, src, options) {
+  let srcPointer;
+
+  try {
+    const srcLength = module.lengthBytesUTF8(src);
+    srcPointer = module.ccall("malloc", "number", ["number"], [srcLength + 1]);
+    module.stringToUTF8(src, srcPointer, srcLength + 1);
+
+    return module.ccall("viz_read_one_graph", "number", ["number"], [srcPointer]);
+  } finally {
+    if (srcPointer) {
+      module.ccall("free", "number", ["number"], [srcPointer]);
+    }
+  }
+}
+
+function setAttributes(module, objectPointer, attributes) {
+  for (const [key, value] of Object.entries(attributes)) {
+    module.ccall("viz_set_attribute", "number", ["number", "string", "string"], [objectPointer, String(key), String(value)]);
+  }
+}
+
+function readGraph(module, graphPointer, graphData) {
+  if (graphData.defaultAttributes) {
+    setDefaultAttributes(module, graphPointer, graphData.defaultAttributes);
+  }
+
+  if (graphData.attributes) {
+    setAttributes(module, graphPointer, graphData.attributes);
+  }
+
+  if (graphData.nodes) {
+    graphData.nodes.forEach(nodeData => {
+      const nodePointer = module.ccall("viz_add_node", "number", ["number", "string"], [graphPointer, String(nodeData.name)]);
+
+      if (nodeData.attributes) {
+        setAttributes(module, nodePointer, nodeData.attributes);
+      }
+    });
+  }
+
+  if (graphData.edges) {
+    graphData.edges.forEach(edgeData => {
+      const edgePointer = module.ccall("viz_add_edge", "number", ["number", "string", "string"], [graphPointer, String(edgeData.tail), String(edgeData.head)]);
+
+      if (edgeData.attributes) {
+        setAttributes(module, edgePointer, edgeData.attributes);
+      }
+    });
+  }
+
+  if (graphData.subgraphs) {
+    graphData.subgraphs.forEach(subgraphData => {
+      const subgraphPointer = module.ccall("viz_add_subgraph", "number", ["number", "string"], [graphPointer, String(subgraphData.name)]);
+
+      readGraph(module, subgraphPointer, subgraphData);
+    });
+  }
+}
+
+function readObjectInput(module, object, options) {
+  const graphPointer = module.ccall("viz_create_graph", "number", ["string", "number", "number"], [object.name, typeof object.directed !== "undefined" ? object.directed : true, typeof object.strict !== "undefined" ? object.strict : false]);
+
+  readGraph(module, graphPointer, object);
+
+  return graphPointer;
+}
+
+function renderInput(module, input, options) {
+  let graphPointer, resultPointer;
 
   try {
     module["agerrMessages"] = [];
     module["stderrMessages"] = [];
 
-    const srcLength = module.lengthBytesUTF8(src);
-    srcPointer = module.ccall("malloc", "number", ["number"], [srcLength + 1]);
-    module.stringToUTF8(src, srcPointer, srcLength + 1);
+    if (typeof input === "string") {
+      graphPointer = readStringInput(module, input, options);
+    } else if (typeof input === "object") {
+      graphPointer = readObjectInput(module, input, options);
+    } else {
+      throw new Error("input must be a string or object");
+    }
+
+    if (graphPointer === 0) {
+      return {
+        status: "failure",
+        output: undefined,
+        errors: parseErrorMessages(module)
+      };
+    }
 
     module.ccall("viz_set_y_invert", "number", ["number"], [options.yInvert ? 1 : 0]);
 
-    resultPointer = module.ccall("viz_render_string", "number", ["number", "string", "string"], [srcPointer, options.format, options.engine]);
+    resultPointer = module.ccall("viz_render_graph", "number", ["number", "string", "string"], [graphPointer, options.format, options.engine]);
 
     if (resultPointer === 0) {
       return {
@@ -81,8 +181,8 @@ function render(module, src, options) {
       throw error;
     }
   } finally {
-    if (srcPointer) {
-      module.ccall("free", "number", ["number"], [srcPointer]);
+    if (graphPointer) {
+      module.ccall("viz_free_graph", "number", ["number"], [graphPointer]);
     }
 
     if (resultPointer) {
@@ -135,12 +235,8 @@ export default class Viz {
     return getPluginList(this.module, "layout");
   }
 
-  render(src, options = {}) {
-    if (typeof src !== "string") {
-      throw new Error("src must be a string");
-    }
-
-    return render(this.module, src, { format: "dot", engine: "dot", ...options });
+  render(input, options = {}) {
+    return renderInput(this.module, input, { format: "dot", engine: "dot", ...options });
   }
 
   renderString(src, options = {}) {

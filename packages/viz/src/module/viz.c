@@ -56,18 +56,16 @@ EM_JS(int, viz_errorf, (char *text), {
 });
 
 EMSCRIPTEN_KEEPALIVE
-char *viz_render_string(char *string, const char *format, const char *engine) {
-  GVC_t *context = NULL;
+Agraph_t *viz_create_graph(char *name, bool directed, bool strict) {
+  Agdesc_t desc = { .directed = directed, .strict = strict };
+
+  return agopen(name, desc, NULL);
+}
+
+EMSCRIPTEN_KEEPALIVE
+Agraph_t *viz_read_one_graph(char *string) {
   Agraph_t *graph = NULL;
   Agraph_t *other_graph = NULL;
-  char *data = NULL;
-  unsigned int length = 0;
-  int layout_error = 0;
-  int render_error = 0;
-
-  // Initialize context
-
-  context = gvContextPlugins(lt_preloaded_symbols, 0);
 
   // Reset errors
 
@@ -88,15 +86,76 @@ char *viz_render_string(char *string, const char *format, const char *engine) {
     }
   } while (other_graph);
 
-  // Layout (if there is a graph)
+  return graph;
+}
 
-  if (graph) {
-    layout_error = gvLayout(context, graph, engine);
-  }
+EMSCRIPTEN_KEEPALIVE
+Agnode_t *viz_add_node(Agraph_t *g, char *name) {
+  return agnode(g, name, TRUE);
+}
 
-  // Render (if there is a graph and layout was successful)
+EMSCRIPTEN_KEEPALIVE
+Agedge_t *viz_add_edge(Agraph_t *g, char *uname, char *vname) {
+  Agnode_t *u = agnode(g, uname, TRUE);
+  Agnode_t *v = agnode(g, vname, TRUE);
+  return agedge(g, u, v, NULL, TRUE);
+}
 
-  if (graph && !layout_error) {
+EMSCRIPTEN_KEEPALIVE
+Agraph_t *viz_add_subgraph(Agraph_t *g, char *name) {
+  return agsubg(g, name, TRUE);
+}
+
+EMSCRIPTEN_KEEPALIVE
+void viz_set_default_graph_attribute(Agraph_t *graph, char *name, char *value) {
+  agattr(graph, AGRAPH, name, value);
+}
+
+EMSCRIPTEN_KEEPALIVE
+void viz_set_default_node_attribute(Agraph_t *graph, char *name, char *value) {
+  agattr(graph, AGNODE, name, value);
+}
+
+EMSCRIPTEN_KEEPALIVE
+void viz_set_default_edge_attribute(Agraph_t *graph, char *name, char *value) {
+  agattr(graph, AGEDGE, name, value);
+}
+
+EMSCRIPTEN_KEEPALIVE
+void viz_set_attribute(void *object, char *name, char *value) {
+  agsafeset(object, name, value, "");
+}
+
+EMSCRIPTEN_KEEPALIVE
+void viz_free_graph(Agraph_t *g) {
+  agclose(g);
+}
+
+EMSCRIPTEN_KEEPALIVE
+char *viz_render_graph(Agraph_t *graph, const char *format, const char *engine) {
+  GVC_t *context = NULL;
+  char *data = NULL;
+  unsigned int length = 0;
+  int layout_error = 0;
+  int render_error = 0;
+
+  // Initialize context
+
+  context = gvContextPlugins(lt_preloaded_symbols, 0);
+
+  // Reset errors
+
+  agseterrf(viz_errorf);
+  agseterr(AGWARN);
+  agreseterrors();
+
+  // Layout
+
+  layout_error = gvLayout(context, graph, engine);
+
+  // Render (if layout was successful)
+
+  if (!layout_error) {
     render_error = gvRenderData(context, graph, format, &data, &length);
 
     if (render_error) {
@@ -105,14 +164,10 @@ char *viz_render_string(char *string, const char *format, const char *engine) {
     }
   }
 
-  // Free the layout, graph, and context
+  // Free the layout and context
 
   if (graph) {
     gvFreeLayout(context, graph);
-  }
-
-  if (graph) {
-    agclose(graph);
   }
 
   gvFinalize(context);

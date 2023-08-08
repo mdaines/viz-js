@@ -1,5 +1,5 @@
 import { instance } from "../../src/standalone.mjs";
-import { makeGraph } from "./utils.mjs";
+import { randomGraph, dotStringify } from "./utils.mjs";
 
 const tests = [
   { nodeCount: 100, randomEdgeCount: 0 },
@@ -17,7 +17,7 @@ const timeLimit = 5000;
 
 for (const { nodeCount, randomEdgeCount } of tests) {
   const viz = await instance();
-  const src = makeGraph(nodeCount, randomEdgeCount);
+  const src = dotStringify(randomGraph(nodeCount, randomEdgeCount));
 
   let callCount = 0;
 

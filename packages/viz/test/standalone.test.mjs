@@ -157,8 +157,8 @@ describe("standalone", function() {
         });
       });
 
-      it("throws if input is not a string", function() {
-        assert.throws(() => { viz.render(undefined); }, /^Error: src must be a string/);
+      it("throws if input is the wrong type", function() {
+        assert.throws(() => { viz.render(undefined); }, /^Error: input must be a string or object/);
       });
 
       it("returns only the error messages emitted for the current call", function() {
@@ -232,11 +232,14 @@ describe("standalone", function() {
       });
 
       it("returns error messages printed to stderr", function() {
-        const result = viz.render("graph { a [label=図] }");
+        const result = viz.render("graph { a [label=図] }", { format: "plain" });
 
         assert.deepStrictEqual(result, {
           status: "success",
-          output: "graph {\n\tgraph [bb=\"0,0,54,36\"];\n\tnode [label=\"\\N\"];\n\ta\t[height=0.5,\n\t\tlabel=図,\n\t\tpos=\"27,18\",\n\t\twidth=0.75];\n}\n",
+          output: `graph 1 0.75 0.5
+node a 0.375 0.25 0.75 0.5 図 solid ellipse black lightgrey
+stop
+`,
           errors: [
             { level: "warning", message: "no value for width of non-ASCII character 229. Falling back to width of space character" }
           ]
@@ -286,7 +289,7 @@ describe("standalone", function() {
           status: "success",
           output: "graph {\n\tgraph [_background=123,\n\t\tbb=\"0,0,0,0\"\n\t];\n\tnode [label=\"\\N\"];\n}\n",
           errors: [
-            { level: "warning", message: "Could not parse \"_background\" attribute in graph %3" },
+            { level: "warning", message: "Could not parse \"_background\" attribute in graph %1" },
             { level: "warning", message: "  \"123\"" }
           ]
         });
@@ -302,6 +305,160 @@ describe("standalone", function() {
             { level: "error", message: "syntax error in line 1" },
             { level: "error", message: "... <HTML></HTML> ..." }
           ]
+        });
+      });
+
+      describe("object input", function() {
+        it("empty graph", function() {
+          const result = viz.render({});
+
+          assert.deepStrictEqual(result, {
+            status: "success",
+            output: `digraph {
+	graph [bb="0,0,0,0"];
+	node [label="\\N"];
+}
+`,
+            errors: []
+          });
+        });
+
+        it("just edges", function() {
+          const result = viz.render({
+            edges: [
+              { tail: "a", head: "b" }
+            ]
+          });
+
+          assert.deepStrictEqual(result, {
+            status: "success",
+            output: `digraph {
+	graph [bb="0,0,54,108"];
+	node [label="\\N"];
+	a	[height=0.5,
+		pos="27,90",
+		width=0.75];
+	b	[height=0.5,
+		pos="27,18",
+		width=0.75];
+	a -> b	[pos="e,27,36.104 27,71.697 27,64.237 27,55.322 27,46.965"];
+}
+`,
+            errors: []
+          });
+        });
+
+        it("undirected graph", function() {
+          const result = viz.render({
+            directed: false,
+            edges: [
+              { tail: "a", head: "b" }
+            ]
+          });
+
+          assert.deepStrictEqual(result, {
+            status: "success",
+            output: `graph {
+	graph [bb="0,0,54,108"];
+	node [label="\\N"];
+	a	[height=0.5,
+		pos="27,90",
+		width=0.75];
+	b	[height=0.5,
+		pos="27,18",
+		width=0.75];
+	a -- b	[pos="27,71.697 27,60.846 27,46.917 27,36.104"];
+}
+`,
+            errors: []
+          });
+        });
+
+        it("default attributes, graph attributes, nodes, edges, and nested subgraphs", function() {
+          const result = viz.render({
+            defaultAttributes: {
+              node: {
+                shape: "circle"
+              }
+            },
+            attributes: {
+              rankdir: "LR"
+            },
+            nodes: [
+              { name: "a", attributes: { label: "A", color: "red" } },
+              { name: "b", attributes: { label: "B", color: "green" } }
+            ],
+            edges: [
+              { tail: "a", head: "b", attributes: { label: "1" } },
+              { tail: "b", head: "c", attributes: { label: "2" } }
+            ],
+            subgraphs: [
+              {
+                name: "cluster_1",
+                nodes: [
+                  { name: "c", attributes: { label: "C", color: "blue" } }
+                ],
+                edges: [
+                  { tail: "c", head: "d", attributes: { label: "3" } }
+                ],
+                subgraphs: [
+                  {
+                    name: "cluster_2",
+                    nodes: [
+                      { name: "d", attributes: { label: "D", color: "orange" } }
+                    ]
+                  }
+                ]
+              }
+            ]
+          });
+
+          assert.deepStrictEqual(result, {
+            status: "success",
+            output: `digraph {
+	graph [bb="0,0,297.04,84",
+		rankdir=LR
+	];
+	node [shape=circle];
+	subgraph cluster_1 {
+		graph [bb="150.02,8,289.04,76"];
+		subgraph cluster_2 {
+			graph [bb="229.02,16,281.04,68"];
+			d	[color=orange,
+				height=0.50029,
+				label=D,
+				pos="255.03,42",
+				width=0.50029];
+		}
+		c	[color=blue,
+			height=0.5,
+			label=C,
+			pos="176.02,42",
+			width=0.5];
+		c -> d	[label=3,
+			lp="215.52,50.4",
+			pos="e,236.63,42 194.5,42 203.75,42 215.35,42 225.84,42"];
+	}
+	a	[color=red,
+		height=0.50029,
+		label=A,
+		pos="18.01,42",
+		width=0.50029];
+	b	[color=green,
+		height=0.5,
+		label=B,
+		pos="97.021,42",
+		width=0.5];
+	a -> b	[label=1,
+		lp="57.521,50.4",
+		pos="e,78.615,42 36.485,42 45.741,42 57.335,42 67.826,42"];
+	b -> c	[label=2,
+		lp="136.52,50.4",
+		pos="e,157.62,42 115.49,42 124.75,42 136.34,42 146.83,42"];
+}
+`,
+            errors: []
+          });
         });
       });
     });

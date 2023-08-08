@@ -1,3 +1,38 @@
+type DefaultAttributes = {
+  graph?: object,
+  node?: object,
+  edge?: object
+};
+
+type Node = {
+  name: string,
+  attributes?: object
+};
+
+type Edge = {
+  tail: string,
+  head: string,
+  attributes?: object
+};
+
+type Graph = {
+  name?: string,
+  defaultAttributes?: DefaultAttributes,
+  attributes?: object,
+  nodes?: Node[],
+  edges?: Edge[],
+  subgraphs?: Graph[]
+};
+
+type Header = {
+  strict?: boolean,
+  directed?: boolean
+};
+
+export type RenderInputObject = Header & Graph;
+
+type RenderInput = string | RenderInputObject;
+
 export type RenderOptions = {
   format?: string;
   engine?: string;
@@ -28,10 +63,10 @@ declare class Viz {
   get formats(): string[];
   get engines(): string[];
 
-  render(src: string, options?: RenderOptions): RenderResult;
-  renderString(src: string, options?: RenderOptions): string;
-  renderSVGElement(src: string, options?: RenderOptions): SVGSVGElement;
-  renderJSON(src: string, options?: RenderOptions): object;
+  render(input: RenderInput, options?: RenderOptions): RenderResult;
+  renderString(input: RenderInput, options?: RenderOptions): string;
+  renderSVGElement(input: RenderInput, options?: RenderOptions): SVGSVGElement;
+  renderJSON(input: RenderInput, options?: RenderOptions): object;
 }
 export {};
 

@@ -2,6 +2,40 @@
 
 ## Unreleased
 
+* Accept an object that represents a graph as input for render(). This is a JSON object similar in structure to the Graphviz DOT syntax.
+
+  Rendering with an object:
+  
+    // DOT: digraph { a -> b }
+    viz.render({ directed: true, edges: [{ tail: "a", head: "b" }] });
+    
+  Another example:
+  
+    viz.render({
+      directed: true,
+      defaultAttributes: {
+        node: {
+          shape: "circle"
+        }
+      },
+      nodes: [
+        { name: "a", attributes: { label: "A", color: "red" } },
+      ],
+      edges: [
+        { tail: "a", head: "b" },
+      ],
+      subgraphs: [
+        {
+          name: "cluster_1",
+          nodes: [
+            { name: "b", attributes: { label: "B", color: "blue" } }
+          ]
+        }
+      ]
+    });
+  
+  HTML-like labels are not yet supported. Edge ports can be specified using the headport and tailport attributes.
+
 * Update Emscripten SDK to 3.1.43.
 
 ## 3.1.0

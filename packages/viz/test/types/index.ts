@@ -24,6 +24,11 @@ instance().then(viz => {
   options.format = "dot";
   options.engine = "dot";
   options.yInvert = true;
+  options.defaultAttributes = {
+    graph: { rankdir: "LR" },
+    node: { width: 2 },
+    edge: { color: "green" }
+  };
 
   // @ts-expect-error
   options.format = false;
@@ -42,6 +47,7 @@ instance().then(viz => {
   result = viz.render("digraph { a -> b }");
   result = viz.render("digraph { a -> b }", { format: "svg" });
   result = viz.render("digraph { a -> b }", { format: "svg", engine: "dot", yInvert: false });
+  result = viz.render("digraph { a -> b }", { defaultAttributes: { node: { shape: "circle" } } });
   result = viz.render({});
   result = viz.render({
     edges: [

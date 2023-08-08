@@ -135,6 +135,37 @@ describe("standalone", function() {
         });
       });
 
+      it("accepts default attributes", function() {
+        const result = viz.render("graph {}", {
+          defaultAttributes: {
+            graph: {
+              a: 123
+            },
+            node: {
+              b: false
+            },
+            edge: {
+              c: "test"
+            }
+          }
+        });
+
+        assert.deepStrictEqual(result, {
+          status: "success",
+          output: `graph {
+	graph [a=123,
+		bb="0,0,0,0"
+	];
+	node [b=false,
+		label="\\N"
+	];
+	edge [c=test];
+}
+`,
+          errors: []
+        });
+      });
+
       it("returns an error for empty input", function() {
         const result = viz.render("");
 
@@ -317,6 +348,37 @@ stop
             output: `digraph {
 	graph [bb="0,0,0,0"];
 	node [label="\\N"];
+}
+`,
+            errors: []
+          });
+        });
+
+        it("default attributes render options override options in input", function() {
+          const result = viz.render(
+            {
+              defaultAttributes: {
+                node: {
+                  shape: "rectangle"
+                }
+              }
+            },
+            {
+              defaultAttributes: {
+                node: {
+                  shape: "circle"
+                }
+              }
+            }
+          );
+
+          assert.deepStrictEqual(result, {
+            status: "success",
+            output: `digraph {
+	graph [bb="0,0,0,0"];
+	node [label="\\N",
+		shape=circle
+	];
 }
 `,
             errors: []

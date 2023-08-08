@@ -153,6 +153,10 @@ function renderInput(module, input, options) {
       };
     }
 
+    if (options.defaultAttributes) {
+      setDefaultAttributes(module, graphPointer, options.defaultAttributes);
+    }
+
     module.ccall("viz_set_y_invert", "number", ["number"], [options.yInvert ? 1 : 0]);
 
     resultPointer = module.ccall("viz_render_graph", "number", ["number", "string", "string"], [graphPointer, options.format, options.engine]);

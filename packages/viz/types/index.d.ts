@@ -37,6 +37,7 @@ export type RenderOptions = {
   format?: string;
   engine?: string;
   yInvert?: boolean;
+  reduce?: boolean;
   defaultAttributes?: DefaultAttributes
 };
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { getExampleNames, defaultExampleName, getExample } from "../examples.js";
 
-export default function EditorToolbar({ onLoadExample }) {
+export default function EditorToolbar({ onLoadExample, onCopyLink }) {
   const [exampleName, setExampleName] = useState(defaultExampleName);
 
   function handleLoadExample() {
@@ -21,6 +21,10 @@ export default function EditorToolbar({ onLoadExample }) {
       </div>
 
       <div className="toolbar-flexible-space">
+      </div>
+
+      <div className="toolbar-item">
+        <button onClick={onCopyLink}>{"Copy Link"}</button>
       </div>
     </div>
   );

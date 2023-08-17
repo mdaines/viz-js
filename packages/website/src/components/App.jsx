@@ -1,16 +1,12 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { debounce } from "lodash-es";
 import ReloadablePromiseWorker, { TerminatedError } from "../reloadable-promise-worker.js";
+import { copyLink } from "../links.js";
 import EditorToolbar from "./EditorToolbar.jsx";
 import Editor from "./Editor.jsx";
 import OutputToolbar from "./OutputToolbar.jsx";
 import Output from "./Output.jsx";
 import Errors from "./Errors.jsx";
-
-const EXAMPLE = `digraph {
-  a -> b
-}
-`;
 
 const worker = new ReloadablePromiseWorker(() => new Worker(new URL("../worker.js", import.meta.url), { type: "module" }));
 
@@ -24,8 +20,8 @@ function render(src, options) {
     });
 }
 
-export default function App() {
-  const [src, setSrc] = useState(EXAMPLE);
+export default function App({ initialSrc }) {
+  const [src, setSrc] = useState(initialSrc);
   const [debouncedSrc, setDebouncedSrc] = useState(src);
   const [options, setOptions] = useState({ engine: "dot", format: "svg-image" });
   const [result, setResult] = useState(null);
@@ -34,6 +30,10 @@ export default function App() {
   const [isValid, setValid] = useState(false);
   const imageZoomRef = useRef(null);
   const editorRef = useRef(null);
+
+  function handleCopyLink() {
+    copyLink(src);
+  }
 
   function handleSrcChange(newSrc) {
     setSrc(newSrc);
@@ -89,7 +89,7 @@ export default function App() {
 
   return (
     <>
-      <EditorToolbar onLoadExample={handleLoadExample} />
+      <EditorToolbar onLoadExample={handleLoadExample} onCopyLink={handleCopyLink} />
       <Editor defaultValue={src} onChange={handleSrcChange} ref={editorRef} />
       <OutputToolbar options={options} onOptionChange={handleOptionChange} zoomEnabled={zoomEnabled} zoom={zoom} onZoomChange={setZoom} onZoomIn={() => imageZoomRef.current?.zoomIn()} onZoomOut={() => imageZoomRef.current?.zoomOut()} />
       <Output result={result} zoom={zoom} imageZoomRef={imageZoomRef} onZoomChange={setZoom} isValid={isValid} />

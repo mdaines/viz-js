@@ -45,10 +45,15 @@ instance().then(viz => {
   let result: RenderResult;
 
   result = viz.render("digraph { a -> b }");
+
   result = viz.render("digraph { a -> b }", { format: "svg" });
+
   result = viz.render("digraph { a -> b }", { format: "svg", engine: "dot", yInvert: false });
+
   result = viz.render("digraph { a -> b }", { defaultAttributes: { node: { shape: "circle" } } });
+
   result = viz.render({});
+
   result = viz.render({
     edges: [
       { tail: "a", head: "b" }
@@ -92,6 +97,40 @@ instance().then(viz => {
         ]
       }
     ]
+  });
+
+  result = viz.render({
+    attributes: {
+      width: 2,
+      abc: true,
+      label: { html: "<b>test</b>" }
+    },
+    defaultAttributes: {
+      node: {
+        width: 2,
+        abc: true,
+        label: { html: "<b>test</b>" }
+      }
+    },
+    nodes: [
+      {
+        name: "a",
+        attributes: {
+          width: 2,
+          abc: true,
+          label: { html: "<b>test</b>" }
+        }
+      }
+    ]
+  });
+
+  result = viz.render({
+    attributes: {
+      // @ts-expect-error
+      blah: null,
+      // @ts-expect-error
+      label: { stuff: "abc" }
+    }
   });
 
   // @ts-expect-error

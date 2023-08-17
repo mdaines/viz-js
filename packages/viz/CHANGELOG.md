@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+* Accept HTML attribute values in object input.
+
+  HTML attribute values are written as an object literal with a "html" property:
+  
+    { label: { html: "<i>the label</i>" } }
+
 * Accept a "reduce" option. This has the same effect as using the -x Graphviz command-line option. When using the neato layout engine, it prunes isolated nodes.
 
 * Accept default attributes for graphs, nodes, and edges in render options. This is similar to the -G, -N, -E options provided by the Graphviz command-line.

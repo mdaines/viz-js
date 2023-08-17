@@ -42,22 +42,46 @@ function parseErrorMessages(module) {
   return parseAgerrMessages(module["agerrMessages"]).concat(parseStderrMessages(module["stderrMessages"]));
 }
 
+function withStringPointer(module, graphPointer, value, callbackFn) {
+  let stringPointer;
+
+  if (typeof value === "object" && "html" in value) {
+    stringPointer = module.ccall("viz_string_dup_html", "number", ["number", "string"], [graphPointer, String(value.html)]);
+  } else {
+    stringPointer = module.ccall("viz_string_dup", "number", ["number", "string"], [graphPointer, String(value)]);
+  }
+
+  if (stringPointer == 0) {
+    throw new Error("couldn't dup string");
+  }
+
+  callbackFn(stringPointer);
+
+  module.ccall("viz_string_free", "number", ["number", "number"], [graphPointer, stringPointer]);
+}
+
 function setDefaultAttributes(module, graphPointer, defaultAttributes) {
   if (defaultAttributes.graph) {
     for (const [name, value] of Object.entries(defaultAttributes.graph)) {
-      module.ccall("viz_set_default_graph_attribute", "number", ["number", "string", "string"], [graphPointer, name, String(value)]);
+      withStringPointer(module, graphPointer, value, stringPointer => {
+        module.ccall("viz_set_default_graph_attribute", "number", ["number", "string", "number"], [graphPointer, name, stringPointer]);
+      });
     }
   }
 
   if (defaultAttributes.node) {
     for (const [name, value] of Object.entries(defaultAttributes.node)) {
-      module.ccall("viz_set_default_node_attribute", "number", ["number", "string", "string"], [graphPointer, name, String(value)]);
+      withStringPointer(module, graphPointer, value, stringPointer => {
+        module.ccall("viz_set_default_node_attribute", "number", ["number", "string", "number"], [graphPointer, name, stringPointer]);
+      });
     }
   }
 
   if (defaultAttributes.edge) {
     for (const [name, value] of Object.entries(defaultAttributes.edge)) {
-      module.ccall("viz_set_default_edge_attribute", "number", ["number", "string", "string"], [graphPointer, name, String(value)]);
+      withStringPointer(module, graphPointer, value, stringPointer => {
+        module.ccall("viz_set_default_edge_attribute", "number", ["number", "string", "number"], [graphPointer, name, stringPointer]);
+      });
     }
   }
 }
@@ -78,9 +102,11 @@ function readStringInput(module, src, options) {
   }
 }
 
-function setAttributes(module, objectPointer, attributes) {
+function setAttributes(module, graphPointer, objectPointer, attributes) {
   for (const [key, value] of Object.entries(attributes)) {
-    module.ccall("viz_set_attribute", "number", ["number", "string", "string"], [objectPointer, String(key), String(value)]);
+    withStringPointer(module, graphPointer, value, stringPointer => {
+      module.ccall("viz_set_attribute", "number", ["number", "string", "number"], [objectPointer, key, stringPointer]);
+    });
   }
 }
 
@@ -90,7 +116,7 @@ function readGraph(module, graphPointer, graphData) {
   }
 
   if (graphData.attributes) {
-    setAttributes(module, graphPointer, graphData.attributes);
+    setAttributes(module, graphPointer, graphPointer, graphData.attributes);
   }
 
   if (graphData.nodes) {
@@ -98,7 +124,7 @@ function readGraph(module, graphPointer, graphData) {
       const nodePointer = module.ccall("viz_add_node", "number", ["number", "string"], [graphPointer, String(nodeData.name)]);
 
       if (nodeData.attributes) {
-        setAttributes(module, nodePointer, nodeData.attributes);
+        setAttributes(module, graphPointer, nodePointer, nodeData.attributes);
       }
     });
   }
@@ -108,7 +134,7 @@ function readGraph(module, graphPointer, graphData) {
       const edgePointer = module.ccall("viz_add_edge", "number", ["number", "string", "string"], [graphPointer, String(edgeData.tail), String(edgeData.head)]);
 
       if (edgeData.attributes) {
-        setAttributes(module, edgePointer, edgeData.attributes);
+        setAttributes(module, graphPointer, edgePointer, edgeData.attributes);
       }
     });
   }

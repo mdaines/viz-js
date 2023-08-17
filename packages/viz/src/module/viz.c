@@ -96,6 +96,21 @@ Agraph_t *viz_read_one_graph(char *string) {
 }
 
 EMSCRIPTEN_KEEPALIVE
+char *viz_string_dup(Agraph_t *g, char *s) {
+  return agstrdup(g, s);
+}
+
+EMSCRIPTEN_KEEPALIVE
+char *viz_string_dup_html(Agraph_t *g, char *s) {
+  return agstrdup_html(g, s);
+}
+
+EMSCRIPTEN_KEEPALIVE
+int viz_string_free(Agraph_t * g, const char *s) {
+  return agstrfree(g, s);
+}
+
+EMSCRIPTEN_KEEPALIVE
 Agnode_t *viz_add_node(Agraph_t *g, char *name) {
   return agnode(g, name, TRUE);
 }

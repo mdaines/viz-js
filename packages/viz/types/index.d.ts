@@ -1,24 +1,30 @@
+type HTMLString = { html: string };
+
+type AttributeValue = string | number | boolean | HTMLString;
+
+type Attributes = { [key: string]: AttributeValue };
+
 type DefaultAttributes = {
-  graph?: object,
-  node?: object,
-  edge?: object
+  graph?: Attributes,
+  node?: Attributes,
+  edge?: Attributes
 };
 
 type Node = {
   name: string,
-  attributes?: object
+  attributes?: Attributes
 };
 
 type Edge = {
   tail: string,
   head: string,
-  attributes?: object
+  attributes?: Attributes
 };
 
 type Graph = {
   name?: string,
   defaultAttributes?: DefaultAttributes,
-  attributes?: object,
+  attributes?: Attributes,
   nodes?: Node[],
   edges?: Edge[],
   subgraphs?: Graph[]

@@ -180,6 +180,26 @@ describe("standalone", function() {
         });
       });
 
+      it("default attribute values can be html strings", function() {
+        const result = viz.render("graph {}", {
+          defaultAttributes: {
+            node: {
+              label: { html: "<b>test</b>" }
+            }
+          }
+        });
+
+        assert.deepStrictEqual(result, {
+          status: "success",
+          output: `graph {
+	graph [bb="0,0,0,0"];
+	node [label=<<b>test</b>>];
+}
+`,
+          errors: []
+        });
+      });
+
       it("returns an error for empty input", function() {
         const result = viz.render("");
 
@@ -444,6 +464,32 @@ stop
 		pos="27,18",
 		width=0.75];
 	a -- b	[pos="27,71.697 27,60.846 27,46.917 27,36.104"];
+}
+`,
+            errors: []
+          });
+        });
+
+        it("html attributes", function() {
+          const result = viz.render({
+            nodes: [
+              {
+                name: "a",
+                attributes: {
+                  label: { html: "<b>A</b>" }
+                }
+              }
+            ]
+          });
+
+          assert.deepStrictEqual(result, {
+            status: "success",
+            output: `digraph {
+	graph [bb="0,0,54,36"];
+	a	[height=0.5,
+		label=<<b>A</b>>,
+		pos="27,18",
+		width=0.75];
 }
 `,
             errors: []

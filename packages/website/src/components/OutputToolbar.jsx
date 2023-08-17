@@ -1,9 +1,9 @@
 import { formats, engines } from "@viz-js/viz";
 import { zoomLevels } from "./ImageZoom.jsx";
 
-export default function Toolbar({ options, onOptionChange, zoomEnabled, zoom, onZoomChange, onZoomIn, onZoomOut }) {
+export default function OutputToolbar({ options, onOptionChange, zoomEnabled, zoom, onZoomChange, onZoomIn, onZoomOut }) {
   return (
-    <div className="toolbar">
+    <div className="toolbar output-toolbar">
       <div className="toolbar-item">
         <select id="toolbar-engine" value={options.engine} onChange={e => onOptionChange("engine", e.target.value)}>
           {engines.map(value => <option key={value}>{value}</option>)}

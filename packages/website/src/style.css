@@ -20,7 +20,7 @@ body {
 #app {
   grid-area: app;
   display: grid;
-  grid-template-areas: "editor toolbar" "editor output" "editor errors";
+  grid-template-areas: "editor-toolbar output-toolbar" "editor output" "editor errors";
   grid-template-columns: 50% 1fr;
   grid-template-rows: max-content 1fr fit-content(20%);
 }
@@ -133,20 +133,34 @@ header nav li a:hover {
 }
 
 
+.editor-toolbar {
+  grid-area: editor-toolbar;
+  border-right: 1px solid #ccc;
+  justify-content: center;
+}
+
+.output-toolbar {
+  grid-area: output-toolbar;
+  justify-content: center;
+}
+
 .toolbar {
-  grid-area: toolbar;
   padding: 8px;
   background: #eee;
   border-bottom: 1px solid #ccc;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  align-items: center;
   gap: 12px;
 }
 
 .toolbar .toolbar-item {
   display: grid;
   gap: 4px;
+}
+
+.toolbar .toolbar-flexible-space {
+  flex-grow: 1;
 }
 
 .toolbar .toolbar-item-group {
@@ -156,7 +170,7 @@ header nav li a:hover {
 
 .toolbar-item label {
   text-align: center;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 
@@ -185,17 +199,21 @@ header nav li a:hover {
 
 @media (max-width: 750px) {
   #app {
-    grid-template-areas: "editor" "toolbar" "output" "errors";
+    grid-template-areas: "editor-toolbar" "editor" "output-toolbar" "output" "errors";
     grid-template-columns: auto;
-    grid-template-rows: 30% max-content 1fr fit-content(20%);
+    grid-template-rows: max-content 30% max-content 1fr fit-content(20%);
   }
 
   .editor {
     border-right: none;
   }
 
-  .toolbar {
+  .output-toolbar {
     border-top: 1px solid #ccc;
+  }
+
+  .editor-toolbar {
+    border-right: none;
   }
 }
 

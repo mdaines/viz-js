@@ -135,6 +135,20 @@ describe("standalone", function() {
         });
       });
 
+      it("accepts reduce option", function() {
+        const result = viz.render("graph { a }", { engine: "neato", reduce: true });
+
+        assert.deepStrictEqual(result, {
+          status: "success",
+          output: `graph {
+	graph [bb="0,0,0,0"];
+	node [label="\\N"];
+}
+`,
+          errors: []
+        });
+      });
+
       it("accepts default attributes", function() {
         const result = viz.render("graph {}", {
           defaultAttributes: {

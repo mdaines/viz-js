@@ -2,6 +2,7 @@
 #include <emscripten.h>
 
 extern int Y_invert;
+extern unsigned char Reduce;
 
 extern gvplugin_library_t gvplugin_core_LTX_library;
 extern gvplugin_library_t gvplugin_dot_layout_LTX_library;
@@ -17,6 +18,11 @@ lt_symlist_t lt_preloaded_symbols[] = {
 EMSCRIPTEN_KEEPALIVE
 void viz_set_y_invert(int value) {
   Y_invert = value;
+}
+
+EMSCRIPTEN_KEEPALIVE
+void viz_set_reduce(int value) {
+  Reduce = value;
 }
 
 EMSCRIPTEN_KEEPALIVE

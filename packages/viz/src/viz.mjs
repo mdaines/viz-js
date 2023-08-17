@@ -158,6 +158,7 @@ function renderInput(module, input, options) {
     }
 
     module.ccall("viz_set_y_invert", "number", ["number"], [options.yInvert ? 1 : 0]);
+    module.ccall("viz_set_reduce", "number", ["number"], [options.reduce ? 1 : 0]);
 
     resultPointer = module.ccall("viz_render_graph", "number", ["number", "string", "string"], [graphPointer, options.format, options.engine]);
 

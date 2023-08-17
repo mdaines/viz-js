@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, forwardRef, useImperativeHandle } from "react";
 import { EditorView, basicSetup } from "codemirror";
 import { EditorState } from "@codemirror/state";
 import { linter } from "@codemirror/lint";
@@ -62,7 +62,7 @@ const syntaxLinter = linter((view) => {
   return diagnostics;
 });
 
-export default function Editor({ defaultValue = "", onChange }) {
+const Editor = forwardRef(function Editor({ defaultValue = "", onChange }, ref) {
   let editorContainerRef = useRef(null);
   let editorViewRef = useRef(null);
 
@@ -97,7 +97,23 @@ export default function Editor({ defaultValue = "", onChange }) {
     };
   }, []);
 
+  useImperativeHandle(ref, () => {
+    return {
+      setValue(value) {
+        let view = editorViewRef.current;
+
+        if (view) {
+          view.dispatch({
+            changes: { from: 0, to: view.state.doc.length, insert: value }
+          });
+        }
+      }
+    }
+  });
+
   return (
     <div className="editor" ref={editorContainerRef}></div>
   );
-}
+});
+
+export default Editor;

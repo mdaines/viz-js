@@ -1,8 +1,9 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { debounce } from "lodash-es";
 import ReloadablePromiseWorker, { TerminatedError } from "../reloadable-promise-worker.js";
+import EditorToolbar from "./EditorToolbar.jsx";
 import Editor from "./Editor.jsx";
-import Toolbar from "./Toolbar.jsx";
+import OutputToolbar from "./OutputToolbar.jsx";
 import Output from "./Output.jsx";
 import Errors from "./Errors.jsx";
 
@@ -25,19 +26,32 @@ function render(src, options) {
 
 export default function App() {
   const [src, setSrc] = useState(EXAMPLE);
+  const [debouncedSrc, setDebouncedSrc] = useState(src);
   const [options, setOptions] = useState({ engine: "dot", format: "svg-image" });
   const [result, setResult] = useState(null);
   const [errors, setErrors] = useState([]);
   const [zoom, setZoom] = useState("fit");
   const [isValid, setValid] = useState(false);
   const imageZoomRef = useRef(null);
+  const editorRef = useRef(null);
 
-  const handleSrcChange = useMemo(() => {
-    return debounce(setSrc, 750);
-  }, []);
+  function handleSrcChange(newSrc) {
+    setSrc(newSrc);
+    handleSrcChangeDebounced(newSrc);
+  }
 
-  const handleOptionChange = useMemo(() => {
-    return (k, v) => setOptions(o => ({ ...o, [k]: v }));
+  function handleOptionChange(k, v) {
+    setOptions(o => ({ ...o, [k]: v }));
+  }
+
+  function handleLoadExample(example) {
+    editorRef.current?.setValue(example);
+    setSrc(example);
+    setDebouncedSrc(example);
+  }
+
+  const handleSrcChangeDebounced = useMemo(() => {
+    return debounce(setDebouncedSrc, 750);
   }, []);
 
   useEffect(() => {
@@ -45,7 +59,7 @@ export default function App() {
 
     setValid(false);
 
-    render(src, options)
+    render(debouncedSrc, options)
       .then(nextResult => {
         if (ignore) {
           return;
@@ -69,14 +83,15 @@ export default function App() {
     return () => {
       ignore = true;
     };
-  }, [src, options]);
+  }, [debouncedSrc, options]);
 
   const zoomEnabled = result?.format == "svg-image";
 
   return (
     <>
-      <Editor defaultValue={src} onChange={handleSrcChange} errors={errors} />
-      <Toolbar options={options} onOptionChange={handleOptionChange} zoomEnabled={zoomEnabled} zoom={zoom} onZoomChange={setZoom} onZoomIn={() => imageZoomRef.current?.zoomIn()} onZoomOut={() => imageZoomRef.current?.zoomOut()} />
+      <EditorToolbar onLoadExample={handleLoadExample} />
+      <Editor defaultValue={src} onChange={handleSrcChange} ref={editorRef} />
+      <OutputToolbar options={options} onOptionChange={handleOptionChange} zoomEnabled={zoomEnabled} zoom={zoom} onZoomChange={setZoom} onZoomIn={() => imageZoomRef.current?.zoomIn()} onZoomOut={() => imageZoomRef.current?.zoomOut()} />
       <Output result={result} zoom={zoom} imageZoomRef={imageZoomRef} onZoomChange={setZoom} isValid={isValid} />
       <Errors errors={errors} />
     </>

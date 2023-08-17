@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "devDependencies": {
+    "mocha": "^10.2.0",
     "parcel": "^2.9.3",
     "plugins": "^0.4.2",
     "process": "^0.11.10"
@@ -18,11 +19,12 @@
     "codemirror": "^6.0.1",
     "lodash-es": "^4.17.21",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "utf8": "^3.0.0"
   },
   "scripts": {
     "build": "parcel build --no-cache --no-autoinstall index.html",
     "serve": "parcel serve --no-cache --no-autoinstall index.html",
-    "test": "mocha test/test-*.js"
+    "test": "mocha --include \"test/*.test.js\""
   }
 }

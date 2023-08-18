@@ -1,0 +1,30 @@
+name: Test website package
+
+on:
+  push:
+    branches-ignore:
+      - v2
+      - gh-pages
+    paths:
+      - "packages/website/**"
+  workflow_call: {}
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Test website package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+
+      - name: "Run tests"
+        run: |
+          yarn install --frozen-lockfile
+          yarn test
+        working-directory: packages/website

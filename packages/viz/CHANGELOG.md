@@ -50,7 +50,7 @@
       ]
     });
   
-  HTML-like labels are not yet supported. Edge ports can be specified using the headport and tailport attributes.
+  Edge ports can be specified using the headport and tailport attributes.
 
 * Update Emscripten SDK to 3.1.43.
 

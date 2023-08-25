@@ -6,7 +6,7 @@
 
   HTML attribute values are written as an object literal with a "html" property:
   
-    { label: { html: "<i>the label</i>" } }
+      { label: { html: "<i>the label</i>" } }
 
 * Accept a "reduce" option. This has the same effect as using the -x Graphviz command-line option. When using the neato layout engine, it prunes isolated nodes.
 
@@ -14,7 +14,7 @@
 
   Setting the default shape for nodes:
 
-    viz.render("digraph { a -> b }", { defaultAttributes: { node: { shape: "circle" } } });
+      viz.render("digraph { a -> b }", { defaultAttributes: { node: { shape: "circle" } } });
   
   These attributes take precedence over default attributes specified in string and object input.
 
@@ -22,33 +22,33 @@
 
   Rendering with an object:
   
-    // DOT: digraph { a -> b }
-    viz.render({ directed: true, edges: [{ tail: "a", head: "b" }] });
+      // DOT: digraph { a -> b }
+      viz.render({ directed: true, edges: [{ tail: "a", head: "b" }] });
     
   Another example:
   
-    viz.render({
-      directed: true,
-      defaultAttributes: {
+      viz.render({
+        directed: true,
+        defaultAttributes: {
         node: {
-          shape: "circle"
-        }
-      },
-      nodes: [
-        { name: "a", attributes: { label: "A", color: "red" } },
-      ],
-      edges: [
-        { tail: "a", head: "b" },
-      ],
-      subgraphs: [
-        {
-          name: "cluster_1",
-          nodes: [
-            { name: "b", attributes: { label: "B", color: "blue" } }
-          ]
-        }
-      ]
-    });
+            shape: "circle"
+          }
+        },
+        nodes: [
+          { name: "a", attributes: { label: "A", color: "red" } },
+        ],
+        edges: [
+          { tail: "a", head: "b" },
+        ],
+        subgraphs: [
+          {
+            name: "cluster_1",
+            nodes: [
+              { name: "b", attributes: { label: "B", color: "blue" } }
+            ]
+          }
+        ]
+      });
   
   Edge ports can be specified using the headport and tailport attributes.
 

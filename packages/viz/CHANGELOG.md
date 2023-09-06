@@ -2,6 +2,39 @@
 
 ## Unreleased
 
+* Collapse default attributes into separate graphAttributes, edgeAttributes, nodeAttributes objects.
+
+  For example, to set the default shape attribute for nodes:
+
+      viz.render("digraph { a -> b }", { nodeAttributes: { shape: "circle" } });
+  
+  This is equivalent to specifying `-Nshape=circle` in command-line arguments.
+  
+  Example usage in graph objects:
+  
+      viz.render({
+        graphAttributes: {
+          label: "Test"
+        },
+        nodeAttributes: {
+          shape: "circle"
+        },
+        edges: [
+          { tail: "a", head: "b" }
+        ]
+      });
+  
+  Equivalent in DOT:
+  
+      digraph {
+        graph [label="Test"]
+        node [shape="circle"]
+        
+        a -> b
+      }
+      
+  Specifying default graph attributes had the same effect as specifying attributes for the graph. This removes that ambiguity.
+
 * Accept HTML attribute values in object input.
 
   HTML attribute values are written as an object literal with a "html" property:
@@ -30,7 +63,7 @@
       viz.render({
         directed: true,
         defaultAttributes: {
-        node: {
+          node: {
             shape: "circle"
           }
         },

@@ -4,12 +4,6 @@ type AttributeValue = string | number | boolean | HTMLString;
 
 type Attributes = { [key: string]: AttributeValue };
 
-type DefaultAttributes = {
-  graph?: Attributes,
-  node?: Attributes,
-  edge?: Attributes
-};
-
 type Node = {
   name: string,
   attributes?: Attributes
@@ -23,8 +17,9 @@ type Edge = {
 
 type Graph = {
   name?: string,
-  defaultAttributes?: DefaultAttributes,
-  attributes?: Attributes,
+  graphAttributes?: Attributes,
+  nodeAttributes?: Attributes,
+  edgeAttributes?: Attributes,
   nodes?: Node[],
   edges?: Edge[],
   subgraphs?: Graph[]
@@ -44,7 +39,9 @@ export type RenderOptions = {
   engine?: string;
   yInvert?: boolean;
   reduce?: boolean;
-  defaultAttributes?: DefaultAttributes
+  graphAttributes?: Attributes;
+  nodeAttributes?: Attributes;
+  edgeAttributes?: Attributes;
 };
 
 export type RenderError = {

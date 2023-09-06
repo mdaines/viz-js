@@ -60,25 +60,25 @@ function withStringPointer(module, graphPointer, value, callbackFn) {
   module.ccall("viz_string_free", "number", ["number", "number"], [graphPointer, stringPointer]);
 }
 
-function setDefaultAttributes(module, graphPointer, defaultAttributes) {
-  if (defaultAttributes.graph) {
-    for (const [name, value] of Object.entries(defaultAttributes.graph)) {
+function setDefaultAttributes(module, graphPointer, data) {
+  if (data.graphAttributes) {
+    for (const [name, value] of Object.entries(data.graphAttributes)) {
       withStringPointer(module, graphPointer, value, stringPointer => {
         module.ccall("viz_set_default_graph_attribute", "number", ["number", "string", "number"], [graphPointer, name, stringPointer]);
       });
     }
   }
 
-  if (defaultAttributes.node) {
-    for (const [name, value] of Object.entries(defaultAttributes.node)) {
+  if (data.nodeAttributes) {
+    for (const [name, value] of Object.entries(data.nodeAttributes)) {
       withStringPointer(module, graphPointer, value, stringPointer => {
         module.ccall("viz_set_default_node_attribute", "number", ["number", "string", "number"], [graphPointer, name, stringPointer]);
       });
     }
   }
 
-  if (defaultAttributes.edge) {
-    for (const [name, value] of Object.entries(defaultAttributes.edge)) {
+  if (data.edgeAttributes) {
+    for (const [name, value] of Object.entries(data.edgeAttributes)) {
       withStringPointer(module, graphPointer, value, stringPointer => {
         module.ccall("viz_set_default_edge_attribute", "number", ["number", "string", "number"], [graphPointer, name, stringPointer]);
       });
@@ -111,13 +111,7 @@ function setAttributes(module, graphPointer, objectPointer, attributes) {
 }
 
 function readGraph(module, graphPointer, graphData) {
-  if (graphData.defaultAttributes) {
-    setDefaultAttributes(module, graphPointer, graphData.defaultAttributes);
-  }
-
-  if (graphData.attributes) {
-    setAttributes(module, graphPointer, graphPointer, graphData.attributes);
-  }
+  setDefaultAttributes(module, graphPointer, graphData);
 
   if (graphData.nodes) {
     graphData.nodes.forEach(nodeData => {
@@ -179,9 +173,7 @@ function renderInput(module, input, options) {
       };
     }
 
-    if (options.defaultAttributes) {
-      setDefaultAttributes(module, graphPointer, options.defaultAttributes);
-    }
+    setDefaultAttributes(module, graphPointer, options);
 
     module.ccall("viz_set_y_invert", "number", ["number"], [options.yInvert ? 1 : 0]);
     module.ccall("viz_set_reduce", "number", ["number"], [options.reduce ? 1 : 0]);

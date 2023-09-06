@@ -24,11 +24,9 @@ instance().then(viz => {
   options.format = "dot";
   options.engine = "dot";
   options.yInvert = true;
-  options.defaultAttributes = {
-    graph: { rankdir: "LR" },
-    node: { width: 2 },
-    edge: { color: "green" }
-  };
+  options.graphAttributes = { rankdir: "LR" };
+  options.nodeAttributes = { width: 2 };
+  options.edgeAttributes = { color: "green" };
 
   // @ts-expect-error
   options.format = false;
@@ -50,7 +48,7 @@ instance().then(viz => {
 
   result = viz.render("digraph { a -> b }", { format: "svg", engine: "dot", yInvert: false });
 
-  result = viz.render("digraph { a -> b }", { defaultAttributes: { node: { shape: "circle" } } });
+  result = viz.render("digraph { a -> b }", { nodeAttributes: { shape: "circle" } });
 
   result = viz.render({});
 
@@ -63,12 +61,10 @@ instance().then(viz => {
     directed: false,
     strict: false,
     name: "G",
-    defaultAttributes: {
-      node: {
-        shape: "circle"
-      }
+    nodeAttributes: {
+      shape: "circle"
     },
-    attributes: {
+    graphAttributes: {
       label: "Test"
     },
     nodes: [
@@ -80,12 +76,10 @@ instance().then(viz => {
     subgraphs: [
       {
         name: "cluster1",
-        defaultAttributes: {
-          edge: {
-            color: "blue"
-          }
+        edgeAttributes: {
+          color: "blue"
         },
-        attributes: {
+        graphAttributes: {
           color: "green"
         },
         subgraphs: [
@@ -100,17 +94,10 @@ instance().then(viz => {
   });
 
   result = viz.render({
-    attributes: {
+    graphAttributes: {
       width: 2,
       abc: true,
       label: { html: "<b>test</b>" }
-    },
-    defaultAttributes: {
-      node: {
-        width: 2,
-        abc: true,
-        label: { html: "<b>test</b>" }
-      }
     },
     nodes: [
       {
@@ -125,7 +112,7 @@ instance().then(viz => {
   });
 
   result = viz.render({
-    attributes: {
+    graphAttributes: {
       // @ts-expect-error
       blah: null,
       // @ts-expect-error

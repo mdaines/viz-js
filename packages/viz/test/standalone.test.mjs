@@ -151,16 +151,14 @@ describe("standalone", function() {
 
       it("accepts default attributes", function() {
         const result = viz.render("graph {}", {
-          defaultAttributes: {
-            graph: {
-              a: 123
-            },
-            node: {
-              b: false
-            },
-            edge: {
-              c: "test"
-            }
+          graphAttributes: {
+            a: 123
+          },
+          nodeAttributes: {
+            b: false
+          },
+          edgeAttributes: {
+            c: "test"
           }
         });
 
@@ -182,10 +180,8 @@ describe("standalone", function() {
 
       it("default attribute values can be html strings", function() {
         const result = viz.render("graph {}", {
-          defaultAttributes: {
-            node: {
-              label: { html: "<b>test</b>" }
-            }
+          nodeAttributes: {
+            label: { html: "<b>test</b>" }
           }
         });
 
@@ -391,17 +387,13 @@ stop
         it("default attributes render options override options in input", function() {
           const result = viz.render(
             {
-              defaultAttributes: {
-                node: {
-                  shape: "rectangle"
-                }
+              nodeAttributes: {
+                shape: "rectangle"
               }
             },
             {
-              defaultAttributes: {
-                node: {
-                  shape: "circle"
-                }
+              nodeAttributes: {
+                shape: "circle"
               }
             }
           );
@@ -496,15 +488,13 @@ stop
           });
         });
 
-        it("default attributes, graph attributes, nodes, edges, and nested subgraphs", function() {
+        it("default attributes, nodes, edges, and nested subgraphs", function() {
           const result = viz.render({
-            defaultAttributes: {
-              node: {
-                shape: "circle"
-              }
-            },
-            attributes: {
+            graphAttributes: {
               rankdir: "LR"
+            },
+            nodeAttributes: {
+              shape: "circle"
             },
             nodes: [
               { name: "a", attributes: { label: "A", color: "red" } },

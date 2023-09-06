@@ -39,12 +39,25 @@ export type RenderInputObject = Header & Graph;
 
 type RenderInput = string | RenderInputObject;
 
+export type File = {
+  path: string;
+  data: string;
+}
+
+export type ImageFile = {
+  path: string;
+  width: number;
+  height: number;
+}
+
 export type RenderOptions = {
   format?: string;
   engine?: string;
   yInvert?: boolean;
   reduce?: boolean;
-  defaultAttributes?: DefaultAttributes
+  files?: File[];
+  images?: ImageFile[];
+  defaultAttributes?: DefaultAttributes;
 };
 
 export type RenderError = {

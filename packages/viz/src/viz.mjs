@@ -156,8 +156,22 @@ function readObjectInput(module, object, options) {
   return graphPointer;
 }
 
+
+// Main rendering function
 function renderInput(module, input, options) {
+  const {FS, PATH} = module
   let graphPointer, resultPointer;
+
+  const {files} = options
+  for (const { path, width, height } of options.images) {
+    files.push({
+      path,
+      data:
+        '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' +
+        '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">\n' +
+        `<svg width="${width}" height="${height}"></svg>`,
+    });
+  }
 
   try {
     module["agerrMessages"] = [];
@@ -185,6 +199,18 @@ function renderInput(module, input, options) {
 
     module.ccall("viz_set_y_invert", "number", ["number"], [options.yInvert ? 1 : 0]);
     module.ccall("viz_set_reduce", "number", ["number"], [options.reduce ? 1 : 0]);
+
+    // Load files inside virtual filesystem
+    for (const { path, data } of files) {
+      // this is an hack to solve https://github.com/emscripten-core/emscripten/issues/8774
+      if(!globalThis.tempDouble) globalThis.tempDouble = 0
+      if(!globalThis.tempI64) globalThis.tempI64 = 0
+
+      // write the actual file
+      FS.createPath("/", PATH.dirname(path));
+      FS.writeFile(PATH.join("/", path), data);
+    }
+
 
     resultPointer = module.ccall("viz_render_graph", "number", ["number", "string", "string"], [graphPointer, options.format, options.engine]);
 
@@ -267,7 +293,13 @@ export default class Viz {
   }
 
   render(input, options = {}) {
-    return renderInput(this.module, input, { format: "dot", engine: "dot", ...options });
+    return renderInput(this.module, input, {
+      format: "dot",
+      engine: "dot",
+      files: [],
+      images: [],
+      ...options
+    });
   }
 
   renderString(src, options = {}) {

@@ -20,17 +20,17 @@ Viz.instance().then(function(viz) {
     a -> b
 
     a [label=<<table>
-      <tr><td>Image:</td></tr>
-      <tr><td><img src="https://picsum.photos/id/184/100/100"/></td></tr>
+      <tr><td>Image inside table:</td></tr>
+      <tr><td><img src="https://picsum.photos/id/184/200/200"/></td></tr>
     </table>>]
 
     b [image="https://picsum.photos/id/250/200/100"]
 
   }`, {images: [
-    {path: 'https://picsum.photos/id/184/100/100', width: 100, height: 100},
+    {path: 'https://picsum.photos/id/184/200/200', width: 200, height: 200},
     {path: 'https://picsum.photos/id/250/200/100', width: 200, height: 100},
   ]}));
-})
+});
 ```
 
 Other packages:

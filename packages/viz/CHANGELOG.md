@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* Update Emscripten SDK to 3.1.45.
+
 * Collapse default attributes into separate graphAttributes, edgeAttributes, nodeAttributes objects.
 
   For example, to set the default shape attribute for nodes:

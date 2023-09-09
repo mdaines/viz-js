@@ -16,5 +16,8 @@ lib/module.mjs lib/module.wasm: src/module/Dockerfile src/module/viz.c src/modul
 	@test -f lib/module.mjs && touch lib/module.mjs
 	@test -f lib/module.wasm && touch lib/module.wasm
 
+README.md: README.hbs src/*.mjs
+	yarn --silent jsdoc2md --configure ./jsdoc2md.json --template README.hbs --files src/*.mjs --no-gfm --heading-depth 3 --example-lang js > README.md
+
 clean:
 	rm -f lib/module.mjs lib/module.wasm lib/encoded.mjs lib/metadata.mjs lib/viz-standalone.js lib/viz-standalone.mjs

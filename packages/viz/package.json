@@ -29,6 +29,7 @@
     "@babel/preset-env": "^7.21.4",
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-terser": "^0.4.1",
+    "jsdoc-to-markdown": "^8.0.0",
     "jsdom": "^21.1.1",
     "mocha": "^10.2.0",
     "rollup": "^3.20.7"

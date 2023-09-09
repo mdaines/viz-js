@@ -241,27 +241,189 @@ function getPluginList(module, kind) {
   return list;
 }
 
-export default class Viz {
+/**
+ * An object representing a graph.
+ * @example
+ * {
+ *   edges: [
+ *     { tail: "a", head: "b" }
+ *   ]
+ * }
+ * @example
+ * {
+ *   directed: false,
+ *   nodeAttributes: { style: "filled", fontcolor: "white" },
+ *   edges: [
+ *     { tail: "a", head: "b", attributes: { label: "1" } },
+ *     { tail: "b", head: "c", attributes: { label: "2" } },
+ *     { tail: "c", head: "a", attributes: { label: "3" } }
+ *   ],
+ *   nodes: [
+ *     { name: "a", attributes: { color: "red" } },
+ *     { name: "b", attributes: { color: "green" } },
+ *     { name: "c", attributes: { color: "blue" } }
+ *   ]
+ * }
+ * @typedef {object} Graph
+ * @property {string} [name]
+ * @property {boolean} [strict=false]
+ * @property {boolean} [directed=true]
+ * @property {Attributes} [graphAttributes]
+ * @property {Attributes} [nodeAttributes]
+ * @property {Attributes} [edgeAttributes]
+ * @property {Node[]} [nodes]
+ * @property {Edge[]} [edges]
+ * @property {Subgraph[]} [subgraphs]
+ */
+
+/**
+ * An object representing the attributes for a graph, node, or edge.
+ * Used to specify attributes in {@link Graph}, {@link Node}, {@link Edge}, or {@link Subgraph}, and default attributes in {@link RenderOptions}.
+ * @example
+ * {
+ *   color: "blue",
+ *   width: 1,
+ *   label: { html: "<i>Viz.js</i>" }
+ * }
+ * @typedef {Object.<string, AttributeValue>} Attributes
+ */
+
+/**
+ * Values that can be specified for {@link Attributes}.
+ * @typedef {string | number | boolean | HTMLString} AttributeValue
+ */
+
+/**
+ * An HTML string attribute value.
+ * This can be used to create <a href="https://www.graphviz.org/doc/info/shapes.html#html">HTML-like labels</a>.
+ * @example
+ * { html: "<i>Hello!</i>" }
+ * @typedef {object} HTMLString
+ * @property {string} html
+ */
+
+/**
+ * An object representing a node in a {@link Graph}.
+ * @typedef {object} Node
+ * @property {string} name
+ * @property {Attributes} [attributes]
+ */
+
+/**
+ * An object representing a edge in a {@link Graph}.
+ * @typedef {object} Edge
+ * @property {string} tail
+ * @property {string} head
+ * @property {Attributes} [attributes]
+ */
+
+/**
+ * An object representing a subgraph in a {@link Graph}.
+ * @typedef {object} Subgraph
+ * @property {string} [name]
+ * @property {Attributes} [graphAttributes]
+ * @property {Attributes} [nodeAttributes]
+ * @property {Attributes} [edgeAttributes]
+ * @property {Node[]} [nodes]
+ * @property {Edge[]} [edges]
+ * @property {Subgraph[]} [subgraphs]
+ */
+
+/**
+ * Options for {@link Viz#render} and other render methods.
+ * @typedef {object} RenderOptions
+ * @property {string} [format=dot]
+ * @property {string} [engine=dot]
+ * @property {boolean} [yInvert=false]
+ * @property {boolean} [reduce=false]
+ * @property {Attributes} [graphAttributes]
+ * @property {Attributes} [nodeAttributes]
+ * @property {Attributes} [edgeAttributes]
+ */
+
+/**
+ * An object representing the result of rendering. See {@link Viz#render}.
+ * @typedef {SuccessResult | FailureResult} RenderResult
+ */
+
+/**
+ * Returned by {@link Viz#render} when rendering is successful.
+ * @typedef {object} SuccessResult
+ * @property {"success"} status
+ * @property {string} output
+ * @property {RenderError[]} errors
+ */
+
+/**
+ * Returned by {@link Viz#render} when rendering is unsuccessful.
+ * @typedef {object} FailureResult
+ * @property {"failure"} status
+ * @property {undefined} output
+ * @property {RenderError[]} errors
+ */
+
+/**
+ * A warning or error message emitted by Graphviz during rendering.
+ * @typedef {object} RenderError
+ * @property {"error" | "warning"} [level]
+ * @property {string} message
+ */
+
+/**
+ * Wraps an instance of the Emscripten module used to call Graphviz.
+ * Use {@link module:viz.instance} to create a new instance of this class.
+ */
+class Viz {
+  /** @package */
   constructor(module) {
     this.module = module;
   }
 
+  /**
+   * Returns a string indicating the version of Graphviz available at runtime.
+   * The constant{@link module:viz.graphvizVersion} records the value of this method at build time.
+   * @returns {string}
+   */
   get graphvizVersion() {
     return getGraphvizVersion(this.module);
   }
 
+  /**
+   * Returns an array of strings indicating the supported Graphviz output formats at runtime.
+   * The constant {@link module:viz.formats} records the value of this method at build time.
+   * @returns {string[]}
+   */
   get formats() {
     return getPluginList(this.module, "device");
   }
 
+  /**
+   * Returns an array of strings indicating the supported Graphviz layout engines at runtime.
+   * The constant {@link module:viz.engines} records the value of this method at build time.
+   * @returns {string[]}
+   */
   get engines() {
     return getPluginList(this.module, "layout");
   }
 
+ /**
+  * Renders the graph described by the input and returns an object representing the result of rendering.
+  * @param {string | Graph} input
+  * @param {RenderOptions} [options]
+  * @returns {RenderResult}
+  */
   render(input, options = {}) {
     return renderInput(this.module, input, { format: "dot", engine: "dot", ...options });
   }
 
+  /**
+   * Renders the input and returns the result as a string.
+   * This method accepts the same options as {@link Viz#render}.
+   * @param {string | Graph} input
+   * @param {RenderOptions} [options]
+   * @returns {string}
+   * @throws Throws an error if rendering failed.
+   */
   renderString(src, options = {}) {
     const result = this.render(src, options);
 
@@ -272,14 +434,33 @@ export default class Viz {
     return result.output;
   }
 
+  /**
+   * Convenience method that parses the output and returns an SVG element that can be inserted into the document.
+   * This method accepts the same options as {@link Viz#render}, except the format option is always "svg".
+   * @param {string | Graph} input
+   * @param {RenderOptions} [options]
+   * @returns {SVGSVGElement}
+   * @throws Throws an error if rendering failed.
+   */
   renderSVGElement(src, options = {}) {
     const str = this.renderString(src, { ...options, format: "svg" });
     const parser = new DOMParser();
     return parser.parseFromString(str, "image/svg+xml").documentElement;
   }
 
+  /**
+   * Convenience method that renders the input, parses the output, and returns a JSON object.
+   * If rendering failed, it throws an error.
+   * This method accepts the same options as {@link Viz#render}, except that the format option is always "json".
+   * @param {string | Graph} input
+   * @param {RenderOptions} [options]
+   * @returns {object}
+   * @throws Throws an error if rendering failed.
+   */
   renderJSON(src, options = {}) {
     const str = this.renderString(src, { ...options, format: "json" });
     return JSON.parse(str);
   }
 }
+
+export default Viz;

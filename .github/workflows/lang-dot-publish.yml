@@ -8,24 +8,6 @@ jobs:
   build:
     uses: ./.github/workflows/lang-dot-build.yml
 
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: actions/download-artifact@v3
-        with:
-          name: dist
-          path: packages/lang-dot/dist
-
-      - run: gh release create "${{ github.ref }}" --draft --title "${{ github.ref_name }}"
-        env:
-          GH_TOKEN: ${{ github.token }}
-        working-directory: packages/lang-dot
-
   publish:
     needs: build
     runs-on: ubuntu-latest

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* Update Graphviz to 9.0.0.
+
 * Update Emscripten SDK to 3.1.45.
 
 * Collapse default attributes into separate graphAttributes, edgeAttributes, nodeAttributes objects.

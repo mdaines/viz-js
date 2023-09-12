@@ -48,7 +48,7 @@ char **viz_get_plugin_list(const char *kind) {
 
   context = gvContextPlugins(lt_preloaded_symbols, 0);
 
-  list = gvPluginList(context, kind, &count, NULL);
+  list = gvPluginList(context, kind, &count);
 
   gvFinalize(context);
   gvFreeContext(context);

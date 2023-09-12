@@ -10,7 +10,7 @@ describe("Viz", function() {
 
   describe("graphvizVersion", function() {
     it("returns the Graphviz version", function() {
-      assert.strictEqual(viz.graphvizVersion, "8.1.0");
+      assert.strictEqual(viz.graphvizVersion, "9.0.0");
     });
   });
 

@@ -22,9 +22,13 @@
     "react-dom": "^18.2.0",
     "utf8": "^3.0.0"
   },
+  "source": [
+    "src/index.html",
+    "src/api/index.html"
+  ],
   "scripts": {
-    "build": "parcel build --no-cache --no-autoinstall index.html",
-    "serve": "parcel serve --no-cache --no-autoinstall index.html",
+    "build": "parcel build --no-cache --no-autoinstall",
+    "serve": "parcel serve --no-cache --no-autoinstall",
     "test": "mocha --include \"test/*.test.js\""
   }
 }

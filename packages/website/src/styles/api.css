@@ -1,0 +1,39 @@
+@import "./site.css";
+
+.header-inner-wrap {
+  width: 640px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 auto;
+}
+
+a {
+  color: #000;
+}
+
+h2 a,
+code b a {
+  text-decoration: none;
+}
+
+pre {
+  background: #f8f8f8;
+  padding: 8px;
+  overflow: auto;
+}
+
+code {
+  font-size: 13px;
+}
+
+main {
+  padding: 0 16px;
+  margin: 16px auto 32px auto;
+  max-width: 640px;
+}
+
+dd {
+  margin-left: 24px;
+}

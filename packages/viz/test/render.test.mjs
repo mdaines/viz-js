@@ -183,7 +183,7 @@ describe("Viz", function() {
       });
     });
 
-    it("renders valid input but includes error messges when followed by a graph with a syntax error", function() {
+    it("renders valid input but includes error messages when followed by a graph with a syntax error", function() {
       const result = viz.render("graph a { } graph {");
 
       assert.deepStrictEqual(result, {

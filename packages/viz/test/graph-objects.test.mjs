@@ -23,12 +23,20 @@ describe("Viz", function() {
       });
     });
 
-    it("attributes in options override options in input", function() {
+    it("attributes in options override default attributes in input, but not attributes for objects", function() {
       const result = viz.render(
         {
           nodeAttributes: {
             shape: "rectangle"
-          }
+          },
+          nodes: [
+            {
+              name: "a",
+              attributes: {
+                shape: "triangle"
+              }
+            }
+          ]
         },
         {
           nodeAttributes: {
@@ -40,10 +48,14 @@ describe("Viz", function() {
       assert.deepStrictEqual(result, {
         status: "success",
         output: `digraph {
-	graph [bb="0,0,0,0"];
+	graph [bb="0,0,61.291,49.6"];
 	node [label="\\N",
 		shape=circle
 	];
+	a	[height=0.68889,
+		pos="30.645,24.8",
+		shape=triangle,
+		width=0.85126];
 }
 `,
         errors: []

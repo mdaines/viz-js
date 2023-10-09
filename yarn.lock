@@ -1931,25 +1931,20 @@
   resolved "https://registry.yarnpkg.com/@types/resolve/-/resolve-1.20.2.tgz#97d26e00cd4a0423b4af620abecf3e6f442b7975"
   integrity sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==
 
-"@viz-js/lang-dot@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@viz-js/lang-dot/-/lang-dot-1.0.0.tgz#de63cbf1e099799ae5acbcbcc5b10a1753246301"
-  integrity sha512-tFymNfVzl6Mzgh5FbgkkO1xp+mKdG7K1UcZq1jlWZL6QMXrDWOoTI/AfzXyOoyd88lYyQUUK7HEmGRj0m+roYQ==
+"@viz-js/lang-dot@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@viz-js/lang-dot/-/lang-dot-1.0.2.tgz#62cbedefd6585c12f85c886275e4a4268c5fdf63"
+  integrity sha512-2Em9VVVno5TmkpcWQsdVf69D77luxdLRV4BxTcJE5o0XgkdG0FHXZRTw0TpS4Pz3A6Z1qRbnGE45mOS7ciP4uQ==
   dependencies:
     "@codemirror/language" "^6.8.0"
     "@lezer/common" "^1.0.3"
     "@lezer/highlight" "^1.1.6"
     "@lezer/xml" "^1.0.2"
 
-"@viz-js/viz@3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@viz-js/viz/-/viz-3.1.0.tgz#f192a4f98f1fa187b959f2f54d169531677a0d99"
-  integrity sha512-rQi2PL9HoqTpE5DVodGgSLRdRVkDVgTG36AdcUR8EWxHL45KoUw7PAzZLm70vgK+QbUN6nCraTtqgxyqeJzxBA==
-
-"@viz-js/viz@3.2.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@viz-js/viz/-/viz-3.2.0.tgz#fc912f8f95aace478c391bebeedd3a3a7a86ac17"
-  integrity sha512-CWSfQKrwt9ZrLTUK4rqhqfkdkk89rnsp7hnt3sPs01GmgA9kU2yBUwMYMmb+/w8zKFut/ZtLcMeLeaAQrZ9oOg==
+"@viz-js/viz@3.2.1":
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/@viz-js/viz/-/viz-3.2.1.tgz#28b2783b46d1c5732080886ee26077f75ebb3405"
+  integrity sha512-GC1V/b7/jhYZpkcPxS6TV2S6wPbPUwbjdpWmonOVH1LjzRoSJYm6EJhBdv8T45YYxMnXwL7eDE9qL8466o7h1g==
 
 abab@^2.0.6:
   version "2.0.6"

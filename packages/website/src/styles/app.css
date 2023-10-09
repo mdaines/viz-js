@@ -1,11 +1,11 @@
+@import "./site.css";
+
 html {
   height: 100%;
 }
 
 body {
-  margin: 0;
   height: 100%;
-  font: 14px helvetica, sans-serif;
 }
 
 .wrap {
@@ -24,50 +24,6 @@ body {
   grid-template-columns: 50% 1fr;
   grid-template-rows: max-content 1fr fit-content(20%);
 }
-
-header {
-  grid-area: header;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px;
-
-  background: #111;
-  color: #fff;
-}
-
-header a {
-  color: #fff;
-}
-
-header p {
-  margin: 0;
-}
-
-header nav {
-  flex-grow: 1;
-}
-
-header nav ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-}
-
-header nav li a {
-  padding: 6px 8px;
-  border-radius: 4px;
-  text-decoration: none;
-  background: #333;
-}
-
-header nav li a:hover {
-  background: #444;
-}
-
 
 .editor {
   grid-area: editor;

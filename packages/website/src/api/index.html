@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Viz.js - API</title>
+<link rel="stylesheet" href="../styles/api.css">
+</head>
+<body>
+  
+  <header>
+    <div class="header-inner-wrap">
+      <a href="/"><img src="../images/logo.svg" class="logo" alt="Viz.js" width="70" height="32"></a>
+
+      <nav>
+        <ul>
+          <li><a href="/api">API</a></li>
+          <li><a href="https://github.com/mdaines/viz-js">GitHub</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  
+  <main>
+    <p>Viz.js is a collection of packages for working with <a href="https://www.graphviz.org/">Graphviz</a> in JavaScript.</p>
+    
+    <ul>
+      <li><a href="#lang-dot">@viz-js/lang-dot</a> — CodeMirror language support for the Graphviz DOT language.</li>
+      <li><a href="#viz">@viz-js/viz</a> — WebAssembly build of Graphviz with a simple JavaScript wrapper.</li>
+    </ul>
+    
+    <section id="lang-dot">
+      <h2><a href="#lang-dot">@viz-js/lang-dot</a></h2>
+
+      <p><a href="https://codemirror.net/">CodeMirror</a> language support for the Graphviz <a href="https://www.graphviz.org/doc/info/lang.html">DOT language</a>.</p>
+
+      <dl>
+        <dt id="lang-dot.dot"><code><b><a href="#lang-dot.dot">dot</a></b>() &rarr; <a href="https://codemirror.net/docs/ref/#language.LanguageSupport">LanguageSupport</a></code></dt>
+        <dd>
+          <p>Returns a <code><a href="https://codemirror.net/docs/ref/#language.LanguageSupport">LanguageSupport</a></code> instance for DOT.</p>
+        </dd>
+      </dl>
+    </section>
+
+    <section id="viz">
+      <h2><a href="#viz">@viz-js/viz</a></h2>
+
+      <p>WebAssembly build of Graphviz with a simple JavaScript wrapper.</p>
+
+      <h3>Usage</h3>
+
+      <h4>ES module</h4>
+
+      <p>The Viz.js ES module is published as a single file, including its WebAssembly code. It exports a function, <a href="#viz.instance">instance</a>, which encapsulates decoding the WebAssembly code and instantiating the WebAssembly and Emscripten modules. This returns a promise that resolves to an instance of the <code><a href="#viz.Viz">Viz</a></code> class, which provides methods for <a href="#viz.Viz.render">rendering graphs</a>.</p>
+
+      <pre><code>import { instance } from "@viz-js/viz";
+
+instance().then(viz => {
+  const svg = viz.renderSVGElement("digraph { a -> b }");
+
+  document.getElementById("graph").appendChild(svg);
+});
+</pre></code>
+
+      <p>The instance can be used to render multiple graphs.</p>
+
+      <h4>UMD Bundle</h4>
+
+      <p>The package also includes a UMD bundle, <code>lib/standalone.js</code>. This assigns the <a href="#viz.instance">instance</a> function to a global <code>Viz</code> object.</p>
+
+      <pre><code>&lt;div id=&quot;graph&quot;&gt;&lt;/div&gt;
+
+&lt;script src=&quot;standalone.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+  Viz.instance().then(function(viz) {
+    var svg = viz.renderSVGElement(&quot;digraph { a -&gt; b }&quot;);
+
+    document.getElementById(&quot;graph&quot;).appendChild(svg);
+  });
+&lt;/script&gt;
+</pre></code>
+
+      <dl>
+        <dt id="viz.graphvizVersion"><code><b><a href="#viz.graphvizVersion">graphvizVersion</a></b>: string</code></dt>
+        <dd>
+          <p>The version of Graphviz used for this build.</p>
+        </dd>
+
+        <dt id="viz.formats"><code><b><a href="#viz.formats">formats</a></b>: string[]</code></dt>
+        <dd>
+          <p>The names of the <a href="https://www.graphviz.org/docs/outputs/">Graphviz output formats</a> supported in this build.</p>
+        </dd>
+
+        <dt id="viz.engines"><code><b><a href="#viz.engines">engines</a></b>: string[]</code></dt>
+        <dd>
+          <p>The names of the <a href="https://www.graphviz.org/docs/layouts/">Graphviz layout engines</a> supported in this build.</p>
+        </dd>
+
+        <dt id="viz.instance"><code><b><a href="#viz.instance">instance</a></b>() &rarr; Promise&lt;<a href="#viz.Viz">Viz</a>&gt;</code></dt>
+        <dd>
+          <p>Returns a promise that resolves to an instance of the <code><a href="#viz.Viz">Viz</a></code> class.</p>
+        </dd>
+
+        <dt id="viz.Viz"><code>class <b><a href="#viz.Viz">Viz</a></b></code></dt>
+        <dd>
+          <p>The <code><a href="#viz.Viz">Viz</a></code> class isn't exported, but it can be instantiated using the <code><a href="#viz.instance">instance</a></code> function.</p>
+
+          <p>The <code><a href="#viz.Viz.graphvizVersion">graphvizVersion</a></code>, <code><a href="#viz.Viz.formats">formats</a></code>, and <code><a href="#viz.Viz.engines">engines</a></code> getters return the results of querying the Graphviz context at runtime, but since there currently isn't any way to modify which output formats or layout engines are available, they return the same values as the constants <code><a href="#viz.graphvizVersion">graphvizVersion</a></code>, <code><a href="#viz.formats">formats</a></code>, and <code><a href="#viz.engines">engines</a></code>.</p>
+
+          <dl>
+            <dt id="viz.Viz.graphvizVersion"><code>get <b><a href="#viz.Viz.graphvizVersion">graphvizVersion</a></b>() &rarr; string</code></dt>
+            <dd>
+              <p>The version of Graphviz at runtime.</p>
+            </dd>
+
+            <dt id="viz.Viz.formats"><code>get <b><a href="#viz.Viz.formats">formats</a></b>() &rarr; string[]</code></dt>
+            <dd>
+              <p>The names of the <a href="https://www.graphviz.org/docs/outputs/">Graphviz output formats</a> supported at runtime.</p>
+            </dd>
+
+            <dt id="viz.Viz.engines"><code>get <b><a href="#viz.Viz.engines">engines</a></b>() &rarr; string[]</code></dt>
+            <dd>
+              <p>The names of the <a href="https://www.graphviz.org/docs/layouts/">Graphviz layout engines</a> supported at runtime.</p>
+            </dd>
+
+            <dt id="viz.Viz.render"><code><b><a href="#viz.Viz.render">render</a></b>(input: string | <a href="#viz.Graph">Graph</a>, options?: <a href="#viz.RenderOptions">RenderOptions</a>) &rarr; <a href="#viz.RenderResult">RenderResult</a></code></dt>
+            <dd>
+              <p>Renders the graph described by the input and returns the result as an object. <code>input</code> may be a string in <a href="https://www.graphviz.org/doc/info/lang.html">DOT syntax</a> or a <a href="#viz.Graph">graph object</a>.</p>
+
+              <p>This method does not throw an error if rendering failed, including for invalid DOT syntax, but it will throw for invalid types in input or unexpected runtime errors.</p>
+            </dd>
+
+            <dt id="viz.Viz.renderString"><code><b><a href="#viz.Viz.renderString">renderString</a></b>(input: string | <a href="#viz.Graph">Graph</a>, options?: <a href="#viz.RenderOptions">RenderOptions</a>) &rarr; string</code></dt>
+            <dd>
+              <p>Renders the input and returns the result as a string. Throws an error if rendering failed.</p>
+            </dd>
+
+            <dt id="viz.Viz.renderSVGElement"><code><b><a href="#viz.Viz.renderSVGElement">renderSVGElement</a></b>(input: string | <a href="#viz.Graph">Graph</a>, options?: <a href="#viz.RenderOptions">RenderOptions</a>) &rarr; <a href="https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement">SVGSVGElement</a></code></dt>
+            <dd>
+              <p>Convenience method that renders the input, parses the output, and returns an SVG element. The <a href="#viz.RenderOptions.format">format</a> option is ignored. Throws an error if rendering failed.</p>
+            </dd>
+
+            <dt id="viz.Viz.renderJSON"><code><b><a href="#viz.Viz.renderJSON">renderJSON</a></b>(input: string | <a href="#viz.Graph">Graph</a>, options?: <a href="#viz.RenderOptions">RenderOptions</a>) &rarr; object</code></dt>
+            <dd>
+              <p>Convenience method that renders the input, parses the output, and returns a JSON object. The <a href="#viz.RenderOptions.format">format</a> option is ignored. Throws an error if rendering failed.</p>
+            </dd>
+          </dl>
+        </dd>
+
+        <dt id="viz.RenderOptions"><code><b><a href="#viz.RenderOptions">RenderOptions</a></b></code></dt>
+        <dd>
+          <dl>
+            <dt id="viz.RenderOptions.format"><code><b><a href="#viz.RenderOptions.format">format</a></b>?: string = "dot"</code></dt>
+            <dd>
+              <p>The <a href="https://www.graphviz.org/docs/outputs/">Graphviz output format</a> to render. For example, <code>"dot"</code> or <code>"svg"</code>.</p>
+            </dd>
+
+            <dt id="viz.RenderOptions.engine"><code><b><a href="#viz.RenderOptions.engine">engine</a></b>?: string = "dot"</code></dt>
+            <dd>
+              <p>The <a href="https://www.graphviz.org/docs/layouts/">Graphviz layout engine</a> to use for graph layout. For example, <code>"dot"</code> or <code>"neato"</code>.</p>
+            </dd>
+
+            <dt id="viz.RenderOptions.yInvert"><code><b><a href="#viz.RenderOptions.yInvert">yInvert</a></b>?: boolean = false</code></dt>
+            <dd>
+              <p>Invert y coordinates in output. This corresponds to the <a href="https://www.graphviz.org/doc/info/command.html#-y"><code>-y</code> Graphviz command-line option</a>.</p>
+            </dd>
+
+            <dt id="viz.RenderOptions.reduce"><code><b><a href="#viz.RenderOptions.reduce">reduce</a></b>?: boolean = false</code></dt>
+            <dd>
+              <p>Reduce the graph. This corresponds to the <a href="https://www.graphviz.org/doc/info/command.html#-x"><code>-x</code> Graphviz command-line option</a>.</p>
+            </dd>
+
+            <dt id="viz.RenderOptions.graphAttributes"><code><b><a href="#viz.RenderOptions.graphAttributes">graphAttributes</a></b>?: <a href="#viz.Attributes">Attributes</a></code></dt>
+            <dd>
+              <p>Sets the default graph attributes. This corresponds the <a href="https://www.graphviz.org/doc/info/command.html#-G"><code>-G</code> Graphviz command-line option</a>.</p>
+            </dd>
+
+            <dt id="viz.RenderOptions.nodeAttributes"><code><b><a href="#viz.RenderOptions.nodeAttributes">nodeAttributes</a></b>?: <a href="#viz.Attributes">Attributes</a></code></dt>
+            <dd>
+              <p>Sets the default node attributes. This corresponds the <a href="https://www.graphviz.org/doc/info/command.html#-N"><code>-N</code> Graphviz command-line option</a>.</p>
+            </dd>
+
+            <dt id="viz.RenderOptions.edgeAttributes"><code><b><a href="#viz.RenderOptions.edgeAttributes">edgeAttributes</a></b>?: <a href="#viz.Attributes">Attributes</a></code></dt>
+            <dd>
+              <p>Sets the default edge attributes. This corresponds the <a href="https://www.graphviz.org/doc/info/command.html#-E"><code>-E</code> Graphviz command-line option</a>.</p>
+            </dd>
+          </dl>
+        </dd>
+        
+        <dt id="viz.RenderResult"><code><b><a href="#viz.RenderResult">RenderResult</a></b> = <a href="#viz.SuccessResult">SuccessResult</a> | <a href="#viz.FailureResult">FailureResult</a></code></dt>
+        <dd>
+          <p>The result object returned by <code><a href="#viz.Viz.render">render</a></code>.</p>
+        </dd>
+
+        <dt id="viz.SuccessResult"><code><b><a href="#viz.SuccessResult">SuccessResult</a></b></code></dt>
+        <dd>
+          <p>Returned by <code><a href="#viz.Viz.render">render</a></code> if rendering was successful. <code><a href="#viz.SuccessResult.errors">errors</a></code> may contain warning messages even if the graph rendered successfully.</p>
+
+          <dl>
+            <dt id="viz.SuccessResult.status"><code><b><a href="#viz.SuccessResult.status">status</a></b>: "success"</code></dt>
+            <dd></dd>
+
+            <dt id="viz.SuccessResult.output"><code><b><a href="#viz.SuccessResult.output">output</a></b>: string</code></dt>
+            <dd></dd>
+
+            <dt id="viz.SuccessResult.errors"><code><b><a href="#viz.SuccessResult.errors">errors</a></b>: <a href="#viz.RenderError">RenderError</a>[]</code></dt>
+            <dd></dd>
+          </dl>
+        </dd>
+
+        <dt id="viz.FailureResult"><code><b><a href="#viz.FailureResult">FailureResult</a></b></code></dt>
+        <dd>
+          <p>Returned by <code><a href="#viz.Viz.render">render</a></code> if rendering failed.</p>
+
+          <dl>
+            <dt id="viz.FailureResult.status"><code><b><a href="#viz.FailureResult.status">status</a></b>: "failure"</code></dt>
+            <dd></dd>
+
+            <dt id="viz.FailureResult.output"><code><b><a href="#viz.FailureResult.output">output</a></b>: undefined</code></dt>
+            <dd></dd>
+
+            <dt id="viz.FailureResult.errors"><code><b><a href="#viz.FailureResult.errors">errors</a></b>: <a href="#viz.RenderError">RenderError</a>[]</code></dt>
+            <dd></dd>
+          </dl>
+        </dd>
+
+        <dt id="viz.RenderError"><code><b><a href="#viz.RenderError">RenderError</a></b></code></dt>
+        <dd>
+          <dl>
+            <dt id="viz.RenderError.level"><code><b><a href="#viz.RenderError.level">level</a></b>?: "error" | "warning"</code></dt>
+            <dd></dd>
+
+            <dt id="viz.RenderError.message"><code><b><a href="#viz.RenderError.message">message</a></b>: string</code></dt>
+            <dd></dd>
+          </dl>
+        </dd>
+
+        <dt id="viz.Graph"><code><b><a href="#viz.Graph">Graph</a></b></code></dt>
+        <dd>
+          <p>In addition to strings in <a href="https://www.graphviz.org/doc/info/lang.html">DOT syntax</a>, <a href="#viz.Viz.render">rendering methods</a> accept <i>graph objects</i>.</p>
+
+          <p>Graph objects are plain JavaScript objects, similar to <a href="https://jsongraphformat.info">JSON Graph</a> or <a href="https://github.com/dagrejs/graphlib/wiki/API-Reference#json-write">the Dagre JSON serialization</a>, but are specifically designed for working with Graphviz. Because of that, they use terminology from the Graphviz API (edges have a "head" and "tail", and nodes are identified with "name") and support features such as subgraphs, HTML labels, and default attributes.</p>
+
+          <p>Some example graph objects and the corresponding graph in DOT:</p>
+
+          <h4>Empty directed graph</h4>
+
+          <pre><code>{}
+</code></pre>
+
+          <pre><code>digraph { }
+</code></pre>
+
+          <h4>Simple Undirected Graph</h4>
+
+          <pre><code>{
+  directed: false,
+  edges: [
+    { tail: "a", head: "b" },
+    { tail: "b", head: "c" },
+    { tail: "c", head: "a" }
+  ]
+}
+</code></pre>
+
+          <pre><code>graph {
+  a -- b
+  b -- c
+  c -- a
+}
+</code></pre>
+
+          <h4>Attributes, Subgraphs, HTML Labels</h4>
+
+          <pre><code>{
+  graphAttributes: {
+    rankdir: "LR"
+  },
+  nodeAttributes: {
+    shape: "circle"
+  },
+  nodes: [
+    { name: "a", attributes: { label: { html: "&lt;i&gt;A&lt;/i&gt;" }, color: "red" } },
+    { name: "b", attributes: { label: { html: "&lt;b&gt;A&lt;/b&gt;" }, color: "green" } }
+  ],
+  edges: [
+    { tail: "a", head: "b", attributes: { label: "1" } },
+    { tail: "b", head: "c", attributes: { label: "2", headport: "name" } }
+  ],
+  subgraphs: [
+    {
+      name: "cluster_1",
+      nodes: [
+        {
+          name: "c",
+          attributes: {
+            label: {
+              html: "&lt;table&gt;&lt;tr&gt;&lt;td&gt;test&lt;/td&gt;&lt;td port=\"name\"&gt;C&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+</code></pre>
+
+          <pre><code>digraph {
+  graph [rankdir="LR"]
+  node [shape="circle"]
+  a [label=&lt;&lt;i&gt;A&lt;/i&gt;&gt;, color="red"]
+  b [label=&lt;&lt;b&gt;B&lt;/b&gt;&gt;, color="green"]
+  a -> b [label="1"]
+  b -> c:name [label="2"]
+  subgraph cluster_1 {
+    c [label=&lt;&lt;table&gt;&lt;tr&gt;&lt;td port="name"&gt;C&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&gt;]
+  }
+}</code></pre>
+
+          <dl>
+            <dt id="viz.Graph.name"><code><b><a href="#viz.Graph.name">name</a></b>?: string</code></dt>
+            <dd></dd>
+
+            <dt id="viz.Graph.strict"><code><b><a href="#viz.Graph.strict">strict</a></b>?: boolean = false</code></dt>
+            <dd></dd>
+
+            <dt id="viz.Graph.directed"><code><b><a href="#viz.Graph.directed">directed</a></b>?: boolean = true</code></dt>
+            <dd></dd>
+
+            <dt id="viz.Graph.graphAttributes"><code><b><a href="#viz.Graph.graphAttributes">graphAttributes</a></b>?: <a href="#viz.Attributes">Attributes</a></code></dt>
+            <dd></dd>
+
+            <dt id="viz.Graph.nodeAttributes"><code><b><a href="#viz.Graph.nodeAttributes">nodeAttributes</a></b>?: <a href="#viz.Attributes">Attributes</a></code></dt>
+            <dd></dd>
+
+            <dt id="viz.Graph.edgeAttributes"><code><b><a href="#viz.Graph.edgeAttributes">edgeAttributes</a></b>?: <a href="#viz.Attributes">Attributes</a></code></dt>
+            <dd></dd>
+
+            <dt id="viz.Graph.nodes"><code><b><a href="#viz.Graph.nodes">nodes</a></b>?: <a href="#viz.Node">Node</a>[]</code></dt>
+            <dd></dd>
+
+            <dt id="viz.Graph.edges"><code><b><a href="#viz.Graph.edges">edges</a></b>?: <a href="#viz.Edge">Edge</a>[]</code></dt>
+            <dd></dd>
+
+            <dt id="viz.Graph.subgraphs"><code><b><a href="#viz.Graph.subgraphs">subgraphs</a></b>?: <a href="#viz.Subgraph">Subgraph</a>[]</code></dt>
+            <dd></dd>
+          </dl>
+        </dd>
+
+        <dt id="viz.Attributes"><code><b><a href="#viz.Attributes">Attributes</a></b></code></dt>
+        <dd>
+          <dl>
+            <dt id="viz.Attributes.[name]"><code><b><a href="#viz.Attributes.[name]">[name: string]</a></b>: string | number | boolean | <a href="#viz.HTMLString">HTMLString</a></code></dt>
+            <dd></dd>
+          </dl>
+        </dd>
+
+        <dt id="viz.HTMLString"><code><b><a href="#viz.HTMLString">HTMLString</a></b></code></dt>
+        <dd>
+          <dl>
+            <dt id="viz.HTMLString.html"><code><b><a href="#viz.HTMLString.html">html</a></b>: string</code></dt>
+            <dd></dd>
+          </dl>
+        </dd>
+
+        <dt id="viz.Node"><code><b><a href="#viz.Node">Node</a></b></code></dt>
+        <dd>
+          <dl>
+            <dt id="viz.Node.name"><code><b><a href="#viz.Node.name">name</a></b>: string</code></dt>
+            <dd></dd>
+
+            <dt id="viz.Node.attributes"><code><b><a href="#viz.Node.attributes">attributes</a></b>?: <a href="#viz.Attributes">Attributes</a></code></dt>
+            <dd></dd>
+          </dl>
+        </dd>
+
+        <dt id="viz.Edge"><code><b><a href="#viz.Edge">Edge</a></b></code></dt>
+        <dd>
+          <dl>
+            <dt id="viz.Edge.tail"><code><b><a href="#viz.Edge.tail">tail</a></b>: string</code></dt>
+            <dd></dd>
+
+            <dt id="viz.Edge.head"><code><b><a href="#viz.Edge.head">head</a></b>: string</code></dt>
+            <dd></dd>
+
+            <dt id="viz.Edge.attributes"><code><b><a href="#viz.Edge.attributes">attributes</a></b>?: <a href="#viz.Attributes">Attributes</a></code></dt>
+            <dd></dd>
+          </dl>
+        </dd>
+
+        <dt id="viz.Subgraph"><code><b><a href="#viz.Subgraph">Subgraph</a></b></code></dt>
+        <dd>
+          <dl>
+            <dt id="viz.Subgraph.name"><code><b><a href="#viz.Subgraph.name">name</a></b>?: string</code></dt>
+            <dd></dd>
+
+            <dt id="viz.Subgraph.graphAttributes"><code><b><a href="#viz.Subgraph.graphAttributes">graphAttributes</a></b>?: <a href="#viz.Attributes">Attributes</a></code></dt>
+            <dd></dd>
+
+            <dt id="viz.Subgraph.nodeAttributes"><code><b><a href="#viz.Subgraph.nodeAttributes">nodeAttributes</a></b>?: <a href="#viz.Attributes">Attributes</a></code></dt>
+            <dd></dd>
+
+            <dt id="viz.Subgraph.edgeAttributes"><code><b><a href="#viz.Subgraph.edgeAttributes">edgeAttributes</a></b>?: <a href="#viz.Attributes">Attributes</a></code></dt>
+            <dd></dd>
+
+            <dt id="viz.Subgraph.nodes"><code><b><a href="#viz.Subgraph.nodes">nodes</a></b>?: <a href="#viz.Node">Node</a>[]</code></dt>
+            <dd></dd>
+
+            <dt id="viz.Subgraph.edges"><code><b><a href="#viz.Subgraph.edges">edges</a></b>?: <a href="#viz.Edge">Edge</a>[]</code></dt>
+            <dd></dd>
+
+            <dt id="viz.Subgraph.subgraphs"><code><b><a href="#viz.Subgraph.subgraphs">subgraphs</a></b>?: <a href="#viz.Subgraph">Subgraph</a>[]</code></dt>
+            <dd></dd>
+          </dl>
+        </dd>
+      </dl>
+    </section>
+  </main>
+  
+</body>
+</html>

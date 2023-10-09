@@ -1,9 +1,11 @@
-# @viz-js/lang-dot
+# lang-dot
 
 [Graphviz DOT](https://www.graphviz.org/doc/info/lang.html) language support for the [CodeMirror](https://codemirror.net/) code editor.
 
-# API
+## Install
 
-## `dot()`
+lang-dot is published on NPM as [`@viz-js/lang-dot`](https://www.npmjs.com/package/@viz-js/lang-dot).
 
-Returns a [LanguageSupport](https://codemirror.net/docs/ref/#language.LanguageSupport) instance for the Graphviz DOT language.
+## API
+
+[API Reference](https://viz-js.com/api/#lang-dot)

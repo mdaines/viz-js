@@ -22,7 +22,8 @@ Other packages:
 ## Install
 
 - Viz.js is published on NPM as [`@viz-js/viz`](https://www.npmjs.com/package/@viz-js/viz).
+- lang-dot is published on NPM as [`@viz-js/lang-dot`](https://www.npmjs.com/package/@viz-js/lang-dot).
 
 ## API
 
-See [the wiki](https://github.com/mdaines/viz-js/wiki/API).
+[API Reference](https://viz-js.com/api/)

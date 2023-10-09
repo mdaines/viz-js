@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.2.1
+
+* Update TypeScript declarations to match API docs
+
 ## 3.2.0
 
 * Update Graphviz to 9.0.0.

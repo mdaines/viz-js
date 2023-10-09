@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.2
+
+* Add TypeScript declaration file to package
+
 ## 1.0.1
 
 * Add TypeScript declaration file

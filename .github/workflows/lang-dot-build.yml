@@ -34,3 +34,24 @@ jobs:
         with:
           name: dist
           path: packages/lang-dot/dist
+
+  test-types:
+    name: Test types
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+
+      - name: "Run yarn install in package directory"
+        run: |
+          yarn install --frozen-lockfile
+        working-directory: packages/lang-dot
+
+      - name: "Run check-types"
+        run: |
+          yarn install --frozen-lockfile
+          yarn check-types
+        working-directory: packages/lang-dot/test/types

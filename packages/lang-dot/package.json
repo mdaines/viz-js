@@ -15,7 +15,8 @@
   },
   "files": [
     "dist/index.js",
-    "dist/index.cjs"
+    "dist/index.cjs",
+    "types/index.d.ts"
   ],
   "main": "dist/index.cjs",
   "module": "dist/index.js",

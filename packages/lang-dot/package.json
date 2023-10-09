@@ -1,6 +1,6 @@
 {
   "name": "@viz-js/lang-dot",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Graphviz DOT language support for the CodeMirror code editor",
   "repository": {
     "type": "git",

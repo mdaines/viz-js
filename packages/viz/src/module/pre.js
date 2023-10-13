@@ -1,3 +1,3 @@
 Module["agerrMessages"] = [];
 Module["stderrMessages"] = [];
-err = text => Module["stderrMessages"].push(text);
+Module["printErr"] = text => Module["stderrMessages"].push(text);

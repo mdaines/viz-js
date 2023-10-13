@@ -194,7 +194,7 @@ function renderInput(module, input, options) {
       errors: parseErrorMessages(module)
     };
   } catch (error) {
-    if (/^exit\(\d+\)/.test(error)) {
+    if (error.name == "ExitStatus") {
       return {
         status: "failure",
         output: undefined,

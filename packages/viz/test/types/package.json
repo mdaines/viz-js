@@ -5,6 +5,7 @@
     "typescript": "^5.1.3"
   },
   "scripts": {
-    "check-types": "tsc --strict --lib es2015,dom --noEmit *.ts"
+    "check-types": "tsc --strict --lib es2015,dom --noEmit *.ts",
+    "check-types-esnext": "tsc --strict --lib es2015,dom --module esnext --moduleResolution bundler --noEmit *.ts"
   }
 }

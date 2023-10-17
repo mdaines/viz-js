@@ -115,4 +115,5 @@ jobs:
         run: |
           yarn install --frozen-lockfile
           yarn check-types
+          yarn check-types-esnext
         working-directory: packages/viz/test/types

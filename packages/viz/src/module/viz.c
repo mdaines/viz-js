@@ -73,6 +73,10 @@ Agraph_t *viz_read_one_graph(char *string) {
   Agraph_t *graph = NULL;
   Agraph_t *other_graph = NULL;
 
+  // Workaround for #218. Set the global default node label.
+
+  agattr(NULL, AGNODE, "label", "\\N");
+
   // Reset errors
 
   agseterrf(viz_errorf);

@@ -290,7 +290,7 @@ stop
         status: "success",
         output: "graph {\n\tgraph [_background=123,\n\t\tbb=\"0,0,0,0\"\n\t];\n\tnode [label=\"\\N\"];\n}\n",
         errors: [
-          { level: "warning", message: "Could not parse \"_background\" attribute in graph %1" },
+          { level: "warning", message: "Could not parse \"_background\" attribute in graph %3" },
           { level: "warning", message: "  \"123\"" }
         ]
       });
@@ -306,6 +306,27 @@ stop
           { level: "error", message: "syntax error in line 1" },
           { level: "error", message: "... <HTML></HTML> ..." }
         ]
+      });
+    });
+
+    it("the graph is read with the default node label set", function() {
+      const result = viz.render("graph { a; b[label=test] }");
+
+      assert.deepStrictEqual(result, {
+        status: "success",
+        output: `graph {
+	graph [bb="0,0,126,36"];
+	node [label="\\N"];
+	a	[height=0.5,
+		pos="27,18",
+		width=0.75];
+	b	[height=0.5,
+		label=test,
+		pos="99,18",
+		width=0.75];
+}
+`,
+        errors: []
       });
     });
   });

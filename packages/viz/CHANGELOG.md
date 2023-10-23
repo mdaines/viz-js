@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* Add a workaround for node names not being used as labels (#218)
+
 ## 3.2.2
 
 * Include types condition in exports

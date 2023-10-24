@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.2.2
+
+* Include types condition in exports
+
 ## 3.2.1
 
 * Update TypeScript declarations to match API docs

@@ -1,5 +1,7 @@
 # Changelog
 
+## Unreleased
+
 ## 3.2.2
 
 * Include types condition in exports

@@ -34,11 +34,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "$RELEASE_NOTES" > "${{ runner.temp }}/notes.md"
-          gh release create $RELEASE_TAG --notes-file "${{ runner.temp }}/notes.md" --title "$RELEASE_TITLE" --draft packages/viz/lib/viz-standalone.js
+          gh release create $RELEASE_TAG --notes-file "${{ runner.temp }}/notes.md" --title "$RELEASE_TITLE" packages/viz/lib/viz-standalone.js
 
-      # - run: npm install -g npm
-      #
-      # - run: npm publish --provenance --access public
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      #   working-directory: packages/viz
+      - run: npm install -g npm
+
+      - run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        working-directory: packages/viz

@@ -1,8 +1,6 @@
 name: Publish lang-dot
 
-on:
-  push:
-    tags: ["lang-dot-release-*"]
+on: workflow_dispatch
 
 jobs:
   build:
@@ -26,6 +24,17 @@ jobs:
         with:
           node-version: "20.x"
           registry-url: "https://registry.npmjs.org"
+
+      - name: "Collect release info"
+        run: |
+          node scripts/collect-release-info.js packages/lang-dot >> "$GITHUB_ENV"
+
+      - name: "Create GitHub release"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "$RELEASE_NOTES" > "${{ runner.temp }}/notes.md"
+          gh release create $RELEASE_TAG --notes-file "${{ runner.temp }}/notes.md" --title "$RELEASE_TITLE"
 
       - run: npm install -g npm
 

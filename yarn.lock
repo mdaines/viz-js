@@ -2033,10 +2033,10 @@
   resolved "https://registry.yarnpkg.com/@viz-js/viz/-/viz-3.2.1.tgz#28b2783b46d1c5732080886ee26077f75ebb3405"
   integrity sha512-GC1V/b7/jhYZpkcPxS6TV2S6wPbPUwbjdpWmonOVH1LjzRoSJYm6EJhBdv8T45YYxMnXwL7eDE9qL8466o7h1g==
 
-"@viz-js/viz@3.2.2":
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/@viz-js/viz/-/viz-3.2.2.tgz#8cfc590b2acdf4a31282f4dc1b9e8e88b372742f"
-  integrity sha512-zjjZqwVMYV4Cf15tJ+SteuBRS37UxKDDnWpQl6RYkuPPbRxN/5nXVcUt9zk4udUqQcgFsUc4mZR8p4vEmAiY/A==
+"@viz-js/viz@3.2.3":
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/@viz-js/viz/-/viz-3.2.3.tgz#9130f7df53fb8f100e032faafb39678e2e6108e0"
+  integrity sha512-qPMVEftgtpKA99qAcw/22Ed5PptyZXuxPuB78yF1TkmM10jAwirtwdEfoRkxhzTTib4611hntTlzsBe/YZhl8Q==
 
 abab@^2.0.6:
   version "2.0.6"

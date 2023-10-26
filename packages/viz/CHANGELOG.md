@@ -1,7 +1,5 @@
 # Changelog
 
-## Unreleased
-
 ## 3.2.3
 
 * Add a workaround for node names not being used as labels (#218)

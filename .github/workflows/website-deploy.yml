@@ -31,10 +31,6 @@ jobs:
         id: pages
         uses: actions/configure-pages@v3
 
-      - name: Build lang-dot
-        run: yarn build
-        working-directory: packages/lang-dot
-
       - name: Build website
         run: yarn build --public-url "${{ steps.pages.outputs.base_path }}/"
         timeout-minutes: 1

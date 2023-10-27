@@ -2028,11 +2028,6 @@
     "@lezer/highlight" "^1.1.6"
     "@lezer/xml" "^1.0.2"
 
-"@viz-js/viz@3.2.1":
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/@viz-js/viz/-/viz-3.2.1.tgz#28b2783b46d1c5732080886ee26077f75ebb3405"
-  integrity sha512-GC1V/b7/jhYZpkcPxS6TV2S6wPbPUwbjdpWmonOVH1LjzRoSJYm6EJhBdv8T45YYxMnXwL7eDE9qL8466o7h1g==
-
 "@viz-js/viz@3.2.3":
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/@viz-js/viz/-/viz-3.2.3.tgz#9130f7df53fb8f100e032faafb39678e2e6108e0"

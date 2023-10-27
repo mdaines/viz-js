@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@viz-js/viz": "3.2.3",
-    "parcel": "^2.9.3"
+    "parcel": "^2.10.1"
   },
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {

@@ -1,4 +1,4 @@
-FROM emscripten/emsdk:3.1.45 AS graphviz
+FROM emscripten/emsdk:3.1.47 AS graphviz
 
 ENV PREFIX=/prefix
 
@@ -16,7 +16,7 @@ RUN cd graphviz/lib && emmake make install
 RUN cd graphviz/plugin && emmake make install
 
 
-FROM emscripten/emsdk:3.1.45 AS viz
+FROM emscripten/emsdk:3.1.47 AS viz
 
 ARG DEBUG=""
 

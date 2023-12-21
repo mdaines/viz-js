@@ -8,7 +8,7 @@ export const engines: string[]
 
 export function instance(): Promise<Viz>
 
-declare class Viz {
+export declare class Viz {
   get graphvizVersion(): string
   get formats(): string[]
   get engines(): string[]

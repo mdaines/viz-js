@@ -10,9 +10,7 @@ export function instance(): Promise<Viz>
 
 export declare class Viz {
   /** Cannot construct `Viz` class directly use `instance()` instead */
-  private constructor() {
-    throw new Error("Cannot construct `Viz` class directly use `instance()` instead");
-  }
+  private constructor()
   get graphvizVersion(): string
   get formats(): string[]
   get engines(): string[]

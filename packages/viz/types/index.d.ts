@@ -18,6 +18,8 @@ declare class Viz {
   renderJSON(input: string | Graph, options?: RenderOptions): object
 }
 
+export { type Viz }
+
 export interface RenderOptions {
   format?: string
   engine?: string

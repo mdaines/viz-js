@@ -1,4 +1,8 @@
-import { instance } from "@viz-js/viz";
+import { instance, type Viz } from "@viz-js/viz";
+
+export function myRender(viz: Viz, src: string): string {
+  return viz.renderString(src, { graphAttributes: { label: "My graph" } });
+}
 
 instance().then(viz => {
   viz.render("digraph { a -> b }");
@@ -10,6 +14,8 @@ instance().then(viz => {
   viz.render("digraph { a -> b }", { nodeAttributes: { shape: "circle" } });
 
   viz.render({ edges: [{ tail: "a", head: "b" }] });
+
+  myRender(viz, "digraph { a -> b }");
 
   // @ts-expect-error
   viz.render("digraph { a -> b }", { format: false });

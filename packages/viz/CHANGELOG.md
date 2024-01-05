@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.2.4
 
 * Update Emscripten SDK to 3.1.51
 

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* Update Emscripten SDK to 3.1.51
+
 * Export the Viz type (#224, #225)
 
 ## 3.2.3

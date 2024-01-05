@@ -66,11 +66,11 @@ instance().then(viz => {
 
       <h4>UMD Bundle</h4>
 
-      <p>The package also includes a UMD bundle, <code>lib/standalone.js</code>. This assigns the <a href="#viz.instance">instance</a> function to a global <code>Viz</code> object.</p>
+      <p>The package also includes a UMD bundle, <code>lib/viz-standalone.js</code>. This assigns the <a href="#viz.instance">instance</a> function to a global <code>Viz</code> object.</p>
 
       <pre><code>&lt;div id=&quot;graph&quot;&gt;&lt;/div&gt;
 
-&lt;script src=&quot;standalone.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;viz-standalone.js&quot;&gt;&lt;/script&gt;
 &lt;script&gt;
   Viz.instance().then(function(viz) {
     var svg = viz.renderSVGElement(&quot;digraph { a -&gt; b }&quot;);

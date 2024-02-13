@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+* Add support for an images option, similar to the previous version.
+
+  Sizes of images referenced by the image attribute can be specified using an "images" render option:
+
+      viz.render("graph { a[image=\"test.png\"] }", {
+        images: [
+          { name: "test.png", width: 300, height: 200 }
+        ]
+      });
+
+  The property "name" is used instead of "path" to match the Graphviz documentation.
+
 ## 3.2.4
 
 * Update Emscripten SDK to 3.1.51

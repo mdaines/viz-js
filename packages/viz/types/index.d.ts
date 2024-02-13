@@ -28,6 +28,7 @@ export interface RenderOptions {
   graphAttributes?: Attributes
   nodeAttributes?: Attributes
   edgeAttributes?: Attributes
+  images?: ImageSize[]
 }
 
 export type RenderResult = SuccessResult | FailureResult
@@ -88,4 +89,10 @@ interface Subgraph {
   nodes?: Node[]
   edges?: Edge[]
   subgraphs?: Subgraph[]
+}
+
+interface ImageSize {
+  name: string,
+  width: string | number,
+  height: string | number
 }

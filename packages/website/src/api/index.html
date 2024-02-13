@@ -186,6 +186,20 @@ instance().then(viz => {
             <dd>
               <p>Sets the default edge attributes. This corresponds the <a href="https://www.graphviz.org/doc/info/command.html#-E"><code>-E</code> Graphviz command-line option</a>.</p>
             </dd>
+
+            <dt id="viz.RenderOptions.images"><code><b><a href="#viz.RenderOptions.images">images</a></b>?: <a href="#viz.ImageSize">ImageSize</a>[]</code></dt>
+            <dd>
+              <p>Image sizes to use when rendering nodes with <code>image</code> attributes.</p>
+
+              <p>For example, to indicate to Graphviz that the image <code>test.png</code> has size 300x200:</p>
+              
+              <pre><code>viz.render("graph { a[image=\"test.png\"] }", {
+  images: [
+    { name: "test.png", width: 300, height: 200 }
+  ]
+});
+</pre></code>
+            </dd>
           </dl>
         </dd>
         
@@ -486,6 +500,38 @@ instance().then(viz => {
             <dt id="viz.Subgraph.subgraphs"><code><b><a href="#viz.Subgraph.subgraphs">subgraphs</a></b>?: <a href="#viz.Subgraph">Subgraph</a>[]</code></dt>
             <dd>
               <p></p>
+            </dd>
+          </dl>
+        </dd>
+
+        <dt id="viz.ImageSize"><code><b><a href="#viz.ImageSize">ImageSize</a></b></code></dt>
+        <dd>
+          <p>Specifies the size of an image used as a node's <code>image</code> attribute. See <a href="#viz.RenderOptions.images">images</a>.</p>
+          
+          <p><a href="#viz.ImageSize.width">width</a> and <a href="#viz.ImageSize.height">height</a> may be specified as numbers or strings with units: in, px, pc, pt, cm, or mm. If no units are given or measurements are given as numbers, points (pt) are used.</p>
+
+          <dl>
+            <dt id="viz.ImageSize.name"><code><b><a href="#viz.ImageSize.name">name</a></b>: string</code></dt>
+            <dd>
+              <p>The name of the image. In addition to filenames, names that look like absolute filesystem paths or URLs can be used.</p>
+              
+              <ul>
+                <li><code>"example.png"</code></li>
+                <li><code>"/images/example.png"</code></li>
+                <li><code>"http://example.com/image.png"</code></li>
+              </ul>
+              
+              <p>Names that look like relative filesystem paths, such as <code>"../example.png"</code>, are not supported.</p>
+            </dd>
+
+            <dt id="viz.ImageSize.width"><code><b><a href="#viz.ImageSize.width">width</a></b>: string | number</code></dt>
+            <dd>
+              <p>The width of the image.</p>
+            </dd>
+
+            <dt id="viz.ImageSize.height"><code><b><a href="#viz.ImageSize.height">height</a></b>: string | number</code></dt>
+            <dd>
+              <p>The height of the image.</p>
             </dd>
           </dl>
         </dd>

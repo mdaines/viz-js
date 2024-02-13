@@ -60,6 +60,38 @@ function withStringPointer(module, graphPointer, value, callbackFn) {
   module.ccall("viz_string_free", "number", ["number", "number"], [graphPointer, stringPointer]);
 }
 
+function createImageFiles(module, images) {
+  if (!images) {
+    return [];
+  }
+
+  return images.map(image => {
+    if (typeof image.name !== "string") {
+      throw new Error("image name must be a string");
+    } else if (typeof image.width !== "number" && typeof image.width !== "string") {
+      throw new Error("image width must be a number or string");
+    } else if (typeof image.height !== "number" && typeof image.height !== "string") {
+      throw new Error("image height must be a number or string");
+    }
+
+    const path = module.PATH.join("/", image.name);
+    const data = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="${image.width}" height="${image.height}"></svg>
+`;
+
+    module.FS.createPath("/", module.PATH.dirname(path));
+    module.FS.writeFile(path, data);
+
+    return path;
+  });
+}
+
+function removeImageFiles(module, imageFilePaths) {
+  for (const path of imageFilePaths) {
+    module.FS.unlink(path);
+  }
+}
+
 function setDefaultAttributes(module, graphPointer, data) {
   if (data.graphAttributes) {
     for (const [name, value] of Object.entries(data.graphAttributes)) {
@@ -151,11 +183,13 @@ function readObjectInput(module, object, options) {
 }
 
 function renderInput(module, input, options) {
-  let graphPointer, resultPointer;
+  let graphPointer, resultPointer, imageFilePaths;
 
   try {
     module["agerrMessages"] = [];
     module["stderrMessages"] = [];
+
+    imageFilePaths = createImageFiles(module, options.images);
 
     if (typeof input === "string") {
       graphPointer = readStringInput(module, input, options);
@@ -210,6 +244,10 @@ function renderInput(module, input, options) {
 
     if (resultPointer) {
       module.ccall("free", "number", ["number"], [resultPointer]);
+    }
+
+    if (imageFilePaths) {
+      removeImageFiles(module, imageFilePaths);
     }
   }
 }

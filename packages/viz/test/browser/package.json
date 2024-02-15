@@ -1,0 +1,18 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "serve": "parcel serve --no-cache --no-autoinstall index.html"
+  },
+  "dependencies": {
+    "@viz-js/viz": "link:../.."
+  },
+  "devDependencies": {
+    "assert": "^2.1.0",
+    "buffer": "^6.0.3",
+    "events": "^3.3.0",
+    "mocha": "^10.3.0",
+    "parcel": "^2.11.0",
+    "stream-browserify": "^3.0.0"
+  }
+}

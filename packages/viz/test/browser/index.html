@@ -1,0 +1,44 @@
+<!doctype html>
+<meta charset="utf8">
+
+<link rel="stylesheet" href="npm:mocha/mocha.css">
+
+<div id="mocha"></div>
+
+<script type="module">
+
+  import mocha from "mocha";
+  import assert from "assert";
+  import * as Viz from "@viz-js/viz";
+
+  mocha.setup("bdd");
+
+  describe("renderSVGElement", function() {
+    let viz;
+
+    beforeEach(async function() {
+      viz = await Viz.instance();
+    });
+
+    it("works", async function() {
+      assert.ok(viz.renderSVGElement("digraph { a -> b }"));
+    });
+
+    it("works with the images option", function() {
+      const svg = viz.renderSVGElement("graph { a[image=\"test.png\"] }", {
+        images: [
+          { name: "test.png", width: 300, height: 200 }
+        ]
+      });
+
+      assert.ok(svg);
+
+      const image = svg.querySelector("image");
+
+      assert.equal(image.getAttributeNS("http://www.w3.org/1999/xlink", "href"), "test.png");
+      assert.equal(image.getAttribute("width"), "300px");
+      assert.equal(image.getAttribute("height"), "200px");
+    });
+  });
+
+</script>

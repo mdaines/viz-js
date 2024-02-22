@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.3.0
 
 * Add support for an images option, similar to the previous version.
 

@@ -2033,10 +2033,10 @@
     "@lezer/highlight" "^1.1.6"
     "@lezer/xml" "^1.0.2"
 
-"@viz-js/viz@3.2.3":
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/@viz-js/viz/-/viz-3.2.3.tgz#9130f7df53fb8f100e032faafb39678e2e6108e0"
-  integrity sha512-qPMVEftgtpKA99qAcw/22Ed5PptyZXuxPuB78yF1TkmM10jAwirtwdEfoRkxhzTTib4611hntTlzsBe/YZhl8Q==
+"@viz-js/viz@3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@viz-js/viz/-/viz-3.3.0.tgz#9ef8d95ffed333344e4e585286bd3c2ed4629420"
+  integrity sha512-cWBklZ5903i90YXGy3tWo93kgxsdKhlIes0soTYscJtiTwD8vBY55TDKZPDvkXVmh842AaNxby7FDWmAPSJnQw==
 
 abab@^2.0.6:
   version "2.0.6"

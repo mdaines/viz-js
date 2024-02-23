@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "@viz-js/viz": "3.2.3",
+    "@viz-js/viz": "3.3.0",
     "parcel": "^2.10.1"
   },
   "browserslist": "> 0.5%, last 2 versions, not dead",

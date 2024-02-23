@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* Update Graphviz to 10.0.1.
+
 ## 3.3.1
 
 * Accept "images" entries with duplicate names.

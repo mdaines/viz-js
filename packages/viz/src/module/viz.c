@@ -1,5 +1,6 @@
 #include <gvc.h>
 #include <emscripten.h>
+#include <stdbool.h>
 
 extern int Y_invert;
 extern unsigned char Reduce;
@@ -116,19 +117,19 @@ int viz_string_free(Agraph_t * g, const char *s) {
 
 EMSCRIPTEN_KEEPALIVE
 Agnode_t *viz_add_node(Agraph_t *g, char *name) {
-  return agnode(g, name, TRUE);
+  return agnode(g, name, true);
 }
 
 EMSCRIPTEN_KEEPALIVE
 Agedge_t *viz_add_edge(Agraph_t *g, char *uname, char *vname) {
-  Agnode_t *u = agnode(g, uname, TRUE);
-  Agnode_t *v = agnode(g, vname, TRUE);
-  return agedge(g, u, v, NULL, TRUE);
+  Agnode_t *u = agnode(g, uname, true);
+  Agnode_t *v = agnode(g, vname, true);
+  return agedge(g, u, v, NULL, true);
 }
 
 EMSCRIPTEN_KEEPALIVE
 Agraph_t *viz_add_subgraph(Agraph_t *g, char *name) {
-  return agsubg(g, name, TRUE);
+  return agsubg(g, name, true);
 }
 
 EMSCRIPTEN_KEEPALIVE

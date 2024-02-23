@@ -4,7 +4,7 @@ import Viz from "../src/viz.mjs";
 
 describe("graphvizVersion", function() {
   it("returns the Graphviz version", function() {
-    assert.strictEqual(VizPackage.graphvizVersion, "9.0.0");
+    assert.strictEqual(VizPackage.graphvizVersion, "10.0.1");
   });
 });
 
@@ -33,6 +33,7 @@ describe("formats", function() {
       "ps",
       "ps2",
       "svg",
+      "svg_inline",
       "tk",
       "xdot",
       "xdot1.2",

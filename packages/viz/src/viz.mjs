@@ -88,7 +88,9 @@ function createImageFiles(module, images) {
 
 function removeImageFiles(module, imageFilePaths) {
   for (const path of imageFilePaths) {
-    module.FS.unlink(path);
+    if (module.FS.analyzePath(path).exists) {
+      module.FS.unlink(path);
+    }
   }
 }
 

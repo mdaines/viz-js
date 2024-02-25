@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased
+## 3.3.1
+
+* Accept "images" entries with duplicate names.
 
 ## 3.3.0
 

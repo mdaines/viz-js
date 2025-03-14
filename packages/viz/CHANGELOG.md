@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* Update Expat to 2.7.0.
+
 ## 3.11.0
 
 * Update Emscripten SDK to 3.1.70.

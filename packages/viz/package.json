@@ -31,7 +31,7 @@
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-terser": "^0.4.1",
     "jsdom": "^21.1.1",
-    "mocha": "^10.2.0",
+    "mocha": "^11.1.0",
     "rollup": "^3.29.5"
   },
   "scripts": {

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from "react";
+import { useState, useEffect, useRef, useImperativeHandle } from "react";
 import * as imageZoomClasses from "./ImageZoom.module.css";
 
 export const zoomLevels = [
@@ -40,7 +40,7 @@ function measureFitZoomLevel(container, dimensions) {
   return Math.min(widthRatio, heightRatio);
 }
 
-const ImageZoom = forwardRef(function ImageZoom({ svg, zoom, onZoomChange }, ref) {
+const ImageZoom = function ImageZoom({ svg, zoom, onZoomChange, ref }) {
   const blobURLRef = useRef(null);
   const imageRef = useRef(null);
   const containerRef = useRef(null);
@@ -138,6 +138,6 @@ const ImageZoom = forwardRef(function ImageZoom({ svg, zoom, onZoomChange }, ref
     <div className={imageZoomClasses.container} ref={containerRef}>
     </div>
   );
-});
+}
 
 export default ImageZoom;

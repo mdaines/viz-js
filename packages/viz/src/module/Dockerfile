@@ -22,8 +22,6 @@ RUN cd graphviz && emconfigure ./configure \
   --disable-ltdl \
   --prefix="${PREFIX}" \
   --libdir="${PREFIX}/lib" \
-  EXPAT_CFLAGS="-I${PREFIX}/include" \
-  EXPAT_LIBS="-L${PREFIX}/lib -lexpat" \
   CFLAGS="-Oz" \
   CXXFLAGS="-Oz"
 RUN cd graphviz/lib && emmake make install

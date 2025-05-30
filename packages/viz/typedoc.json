@@ -1,0 +1,8 @@
+{
+  "excludeInternal": true,
+  "plugin": [
+    "typedoc-plugin-mdn-links"
+  ],
+  "sort": ["kind", "source-order"],
+  "readme": "site/index.md"
+}

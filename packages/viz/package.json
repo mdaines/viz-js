@@ -32,12 +32,9 @@
     "@rollup/plugin-terser": "^0.4.1",
     "jsdom": "^21.1.1",
     "mocha": "^11.1.0",
-    "rollup": "^3.29.5",
-    "typedoc": "^0.28.5",
-    "typedoc-plugin-mdn-links": "^5.0.2"
+    "rollup": "^3.29.5"
   },
   "scripts": {
-    "test": "mocha --include \"test/*.test.mjs\"",
-    "docs": "typedoc types/index.d.ts"
+    "test": "mocha --include \"test/*.test.mjs\""
   }
 }

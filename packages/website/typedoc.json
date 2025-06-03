@@ -1,0 +1,15 @@
+{
+  "out": "dist/api",
+  "name": "Viz.js API",
+  "navigationLinks": {
+    "Try Viz.js": "/",
+    "GitHub": "https://github.com/mdaines/viz-js"
+  },
+  "readme": "docs/index.md",
+  "plugin": [
+    "typedoc-plugin-mdn-links"
+  ],
+  "sort": ["kind", "source-order"],
+  "includeHierarchySummary": false,
+  "excludeInternal": true
+}

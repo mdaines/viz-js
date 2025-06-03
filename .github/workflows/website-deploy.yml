@@ -32,7 +32,9 @@ jobs:
         uses: actions/configure-pages@v4
 
       - name: Build website
-        run: npm run build --public-url "${{ steps.pages.outputs.base_path }}/"
+        run: |
+          npm run build --public-url "${{ steps.pages.outputs.base_path }}/"
+          npm run build-api
         timeout-minutes: 1
         working-directory: packages/website
 

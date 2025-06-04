@@ -1,27 +1,50 @@
+import Module from "../lib/module.mjs";
+import { decode } from "../lib/encoded.mjs";
 import { getGraphvizVersion, getPluginList, renderInput } from "./wrapper.mjs";
 
-class Viz {
-  constructor(module) {
-    this.module = module;
-  }
-
+export class Viz {
   get graphvizVersion() {
+    this.assertLoaded();
+
     return getGraphvizVersion(this.module);
   }
 
   get formats() {
+    this.assertLoaded();
+
     return getPluginList(this.module, "device");
   }
 
   get engines() {
+    this.assertLoaded();
+
     return getPluginList(this.module, "layout");
   }
 
+  get isLoaded() {
+    return typeof this.module !== "undefined";
+  }
+
+  async load() {
+    this.module = await Module({ wasm: decode() });
+    return this;
+  }
+
+  assertLoaded() {
+    if (!this.isLoaded) {
+      throw new Error("Viz is not loaded. Call `await Viz.load()` first.");
+    }
+  }
+
   renderFormats(input, formats, options = {}) {
+    this.assertLoaded();
+
     return renderInput(this.module, input, formats, { engine: "dot", ...options });
   }
 
   render(input, options = {}) {
+    this.assertLoaded();
+
     let format;
 
     if (options.format === void 0) {
@@ -60,5 +83,3 @@ class Viz {
     return JSON.parse(str);
   }
 }
-
-export default Viz;

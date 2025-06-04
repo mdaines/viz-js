@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import * as VizPackage from "../src/standalone.mjs";
-import Viz from "../src/viz.mjs";
+import { Viz } from "../src/viz.mjs";
 
 describe("graphvizVersion", function() {
   it("returns the Graphviz version", function() {

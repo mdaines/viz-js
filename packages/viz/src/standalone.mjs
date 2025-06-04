@@ -1,9 +1,13 @@
-import Module from "../lib/module.mjs";
-import Viz from "./viz.mjs";
-import { decode } from "../lib/encoded.mjs";
+import { Viz as VizClass } from "./viz.mjs";
 
 export { graphvizVersion, formats, engines } from "../lib/metadata.mjs";
 
-export function instance() {
-  return Module({ wasm: decode() }).then(m => new Viz(m));
+export async function instance() {
+  const viz = new VizClass();
+  await viz.load();
+  return viz;
 }
+
+const Viz = new VizClass();
+
+export { Viz };

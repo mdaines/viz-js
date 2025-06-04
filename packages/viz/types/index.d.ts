@@ -20,34 +20,44 @@ export const engines: string[]
  */
 export function instance(): Promise<Viz>
 
-/**
- * The {@link Viz} class isn't exported, but it can be instantiated using the {@link instance} function.
- */
-declare class Viz {
+export class Viz {
   /**
    * The version of Graphviz at runtime.
+   *
+   * Throws an error if the promise returned by {@link load} has not yet resolved.
    */
   get graphvizVersion(): string
 
   /**
    * The names of the {@link https://www.graphviz.org/docs/outputs/ | Graphviz output formats} supported at runtime.
+   *
+   * Throws an error if the promise returned by {@link load} has not yet resolved.
    */
   get formats(): string[]
 
   /**
    * The names of the {@link https://www.graphviz.org/docs/layouts/ | Graphviz layout engines} supported at runtime.
+   *
+   * Throws an error if the promise returned by {@link load} has not yet resolved.
    */
   get engines(): string[]
 
   /**
-   * @internal
+   * Indicates whether or not the Empscripten module has been loaded.
    */
-  constructor()
+  get isLoaded(): boolean
+
+  /**
+   * Load the Emscripten module. Once loaded, {@link render | rendering methods} may be called.
+   */
+  load(): Promise<undefined>
 
   /**
    * Renders the graph described by the input and returns the result as an object.
    *
    * `input` may be a string in {@link https://www.graphviz.org/doc/info/lang.html | DOT syntax} or a {@link Graph | graph object}.
+   *
+   * Throws an error if the promise returned by {@link load} has not yet resolved.
    *
    * This method does not throw an error if rendering failed, including for invalid DOT syntax, but it will throw for invalid types in input or unexpected runtime errors.
    */
@@ -55,26 +65,32 @@ declare class Viz {
 
   /**
    * Renders the graph described by the input for each format in `formats` and returns the result as an object. For a successful result, `output` is an object keyed by format.
+   *
+   * Throws an error if the promise returned by {@link load} has not yet resolved.
    */
   renderFormats(input: string | Graph, formats: string[], options?: RenderOptions): MultipleRenderResult
 
   /**
    * Renders the input and returns the result as a string. Throws an error if rendering failed.
+   *
+   * Throws an error if the promise returned by {@link load} has not yet resolved.
    */
   renderString(input: string | Graph, options?: RenderOptions): string
 
   /**
    * Convenience method that renders the input, parses the output, and returns an SVG element. The `format` option is ignored. Throws an error if rendering failed.
+   *
+   * Throws an error if the promise returned by {@link load} has not yet resolved.
    */
   renderSVGElement(input: string | Graph, options?: RenderOptions): SVGSVGElement
 
   /**
    * Convenience method that renders the input, parses the output, and returns a JSON object. The `format` option is ignored. Throws an error if rendering failed.
+   *
+   * Throws an error if the promise returned by {@link load} has not yet resolved.
    */
   renderJSON(input: string | Graph, options?: RenderOptions): object
 }
-
-export { type Viz }
 
 /**
  * @property format

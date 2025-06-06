@@ -1,5 +1,5 @@
-import { instance } from "../../src/standalone.mjs";
-import { randomGraph, dotStringify } from "./utils.mjs";
+import { instance } from "../../src/index.js";
+import { randomGraph, dotStringify } from "./utils.js";
 
 const invalidInput = "graph {";
 

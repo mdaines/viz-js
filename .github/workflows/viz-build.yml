@@ -24,7 +24,7 @@ jobs:
 
       - uses: docker/build-push-action@v5
         with:
-          context: packages/viz/src/module
+          context: packages/viz/backend
           push: false
           outputs: type=local,dest=packages/viz/lib
           cache-from: type=gha

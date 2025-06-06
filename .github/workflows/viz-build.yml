@@ -37,8 +37,7 @@ jobs:
       - name: "Build"
         run: |
           npm clean-install
-          test -f lib/module.mjs && touch lib/module.mjs
-          test -f lib/module.wasm && touch lib/module.wasm
+          test -f lib/backend.js && touch lib/backend.js
           make
         working-directory: packages/viz
 

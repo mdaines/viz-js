@@ -1,4 +1,4 @@
-import { parseStderrMessages, parseAgerrMessages } from "./errors.mjs";
+import { parseStderrMessages, parseAgerrMessages } from "./errors.js";
 
 export function getGraphvizVersion(module) {
   const resultPointer = module.ccall("viz_get_graphviz_version", "number", [], []);

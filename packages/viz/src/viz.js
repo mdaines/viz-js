@@ -1,4 +1,4 @@
-import { getGraphvizVersion, getPluginList, renderInput } from "./wrapper.mjs";
+import { getGraphvizVersion, getPluginList, renderInput } from "./wrapper.js";
 
 class Viz {
   constructor(module) {

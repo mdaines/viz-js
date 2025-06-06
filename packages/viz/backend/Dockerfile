@@ -1,4 +1,4 @@
-FROM emscripten/emsdk:3.1.70 AS graphviz
+FROM emscripten/emsdk:3.1.70-arm64 AS graphviz
 
 ENV PREFIX=/prefix
 
@@ -30,7 +30,7 @@ RUN cd graphviz/lib && emmake make install
 RUN cd graphviz/plugin && emmake make install
 
 
-FROM emscripten/emsdk:3.1.70 AS viz
+FROM emscripten/emsdk:3.1.70-arm64 AS viz
 
 ARG DEBUG=""
 
@@ -57,19 +57,18 @@ RUN emcc \
   -lexpat \
   ${DEBUG:+-g2} \
   -Oz \
-  --closure=0 \
   --no-entry \
   -s MODULARIZE=1 \
-  -s MINIMAL_RUNTIME=1 \
+  -s EXPORT_ES6=1 \
+  -s SINGLE_FILE=1 \
   -s ASSERTIONS=0 \
   -s ALLOW_MEMORY_GROWTH=1 \
   -s ENVIRONMENT=web \
   -s EXPORT_KEEPALIVE=1 \
   -s EXPORTED_FUNCTIONS="['_malloc', '_free']" \
   -s EXPORTED_RUNTIME_METHODS="['ccall', 'UTF8ToString', 'lengthBytesUTF8', 'stringToUTF8', 'getValue', 'FS', 'PATH']" \
-  -s INCOMING_MODULE_JS_API="['wasm']" \
   -s WASM_BIGINT=1 \
-  -o "${OUTPUT}/module.mjs" \
+  -o "${OUTPUT}/backend.js" \
   --pre-js pre.js \
   viz.c
 

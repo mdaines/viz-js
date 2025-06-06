@@ -9,7 +9,6 @@
   },
   "devDependencies": {
     "assert": "^2.1.0",
-    "buffer": "^6.0.3",
     "events": "^3.3.0",
     "mocha": "^11.1.0",
     "parcel": "^2.11.0",

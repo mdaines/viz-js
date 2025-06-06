@@ -1,29 +1,24 @@
 {
   "name": "@viz-js/viz",
+  "version": "3.12.0-dev",
   "description": "WebAssembly build of Graphviz with a simple wrapper for using it on the web",
   "keywords": [
     "graphviz",
     "emscripten"
   ],
-  "version": "3.12.0-dev",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mdaines/viz-js.git",
     "directory": "packages/viz"
   },
   "license": "MIT",
-  "types": "types/index.d.ts",
-  "exports": {
-    "types": "./types/index.d.ts",
-    "import": "./lib/viz-standalone.mjs",
-    "require": "./lib/viz-standalone.js"
-  },
-  "main": "lib/viz-standalone.js",
-  "module": "lib/viz-standalone.mjs",
+  "type": "module",
+  "module": "./src/index.js",
+  "types": "./types/index.d.ts",
   "files": [
-    "lib/viz-standalone.js",
-    "lib/viz-standalone.mjs",
-    "types/index.d.ts"
+    "src",
+    "lib",
+    "types"
   ],
   "devDependencies": {
     "@babel/core": "^7.21.4",
@@ -37,7 +32,7 @@
     "typedoc-plugin-mdn-links": "^5.0.2"
   },
   "scripts": {
-    "test": "mocha --include \"test/*.test.mjs\"",
+    "test": "mocha --include \"test/*.test.js\"",
     "docs": "typedoc types/index.d.ts"
   }
 }

@@ -271,5 +271,9 @@ function withStringPointer(module, graphPointer, value, callbackFn) {
 
   callbackFn(stringPointer);
 
-  module.ccall("viz_string_free", "number", ["number", "number"], [graphPointer, stringPointer]);
+  if (typeof value === "object" && "html" in value) {
+    module.ccall("viz_string_free_html", "number", ["number", "number"], [graphPointer, stringPointer]);
+  } else {
+    module.ccall("viz_string_free", "number", ["number", "number"], [graphPointer, stringPointer]);
+  }
 }

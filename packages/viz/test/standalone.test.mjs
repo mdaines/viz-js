@@ -4,7 +4,7 @@ import Viz from "../src/viz.mjs";
 
 describe("graphvizVersion", function() {
   it("returns the Graphviz version", function() {
-    assert.strictEqual(VizPackage.graphvizVersion, "12.2.1");
+    assert.strictEqual(VizPackage.graphvizVersion, "13.0.0");
   });
 });
 

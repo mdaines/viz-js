@@ -112,7 +112,12 @@ char *viz_string_dup_html(Agraph_t *g, char *s) {
 
 EMSCRIPTEN_KEEPALIVE
 int viz_string_free(Agraph_t * g, const char *s) {
-  return agstrfree(g, s);
+  return agstrfree(g, s, false);
+}
+
+EMSCRIPTEN_KEEPALIVE
+int viz_string_free_html(Agraph_t * g, const char *s) {
+  return agstrfree(g, s, true);
 }
 
 EMSCRIPTEN_KEEPALIVE
@@ -188,7 +193,7 @@ void viz_reset_errors() {
 EMSCRIPTEN_KEEPALIVE
 char *viz_render(GVC_t *context, Agraph_t *graph, const char *format) {
   char *data = NULL;
-  unsigned int length = 0;
+  size_t length = 0;
   int render_error = 0;
 
   render_error = gvRenderData(context, graph, format, &data, &length);

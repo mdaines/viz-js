@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.13.0
 
 * Update Graphviz to 13.0.0.
 

@@ -2,7 +2,7 @@ import Module from "../lib/module.mjs";
 import { decode } from "../lib/encoded.mjs";
 import { getGraphvizVersion, getPluginList, renderInput } from "./wrapper.mjs";
 
-export class Viz {
+export class VizWrapper {
   get graphvizVersion() {
     this.assertLoaded();
 

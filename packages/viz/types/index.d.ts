@@ -16,29 +16,37 @@ export const formats: string[]
 export const engines: string[]
 
 /**
- * Returns a promise that resolves to an instance of the {@link Viz} class.
+ * Returns a promise that resolves to an instance of the {@link VizWrapper} class.
  */
-export function instance(): Promise<Viz>
+export function instance(): Promise<VizWrapper>
 
-export class Viz {
+/**
+ * An instance of {@link VizWrapper} class.
+ */
+export const Viz: VizWrapper
+
+/**
+ * Wraps the Emscripten module.
+ */
+export class VizWrapper {
   /**
    * The version of Graphviz at runtime.
    *
-   * Throws an error if the promise returned by {@link load} has not yet resolved.
+   * @throws an error if the promise returned by {@link load} has not yet resolved.
    */
   get graphvizVersion(): string
 
   /**
    * The names of the {@link https://www.graphviz.org/docs/outputs/ | Graphviz output formats} supported at runtime.
    *
-   * Throws an error if the promise returned by {@link load} has not yet resolved.
+   * @throws an error if the promise returned by {@link load} has not yet resolved.
    */
   get formats(): string[]
 
   /**
    * The names of the {@link https://www.graphviz.org/docs/layouts/ | Graphviz layout engines} supported at runtime.
    *
-   * Throws an error if the promise returned by {@link load} has not yet resolved.
+   * @throws an error if the promise returned by {@link load} has not yet resolved.
    */
   get engines(): string[]
 
@@ -49,45 +57,46 @@ export class Viz {
 
   /**
    * Load the Emscripten module. Once loaded, {@link render | rendering methods} may be called.
+   * @returns a promise that resolves to an instance of the {@link VizWrapper} class.
    */
-  load(): Promise<undefined>
+  load(): Promise<VizWrapper>
 
   /**
    * Renders the graph described by the input and returns the result as an object.
    *
    * `input` may be a string in {@link https://www.graphviz.org/doc/info/lang.html | DOT syntax} or a {@link Graph | graph object}.
    *
-   * Throws an error if the promise returned by {@link load} has not yet resolved.
-   *
    * This method does not throw an error if rendering failed, including for invalid DOT syntax, but it will throw for invalid types in input or unexpected runtime errors.
+   *
+   * @throws an error if the promise returned by {@link load} has not yet resolved.
    */
   render(input: string | Graph, options?: RenderOptions): RenderResult
 
   /**
    * Renders the graph described by the input for each format in `formats` and returns the result as an object. For a successful result, `output` is an object keyed by format.
    *
-   * Throws an error if the promise returned by {@link load} has not yet resolved.
+   * @throws an error if the promise returned by {@link load} has not yet resolved.
    */
   renderFormats(input: string | Graph, formats: string[], options?: RenderOptions): MultipleRenderResult
 
   /**
    * Renders the input and returns the result as a string. Throws an error if rendering failed.
    *
-   * Throws an error if the promise returned by {@link load} has not yet resolved.
+   * @throws an error if the promise returned by {@link load} has not yet resolved.
    */
   renderString(input: string | Graph, options?: RenderOptions): string
 
   /**
    * Convenience method that renders the input, parses the output, and returns an SVG element. The `format` option is ignored. Throws an error if rendering failed.
    *
-   * Throws an error if the promise returned by {@link load} has not yet resolved.
+   * @throws an error if the promise returned by {@link load} has not yet resolved.
    */
   renderSVGElement(input: string | Graph, options?: RenderOptions): SVGSVGElement
 
   /**
    * Convenience method that renders the input, parses the output, and returns a JSON object. The `format` option is ignored. Throws an error if rendering failed.
    *
-   * Throws an error if the promise returned by {@link load} has not yet resolved.
+   * @throws an error if the promise returned by {@link load} has not yet resolved.
    */
   renderJSON(input: string | Graph, options?: RenderOptions): object
 }

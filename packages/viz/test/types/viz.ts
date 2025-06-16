@@ -1,10 +1,10 @@
-import { instance, type Viz, type RenderResult, type MultipleRenderResult } from "@viz-js/viz";
+import { instance, Viz, VizWrapper, type RenderResult, type MultipleRenderResult } from "@viz-js/viz";
 
-export function myRender(viz: Viz, src: string): string {
+export function myRender(viz: VizWrapper, src: string): string {
   return viz.renderString(src, { graphAttributes: { label: "My graph" } });
 }
 
-instance().then(viz => {
+function testInstance(viz: VizWrapper) {
   viz.render("digraph { a -> b }");
 
   viz.render("digraph { a -> b }", { format: "svg" });
@@ -49,4 +49,13 @@ instance().then(viz => {
   let supportedEngines: Array<string> = viz.engines;
 
   let supportedFormats: Array<string> = viz.formats;
+}
+
+instance().then(viz => {
+  testInstance(viz);
+});
+
+Viz.load().then(viz => {
+  testInstance(Viz);
+  testInstance(viz);
 });

@@ -7,16 +7,16 @@ Viz.js is a WebAssembly build of Graphviz with a simple JavaScript wrapper.
 ```js
 import { Viz } from "@viz-js/viz";
 
-await Viz.load();
+if (!Viz.isLoaded) {
+  await Viz.load();
+}
 
-const svg = viz.renderSVGElement("digraph { a -> b }");
+const svg = Viz.renderSVGElement("digraph { a -> b }");
 ```
-
-The instance can be used to render multiple graphs.
 
 ### UMD Bundle
 
-The package also includes a UMD bundle, <code>lib/viz-standalone.js</code>. This assigns the {@link instance} function to a global <code>Viz</code> object.
+The package also includes a UMD bundle, <code>lib/viz-standalone.js</code> which assigns a global `Viz` object.
 
 ```html
 <div id="graph"></div>

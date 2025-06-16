@@ -1,9 +1,9 @@
 import { writeFileSync } from "node:fs";
-import { Viz } from "../src/viz.mjs";
+import { VizWrapper } from "../src/viz.mjs";
 
 const args = process.argv.slice(2);
 
-const viz = new Viz();
+const viz = new VizWrapper();
 await viz.load();
 
 const code = `export const graphvizVersion = ${JSON.stringify(viz.graphvizVersion)};

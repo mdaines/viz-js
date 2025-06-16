@@ -1,13 +1,13 @@
-import { Viz as VizClass } from "./viz.mjs";
+import { VizWrapper } from "./viz.mjs";
 
 export { graphvizVersion, formats, engines } from "../lib/metadata.mjs";
 
 export async function instance() {
-  const viz = new VizClass();
+  const viz = new VizWrapper();
   await viz.load();
   return viz;
 }
 
-const Viz = new VizClass();
+const Viz = new VizWrapper();
 
-export { Viz };
+export { Viz, VizWrapper };

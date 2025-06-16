@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Add @lezer/lr as a dependency
+
 ## 1.0.4
 
 * Fix that types condition should be listed first

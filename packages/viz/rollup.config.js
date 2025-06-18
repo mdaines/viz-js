@@ -9,7 +9,7 @@ async function getBanner() {
 
   return `/*!
 Viz.js ${packageVersion}
-Copyright (c) 2023 Michael Daines
+Copyright (c) Michael Daines
 
 This distribution contains other software in object code form:
 Graphviz https://www.graphviz.org
@@ -19,10 +19,38 @@ Expat https://libexpat.github.io
 
 export default [
   {
-    input: "src/standalone.mjs",
+    input: "src/index.js",
+    output: {
+      file: "dist/viz.js",
+      format: "es",
+      banner: getBanner
+    },
+    plugins: [
+      babel({
+        babelHelpers: "bundled",
+        ignore: ["./lib/encoded.js"]
+      })
+    ]
+  },
+  {
+    input: "src/index.js",
+    output: {
+      file: "dist/viz.cjs",
+      format: "cjs",
+      banner: getBanner
+    },
+    plugins: [
+      babel({
+        babelHelpers: "bundled",
+        ignore: ["./lib/encoded.js"]
+      })
+    ]
+  },
+  {
+    input: "src/index.js",
     output: {
       name: "Viz",
-      file: "lib/viz-standalone.js",
+      file: "dist/viz-global.js",
       format: "umd",
       banner: getBanner,
       plugins: [
@@ -32,24 +60,7 @@ export default [
     plugins: [
       babel({
         babelHelpers: "bundled",
-        ignore: ["./lib/encoded.mjs"]
-      })
-    ]
-  },
-  {
-    input: "src/standalone.mjs",
-    output: {
-      file: "lib/viz-standalone.mjs",
-      format: "es",
-      banner: getBanner,
-      plugins: [
-        terser()
-      ]
-    },
-    plugins: [
-      babel({
-        babelHelpers: "bundled",
-        ignore: ["./lib/encoded.mjs"]
+        ignore: ["./lib/encoded.js"]
       })
     ]
   }

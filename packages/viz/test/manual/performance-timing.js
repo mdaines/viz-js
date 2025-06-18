@@ -1,5 +1,5 @@
-import { instance } from "../../src/standalone.mjs";
-import { measure, randomGraph, dotStringify } from "./utils.mjs";
+import { instance } from "../../src/index.js";
+import { measure, randomGraph, dotStringify } from "./utils.js";
 
 const tests = [
   { nodeCount: 100, randomEdgeCount: 0 },

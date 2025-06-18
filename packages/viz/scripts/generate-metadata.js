@@ -1,7 +1,7 @@
 import { writeFileSync } from "node:fs";
 import Module from "../lib/module.mjs";
-import Viz from "../src/viz.mjs";
-import { decode } from "../lib/encoded.mjs";
+import Viz from "../src/viz.js";
+import { decode } from "../lib/encoded.js";
 
 const args = process.argv.slice(2);
 

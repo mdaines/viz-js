@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import * as VizPackage from "../src/standalone.mjs";
+import * as VizPackage from "../src/index.js";
 
 describe("Viz", function() {
   let viz;

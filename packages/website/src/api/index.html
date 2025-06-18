@@ -50,9 +50,7 @@
 
       <h3>Usage</h3>
 
-      <h4>ES module</h4>
-
-      <p>The Viz.js ES module is published as a single file, including its WebAssembly code. It exports a function, <a href="#viz.instance">instance</a>, which encapsulates decoding the WebAssembly code and instantiating the WebAssembly and Emscripten modules. This returns a promise that resolves to an instance of the <code><a href="#viz.Viz">Viz</a></code> class, which provides methods for <a href="#viz.Viz.render">rendering graphs</a>.</p>
+      <p>Viz.js exports a function, <a href="#viz.instance">instance</a>, which encapsulates decoding the WebAssembly code and instantiating the WebAssembly and Emscripten modules. This returns a promise that resolves to an instance of the <code><a href="#viz.Viz">Viz</a></code> class, which provides methods for <a href="#viz.Viz.render">rendering graphs</a>.</p>
 
       <pre><code>import { instance } from "@viz-js/viz";
 
@@ -64,22 +62,6 @@ instance().then(viz => {
 </pre></code>
 
       <p>The instance can be used to render multiple graphs.</p>
-
-      <h4>UMD Bundle</h4>
-
-      <p>The package also includes a UMD bundle, <code>lib/viz-standalone.js</code>. This assigns the <a href="#viz.instance">instance</a> function to a global <code>Viz</code> object.</p>
-
-      <pre><code>&lt;div id=&quot;graph&quot;&gt;&lt;/div&gt;
-
-&lt;script src=&quot;viz-standalone.js&quot;&gt;&lt;/script&gt;
-&lt;script&gt;
-  Viz.instance().then(function(viz) {
-    var svg = viz.renderSVGElement(&quot;digraph { a -&gt; b }&quot;);
-
-    document.getElementById(&quot;graph&quot;).appendChild(svg);
-  });
-&lt;/script&gt;
-</pre></code>
 
       <dl>
         <dt id="viz.graphvizVersion"><code><b><a href="#viz.graphvizVersion">graphvizVersion</a></b>: string</code></dt>

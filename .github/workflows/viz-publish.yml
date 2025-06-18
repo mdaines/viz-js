@@ -20,6 +20,11 @@ jobs:
           name: lib
           path: packages/viz/lib
 
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: packages/viz/dist
+
       - uses: actions/setup-node@v4
         with:
           node-version: "20.x"
@@ -34,7 +39,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "$RELEASE_NOTES" > "${{ runner.temp }}/notes.md"
-          gh release create $RELEASE_TAG --notes-file "${{ runner.temp }}/notes.md" --title "$RELEASE_TITLE" packages/viz/lib/viz-standalone.js
+          gh release create $RELEASE_TAG --notes-file "${{ runner.temp }}/notes.md" --title "$RELEASE_TITLE" packages/viz/lib/viz-global.js
 
       - run: npm install -g npm
 

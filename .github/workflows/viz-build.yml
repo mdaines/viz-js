@@ -24,7 +24,7 @@ jobs:
 
       - uses: docker/build-push-action@v5
         with:
-          context: packages/viz/src/module
+          context: packages/viz/backend
           push: false
           outputs: type=local,dest=packages/viz/lib
           cache-from: type=gha
@@ -47,6 +47,11 @@ jobs:
           name: lib
           path: packages/viz/lib
 
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: packages/viz/dist
+
   test:
     name: Test
     needs: build
@@ -58,6 +63,11 @@ jobs:
         with:
           name: lib
           path: packages/viz/lib
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: packages/viz/dist
 
       - uses: actions/setup-node@v4
         with:
@@ -80,6 +90,11 @@ jobs:
         with:
           name: lib
           path: packages/viz/lib
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: packages/viz/dist
 
       - uses: actions/setup-node@v4
         with:

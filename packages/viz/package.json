@@ -12,18 +12,18 @@
     "directory": "packages/viz"
   },
   "license": "MIT",
-  "types": "types/index.d.ts",
+  "type": "module",
+  "main": "./dist/viz.js",
   "exports": {
     "types": "./types/index.d.ts",
-    "import": "./lib/viz-standalone.mjs",
-    "require": "./lib/viz-standalone.js"
+    "require": "./dist/viz.cjs",
+    "default": "./dist/viz.js"
   },
-  "main": "lib/viz-standalone.js",
-  "module": "lib/viz-standalone.mjs",
   "files": [
-    "lib/viz-standalone.js",
-    "lib/viz-standalone.mjs",
-    "types/index.d.ts"
+    "dist",
+    "lib",
+    "src",
+    "types"
   ],
   "devDependencies": {
     "@babel/core": "^7.21.4",
@@ -31,13 +31,13 @@
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-terser": "^0.4.1",
     "jsdom": "^21.1.1",
-    "mocha": "^11.1.0",
+    "mocha": "^11.7.0",
     "rollup": "^3.29.5",
     "typedoc": "^0.28.5",
     "typedoc-plugin-mdn-links": "^5.0.2"
   },
   "scripts": {
-    "test": "mocha --include \"test/*.test.mjs\"",
+    "test": "mocha",
     "docs": "typedoc types/index.d.ts"
   }
 }

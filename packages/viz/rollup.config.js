@@ -28,7 +28,7 @@ export default [
     plugins: [
       babel({
         babelHelpers: "bundled",
-        ignore: ["./lib/encoded.js"]
+        ignore: ["./lib/backend.js"]
       })
     ]
   },
@@ -42,7 +42,7 @@ export default [
     plugins: [
       babel({
         babelHelpers: "bundled",
-        ignore: ["./lib/encoded.js"]
+        ignore: ["./lib/backend.js"]
       })
     ]
   },
@@ -60,7 +60,7 @@ export default [
     plugins: [
       babel({
         babelHelpers: "bundled",
-        ignore: ["./lib/encoded.js"]
+        ignore: ["./lib/backend.js"]
       })
     ]
   }

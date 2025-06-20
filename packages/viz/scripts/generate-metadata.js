@@ -1,11 +1,10 @@
 import { writeFileSync } from "node:fs";
-import Module from "../lib/module.mjs";
+import Module from "../lib/backend.js";
 import Viz from "../src/viz.js";
-import { decode } from "../lib/encoded.js";
 
 const args = process.argv.slice(2);
 
-const viz = new Viz(await Module({ wasm: decode() }));
+const viz = new Viz(await Module());
 
 const code = `export const graphvizVersion = ${JSON.stringify(viz.graphvizVersion)};
 export const formats = ${JSON.stringify(viz.formats)};

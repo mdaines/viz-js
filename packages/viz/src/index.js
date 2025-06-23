@@ -1,8 +1,5 @@
-import Module from "../lib/backend.js";
-import Viz from "./viz.js";
+export { viz } from "./constant.js";
+
+export { instance } from "./instance.js";
 
 export { graphvizVersion, formats, engines } from "../lib/metadata.js";
-
-export function instance() {
-  return Module().then(m => new Viz(m));
-}

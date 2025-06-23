@@ -1,8 +1,17 @@
-import { getGraphvizVersion, getPluginList, renderInput } from "./wrapper.js";
+import Module from "../lib/backend.js";
+import { getGraphvizVersion, getPluginList, renderInput } from "./helpers.js";
 
-class Viz {
-  constructor(module) {
-    this.module = module;
+export class Viz {
+  get module() {
+    if (!this.isLoaded) {
+      throw new Error("This instance of Viz is not loaded. Call `await load()` first.");
+    }
+
+    return this._module;
+  }
+
+  get isLoaded() {
+    return typeof this._module !== "undefined";
   }
 
   get graphvizVersion() {
@@ -15,6 +24,11 @@ class Viz {
 
   get engines() {
     return getPluginList(this.module, "layout");
+  }
+
+  async load() {
+    this._module = await Module();
+    return this;
   }
 
   renderFormats(input, formats, options = {}) {
@@ -60,5 +74,3 @@ class Viz {
     return JSON.parse(str);
   }
 }
-
-export default Viz;

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import * as VizPackage from "../src/index.js";
-import Viz from "../src/viz.js";
+import { Viz } from "../src/viz.js";
 
 describe("graphvizVersion", function() {
   it("returns the Graphviz version", function() {
@@ -65,5 +65,11 @@ describe("instance", function() {
     const viz = await VizPackage.instance();
 
     assert.ok(viz instanceof Viz);
+  });
+});
+
+describe("viz", function() {
+  it("is an instance of the Viz class", async function() {
+    assert.ok(VizPackage.viz instanceof Viz);
   });
 });

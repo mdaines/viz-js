@@ -1,8 +1,0 @@
-{
-  "name": "@viz-js/script-tag-example",
-  "version": "0.0.0",
-  "private": true,
-  "dependencies": {
-    "@viz-js/viz": "3.8.0"
-  }
-}

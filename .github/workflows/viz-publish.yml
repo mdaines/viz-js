@@ -39,7 +39,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "$RELEASE_NOTES" > "${{ runner.temp }}/notes.md"
-          gh release create $RELEASE_TAG --notes-file "${{ runner.temp }}/notes.md" --title "$RELEASE_TITLE" packages/viz/lib/viz-global.js
+          gh release create $RELEASE_TAG --notes-file "${{ runner.temp }}/notes.md" --title "$RELEASE_TITLE" packages/viz/dist/viz-global.js
 
       - run: npm install -g npm
 

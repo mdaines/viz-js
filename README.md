@@ -5,9 +5,9 @@ This is a collection of packages for working with <a href="https://graphviz.org"
 With Viz.js, you can easily render a graph diagram as an SVG element to display it in a webpage:
 
 ```js
-import { instance } from "@viz-js/viz";
+import * as Viz from "@viz-js/viz";
 
-instance().then(viz => {
+Viz.instance().then(viz => {
   document.body.appendChild(viz.renderSVGElement("digraph { a -> b }"))
 });
 ```

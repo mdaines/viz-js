@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+* Renamed viz-standalone.js to viz-global.js to better indicate that it sets a global called `Viz`, and it was moved to `./dist/`.
+
+* Changed the package type to `"module"`. The exports were moved to a more typical location in `./dist/`, and their filename extensions were changed to match the package type.
+
+* WebAssembly is now base64-encoded using Emscripten's `SINGLE_FILE` setting.
+
 * Update Graphviz to 13.1.0.
 
 ## 3.14.0

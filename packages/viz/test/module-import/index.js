@@ -1,3 +1,3 @@
-import { instance } from "@viz-js/viz";
+import * as Viz from "@viz-js/viz";
 
-instance().then(viz => console.log(viz.renderString("digraph { a -> b }")));
+Viz.instance().then(viz => console.log(viz.renderString("digraph { a -> b }")));

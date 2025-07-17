@@ -1,3 +1,3 @@
-const { instance } = require("@viz-js/viz");
+const Viz = require("@viz-js/viz");
 
-instance().then(viz => console.log(viz.renderString("digraph { a -> b }")));
+Viz.instance().then(viz => console.log(viz.renderString("digraph { a -> b }")));

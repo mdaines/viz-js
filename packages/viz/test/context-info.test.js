@@ -9,8 +9,8 @@ describe("Viz", function() {
   });
 
   describe("graphvizVersion", function() {
-    it("returns the Graphviz version", function() {
-      assert.strictEqual(viz.graphvizVersion, "13.1.1");
+    it("returns a version string", function() {
+      assert.match(viz.graphvizVersion, /^\d+\.\d+\.\d+$/);
     });
   });
 

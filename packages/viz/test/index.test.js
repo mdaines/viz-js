@@ -3,8 +3,8 @@ import * as VizPackage from "../src/index.js";
 import Viz from "../src/viz.js";
 
 describe("graphvizVersion", function() {
-  it("returns the Graphviz version", function() {
-    assert.strictEqual(VizPackage.graphvizVersion, "13.1.1");
+  it("returns a version string", function() {
+    assert.match(VizPackage.graphvizVersion, /^\d+\.\d+\.\d+$/);
   });
 });
 

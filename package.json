@@ -2,6 +2,7 @@
   "private": true,
   "type": "module",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "packages/viz/test/*"
   ]
 }

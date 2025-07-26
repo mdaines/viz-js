@@ -360,6 +360,48 @@ stop
       });
     });
 
+    it("an image with the same name can be rendered with different sizes over separate calls", function() {
+      const result1 = viz.render("graph { a[image=\"test.png\"] }", {
+        images: [
+          { name: "test.png", width: 300, height: 200 }
+        ]
+      });
+
+      assert.deepStrictEqual(result1, {
+        status: "success",
+        output: `graph {
+	graph [bb="0,0,321.03,214.96"];
+	node [label="\\N"];
+	a	[height=2.9856,
+		image="test.png",
+		pos="160.51,107.48",
+		width=4.4587];
+}
+`,
+        errors: []
+      });
+
+      const result2 = viz.render("graph { a[image=\"test.png\"] }", {
+        images: [
+          { name: "test.png", width: 600, height: 400 }
+        ]
+      });
+
+      assert.deepStrictEqual(result2, {
+        status: "success",
+        output: `graph {
+	graph [bb="0,0,639.22,427.09"];
+	node [label="\\N"];
+	a	[height=5.9318,
+		image="test.png",
+		pos="319.61,213.55",
+		width=8.8781];
+}
+`,
+        errors: []
+      });
+    });
+
     it("the same image can be used twice", function() {
       const result = viz.render("graph { a[image=\"test.png\"]; b[image=\"test.png\"] }", {
         images: [

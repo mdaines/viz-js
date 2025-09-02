@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* Update Graphviz to 13.1.2.
+
 ## 3.16.0
 
 * Update Graphviz to 13.1.1.

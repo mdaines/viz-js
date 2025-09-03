@@ -3,6 +3,7 @@
 ## Unreleased
 
 * Update Graphviz to 13.1.2.
+* Fix that TypeScript's "node" module resolution didn't pick up type declarations.
 
 ## 3.16.0
 

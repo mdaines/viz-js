@@ -130,4 +130,5 @@ jobs:
         run: |
           npm clean-install
           npm run check-types
+          npm run check-types-node
         working-directory: packages/viz/test/types

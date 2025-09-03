@@ -14,6 +14,7 @@
   "license": "MIT",
   "type": "module",
   "main": "./dist/viz.js",
+  "types": "./types/index.d.ts",
   "exports": {
     "types": "./types/index.d.ts",
     "require": "./dist/viz.cjs",

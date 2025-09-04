@@ -7,7 +7,7 @@ on:
       - v2
       - gh-pages
     paths:
-      - "packages/website/**"
+      - "website/**"
   workflow_call: {}
 
 permissions:
@@ -28,4 +28,4 @@ jobs:
         run: |
           npm clean-install
           npm run test
-        working-directory: packages/website
+        working-directory: website

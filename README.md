@@ -15,7 +15,6 @@ Viz.instance().then(viz => {
 Other packages:
 
 - [lang-dot](./packages/lang-dot) — CodeMirror language support for the Graphviz DOT language.
-- [website](./packages/website) — Try out Graphviz and Viz.js. Render a graph visualization in your browser.
 
 ## Install
 

@@ -26,7 +26,7 @@ jobs:
 
       - name: Install dependencies
         run: npm clean-install
-        working-directory: packages/website
+        working-directory: website
 
       - name: Setup Pages
         id: pages
@@ -35,12 +35,12 @@ jobs:
       - name: Build website
         run: npm run build -- --public-url "${{ steps.pages.outputs.base_path }}/"
         timeout-minutes: 1
-        working-directory: packages/website
+        working-directory: website
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: packages/website/dist
+          path: website/dist
 
   deploy:
     environment:

@@ -2,8 +2,7 @@
   "private": true,
   "type": "module",
   "workspaces": [
-    "packages/lang-dot",
-    "packages/viz",
+    "packages/*",
     "packages/viz/test/*"
   ]
 }

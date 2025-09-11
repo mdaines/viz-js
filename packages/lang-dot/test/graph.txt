@@ -266,6 +266,22 @@ Graph(Header(Graphtype(graph), HTMLString(HTMLStringContent)), Body(
 ))
 
 
+# Empty HTML-like string
+
+graph { a[label=<>] }
+
+==>
+
+Graph(Header(...), Body(
+  SimpleStatement(
+    Node(Name(...)),
+    Attributes(
+      Attribute(AttributeName(...), AttributeValue(HTMLString(HTMLStringContent)))
+    )
+  )
+))
+
+
 # Multi-line strings
 
 graph {

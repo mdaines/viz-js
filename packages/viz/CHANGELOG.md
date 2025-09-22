@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.18.0
 
 * Update Graphviz to 14.0.0.
 * Update Expat to 2.7.2.

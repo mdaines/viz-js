@@ -2,7 +2,7 @@ FROM emscripten/emsdk:3.1.70 AS graphviz
 
 ENV PREFIX=/prefix
 
-ADD "https://github.com/libexpat/libexpat/releases/download/R_2_7_1/expat-2.7.1.tar.gz" ./expat.tar.gz
+ADD "https://github.com/libexpat/libexpat/releases/download/R_2_7_2/expat-2.7.2.tar.gz" ./expat.tar.gz
 
 RUN mkdir -p expat && tar -zxf ./expat.tar.gz --strip-components 1 --directory expat
 RUN cd expat && emconfigure ./configure \
@@ -14,7 +14,7 @@ RUN cd expat && emconfigure ./configure \
   CXXFLAGS="-Oz"
 RUN cd expat/lib && emmake make all install
 
-ADD "https://gitlab.com/api/v4/projects/4207231/packages/generic/graphviz-releases/13.1.2/graphviz-13.1.2.tar.gz" ./graphviz.tar.gz
+ADD "https://gitlab.com/api/v4/projects/4207231/packages/generic/graphviz-releases/14.0.0/graphviz-14.0.0.tar.gz" ./graphviz.tar.gz
 
 RUN mkdir -p graphviz && tar -zxf ./graphviz.tar.gz --strip-components 1 --directory graphviz
 RUN cd graphviz && emconfigure ./configure \

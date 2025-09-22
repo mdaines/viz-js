@@ -8,6 +8,7 @@ on:
       - gh-pages
     paths:
       - "packages/viz/**"
+      - "package-lock.json"
   workflow_call: {}
 
 permissions:

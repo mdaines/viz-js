@@ -36,7 +36,7 @@ jobs:
 
       - name: "Build"
         run: |
-          npm clean-install
+          npm clean-install --ignore-scripts
           test -f lib/backend.js && touch lib/backend.js
           make
         working-directory: packages/viz
@@ -74,7 +74,7 @@ jobs:
 
       - name: "Run tests"
         run: |
-          npm clean-install
+          npm clean-install --ignore-scripts
           npm run test
         working-directory: packages/viz
 
@@ -101,13 +101,13 @@ jobs:
 
       - name: "Run module-import test"
         run: |
-          npm clean-install
+          npm clean-install --ignore-scripts
           node index.js
         working-directory: packages/viz/test/module-import
 
       - name: "Run commonjs-require test"
         run: |
-          npm clean-install
+          npm clean-install --ignore-scripts
           node index.js
         working-directory: packages/viz/test/commonjs-require
 
@@ -123,12 +123,12 @@ jobs:
 
       - name: "Install in package directory"
         run: |
-          npm clean-install
+          npm clean-install --ignore-scripts
         working-directory: packages/viz
 
       - name: "Run check-types"
         run: |
-          npm clean-install
+          npm clean-install --ignore-scripts
           npm run check-types
           npm run check-types-node
         working-directory: packages/viz/test/types

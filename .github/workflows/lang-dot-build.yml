@@ -26,7 +26,7 @@ jobs:
 
       - name: "Run build and test"
         run: |
-          npm clean-install
+          npm clean-install --ignore-scripts
           npm run build
           npm run test
         working-directory: packages/lang-dot
@@ -48,11 +48,11 @@ jobs:
 
       - name: "Install in package directory"
         run: |
-          npm clean-install
+          npm clean-install --ignore-scripts
         working-directory: packages/lang-dot
 
       - name: "Run check-types"
         run: |
-          npm clean-install
+          npm clean-install --ignore-scripts
           npm run check-types
         working-directory: packages/lang-dot/test/types

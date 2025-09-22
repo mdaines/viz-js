@@ -26,6 +26,6 @@ jobs:
 
       - name: "Run tests"
         run: |
-          npm clean-install
+          npm clean-install --ignore-scripts
           npm run test
         working-directory: website

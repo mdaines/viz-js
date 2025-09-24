@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.19.0
 
 * Update Expat to 2.7.3.
 

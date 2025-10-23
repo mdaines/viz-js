@@ -66,7 +66,7 @@ declare class Viz {
   /**
    * Convenience method that renders the input, parses the output, and returns an SVG element. The `format` option is ignored. Throws an error if rendering failed.
    */
-  renderSVGElement(input: string | Graph, options?: RenderOptions): SVGSVGElement
+  renderSVGElement(input: string | Graph, options?: SVGRenderOptions): SVGSVGElement
 
   /**
    * Convenience method that renders the input, parses the output, and returns a JSON object. The `format` option is ignored. Throws an error if rendering failed.
@@ -120,6 +120,14 @@ export interface RenderOptions {
   nodeAttributes?: Attributes
   edgeAttributes?: Attributes
   images?: ImageSize[]
+}
+
+/**
+ * @property trustedTypePolicy
+ * The TrustedTypePolicy object used to sanitize the rendered SVG string before parsing.
+ */
+export interface SVGRenderOptions extends RenderOptions {
+  trustedTypePolicy?: object
 }
 
 /**

@@ -39,6 +39,21 @@
       assert.equal(image.getAttribute("width"), "300px");
       assert.equal(image.getAttribute("height"), "200px");
     });
+
+    it("uses a trusted type policy if present", function() {
+      let wasFakeSanitized = false;
+
+      const fakePolicy = trustedTypes.createPolicy("fake", {
+        createHTML(input) {
+          wasFakeSanitized = true;
+          return input;
+        }
+      });
+
+      viz.renderSVGElement("digraph { a -> b }", { trustedTypePolicy: fakePolicy });
+
+      assert.ok(wasFakeSanitized);
+    });
   });
 
   mocha.run();

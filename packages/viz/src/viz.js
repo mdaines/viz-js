@@ -51,8 +51,17 @@ class Viz {
 
   renderSVGElement(src, options = {}) {
     const str = this.renderString(src, { ...options, format: "svg" });
+
+    let input;
+
+    if (typeof options.trustedTypePolicy !== "undefined") {
+      input = options.trustedTypePolicy.createHTML(str);
+    } else {
+      input = str;
+    }
+
     const parser = new DOMParser();
-    return parser.parseFromString(str, "image/svg+xml").documentElement;
+    return parser.parseFromString(input, "image/svg+xml").documentElement;
   }
 
   renderJSON(src, options = {}) {

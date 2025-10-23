@@ -51,17 +51,34 @@ describe("Viz", function() {
   });
 
   describe("renderSVGElement", function() {
-    it("returns an SVG element", function() {
-      try {
-        const window = (new JSDOM()).window;
-        global.DOMParser = window.DOMParser;
+    beforeEach(function() {
+      const window = (new JSDOM()).window;
+      global.DOMParser = window.DOMParser;
+    });
 
-        const svg = viz.renderSVGElement("digraph { a -> b }");
-        assert.deepStrictEqual(svg.querySelector(".node title").textContent, "a");
-        assert.deepStrictEqual(svg.querySelector(".edge title").textContent, "a->b");
-      } finally {
-        delete global.DOMParser;
-      }
+    afterEach(function() {
+      delete global.DOMParser;
+    });
+
+    it("returns an SVG element", function() {
+      const svg = viz.renderSVGElement("digraph { a -> b }");
+      assert.deepStrictEqual(svg.querySelector(".node title").textContent, "a");
+      assert.deepStrictEqual(svg.querySelector(".edge title").textContent, "a->b");
+    });
+
+    it("uses a trusted type policy if present", function() {
+      let wasFakeSanitized = false;
+
+      const fakePolicy = {
+        createHTML(input) {
+          wasFakeSanitized = true;
+          return input;
+        }
+      };
+
+      viz.renderSVGElement("digraph { a -> b }", { trustedTypePolicy: fakePolicy });
+
+      assert.ok(wasFakeSanitized);
     });
 
     it("throws an error for syntax errors", function() {

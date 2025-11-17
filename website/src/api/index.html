@@ -131,9 +131,9 @@ Viz.instance().then(viz => {
               <p>Renders the input and returns the result as a string. Throws an error if rendering failed.</p>
             </dd>
 
-            <dt id="viz.Viz.renderSVGElement"><code><b><a href="#viz.Viz.renderSVGElement">renderSVGElement</a></b>(input: string | <a href="#viz.Graph">Graph</a>, options?: <a href="#viz.RenderOptions">RenderOptions</a>) &rarr; <a href="https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement">SVGSVGElement</a></code></dt>
+            <dt id="viz.Viz.renderSVGElement"><code><b><a href="#viz.Viz.renderSVGElement">renderSVGElement</a></b>(input: string | <a href="#viz.Graph">Graph</a>, options?: <a href="#viz.SVGRenderOptions">SVGRenderOptions</a>) &rarr; <a href="https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement">SVGSVGElement</a></code></dt>
             <dd>
-              <p>Convenience method that renders the input, parses the output, and returns an SVG element. The <code><a href="#viz.RenderOptions.format">format</a></code> option is ignored. Throws an error if rendering failed.</p>
+              <p>Convenience method that renders the input, parses the output, and returns an SVG element. Throws an error if rendering failed.</p>
             </dd>
 
             <dt id="viz.Viz.renderJSON"><code><b><a href="#viz.Viz.renderJSON">renderJSON</a></b>(input: string | <a href="#viz.Graph">Graph</a>, options?: <a href="#viz.RenderOptions">RenderOptions</a>) &rarr; object</code></dt>
@@ -188,7 +188,7 @@ Viz.instance().then(viz => {
               <p>Image sizes to use when rendering nodes with <code>image</code> attributes.</p>
 
               <p>For example, to indicate to Graphviz that the image <code>test.png</code> has size 300x200:</p>
-              
+
               <pre><code>viz.render("graph { a[image=\"test.png\"] }", {
   images: [
     { name: "test.png", width: 300, height: 200 }
@@ -198,12 +198,68 @@ Viz.instance().then(viz => {
             </dd>
           </dl>
         </dd>
-        
+
+        <dt id="viz.SVGRenderOptions"><code><b><a href="#viz.SVGRenderOptions">SVGRenderOptions</a></b></code></dt>
+        <dd>
+          <p></p>
+
+          <dl>
+            <dt id="viz.SVGRenderOptions.engine"><code><b><a href="#viz.SVGRenderOptions.engine">engine</a></b>?: string = "dot"</code></dt>
+            <dd>
+              <p>The <a href="https://www.graphviz.org/docs/layouts/">Graphviz layout engine</a> to use for graph layout. For example, <code>"dot"</code> or <code>"neato"</code>.</p>
+            </dd>
+
+            <dt id="viz.SVGRenderOptions.yInvert"><code><b><a href="#viz.SVGRenderOptions.yInvert">yInvert</a></b>?: boolean = false</code></dt>
+            <dd>
+              <p>Invert y coordinates in output. This corresponds to the <a href="https://www.graphviz.org/doc/info/command.html#-y"><code>-y</code> Graphviz command-line option</a>.</p>
+            </dd>
+
+            <dt id="viz.SVGRenderOptions.reduce"><code><b><a href="#viz.SVGRenderOptions.reduce">reduce</a></b>?: boolean = false</code></dt>
+            <dd>
+              <p>Reduce the graph. This corresponds to the <a href="https://www.graphviz.org/doc/info/command.html#-x"><code>-x</code> Graphviz command-line option</a>.</p>
+            </dd>
+
+            <dt id="viz.SVGRenderOptions.graphAttributes"><code><b><a href="#viz.SVGRenderOptions.graphAttributes">graphAttributes</a></b>?: <a href="#viz.Attributes">Attributes</a></code></dt>
+            <dd>
+              <p>Sets the default graph attributes. This corresponds the <a href="https://www.graphviz.org/doc/info/command.html#-G"><code>-G</code> Graphviz command-line option</a>.</p>
+            </dd>
+
+            <dt id="viz.SVGRenderOptions.nodeAttributes"><code><b><a href="#viz.SVGRenderOptions.nodeAttributes">nodeAttributes</a></b>?: <a href="#viz.Attributes">Attributes</a></code></dt>
+            <dd>
+              <p>Sets the default node attributes. This corresponds the <a href="https://www.graphviz.org/doc/info/command.html#-N"><code>-N</code> Graphviz command-line option</a>.</p>
+            </dd>
+
+            <dt id="viz.SVGRenderOptions.edgeAttributes"><code><b><a href="#viz.SVGRenderOptions.edgeAttributes">edgeAttributes</a></b>?: <a href="#viz.Attributes">Attributes</a></code></dt>
+            <dd>
+              <p>Sets the default edge attributes. This corresponds the <a href="https://www.graphviz.org/doc/info/command.html#-E"><code>-E</code> Graphviz command-line option</a>.</p>
+            </dd>
+
+            <dt id="viz.SVGRenderOptions.images"><code><b><a href="#viz.SVGRenderOptions.images">images</a></b>?: <a href="#viz.ImageSize">ImageSize</a>[]</code></dt>
+            <dd>
+              <p>Image sizes to use when rendering nodes with <code>image</code> attributes.</p>
+
+              <p>For example, to indicate to Graphviz that the image <code>test.png</code> has size 300x200:</p>
+              
+              <pre><code>viz.render("graph { a[image=\"test.png\"] }", {
+  images: [
+    { name: "test.png", width: 300, height: 200 }
+  ]
+});
+</pre></code>
+            </dd>
+
+            <dt id="viz.SVGRenderOptions.trustedTypePolicy"><code><b><a href="#viz.SVGRenderOptions.trustedTypePolicy">trustedTypePolicy</a></b>?: object</code></dt>
+            <dd>
+              <p>The <a href="https://developer.mozilla.org/en-US/docs/Web/API/TrustedTypePolicy">TrustedTypePolicy</a> object used to sanitize the rendered SVG string before parsing.</p>
+            </dd>
+          </dl>
+        </dd>
+
         <dt id="viz.RenderResult"><code><b><a href="#viz.RenderResult">RenderResult</a></b> = <a href="#viz.SuccessResult">SuccessResult</a> | <a href="#viz.FailureResult">FailureResult</a></code></dt>
         <dd>
           <p>The result object returned by <code><a href="#viz.Viz.render">render</a></code>.</p>
         </dd>
-        
+
         <dt id="viz.MultipleRenderResult"><code><b><a href="#viz.MultipleRenderResult">MultipleRenderResult</a></b> = <a href="#viz.MultipleSuccessResult">MultipleSuccessResult</a> | <a href="#viz.FailureResult">FailureResult</a></code></dt>
         <dd>
           <p>The result object returned by <code><a href="#viz.Viz.renderFormats">renderFormats</a></code>.</p>

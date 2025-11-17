@@ -123,10 +123,48 @@ export interface RenderOptions {
 }
 
 /**
+ * @property engine
+ * The {@link https://www.graphviz.org/docs/layouts/ | Graphviz layout engine} to use for graph layout. For example, `"dot"` or `"neato"`.
+ *
+ * @property yInvert
+ * Invert y coordinates in output. This corresponds to the {@link https://www.graphviz.org/doc/info/command.html#-y | `-y`} Graphviz command-line option</a>.
+ *
+ * @property reduce
+ * Reduce the graph. This corresponds to the {@link https://www.graphviz.org/doc/info/command.html#-x | `-x`} Graphviz command-line option</a>.
+ *
+ * @property graphAttributes
+ * Sets the default graph attributes. This corresponds the {@link https://www.graphviz.org/doc/info/command.html#-G | `-G`} Graphviz command-line option</a>.
+ *
+ * @property nodeAttributes
+ * Sets the default node attributes. This corresponds the {@link https://www.graphviz.org/doc/info/command.html#-N `-N`} Graphviz command-line option</a>.
+ *
+ * @property edgeAttributes
+ * Sets the default edge attributes. This corresponds the {@link https://www.graphviz.org/doc/info/command.html#-E | `-E`} Graphviz command-line option</a>.
+ *
+ * @property images
+ * Image sizes to use when rendering nodes with <code>image</code> attributes.
+ *
+ * For example, to indicate to Graphviz that the image <code>test.png</code> has size 300x200:
+ *
+ * ```js
+ * viz.render("graph { a[image=\"test.png\"] }", {
+ *   images: [
+ *     { name: "test.png", width: 300, height: 200 }
+ *   ]
+ * });
+ * ```
+ *
  * @property trustedTypePolicy
- * The TrustedTypePolicy object used to sanitize the rendered SVG string before parsing.
+ * The {@link https://developer.mozilla.org/en-US/docs/Web/API/TrustedTypePolicy | TrustedTypePolicy} object used to sanitize the rendered SVG string before parsing.
  */
-export interface SVGRenderOptions extends RenderOptions {
+export interface SVGRenderOptions {
+  engine?: string
+  yInvert?: boolean
+  reduce?: boolean
+  graphAttributes?: Attributes
+  nodeAttributes?: Attributes
+  edgeAttributes?: Attributes
+  images?: ImageSize[]
   trustedTypePolicy?: object
 }
 

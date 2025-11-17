@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.21.0
 
 * Update Graphviz to 14.0.4.
 * Introduce trustedTypePolicy option for renderSVGElement.

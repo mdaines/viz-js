@@ -37,3 +37,7 @@ main {
 dd {
   margin-left: 24px;
 }
+
+dl {
+  margin-bottom: 2em;
+}

@@ -10,6 +10,7 @@
   import mocha from "mocha";
   import assert from "assert";
   import * as Viz from "@viz-js/viz";
+  import DOMPurify from "dompurify";
 
   mocha.setup("bdd");
 
@@ -40,19 +41,40 @@
       assert.equal(image.getAttribute("height"), "200px");
     });
 
-    it("uses a trusted type policy if present", function() {
-      let wasFakeSanitized = false;
+    describe("trusted type policy", function() {
+      it("uses a trusted type policy if present", function() {
+        let wasFakeSanitized = false;
 
-      const fakePolicy = trustedTypes.createPolicy("fake", {
-        createHTML(input) {
-          wasFakeSanitized = true;
-          return input;
-        }
+        const fakePolicy = trustedTypes.createPolicy("fake", {
+          createHTML(input) {
+            wasFakeSanitized = true;
+            return input;
+          }
+        });
+
+        viz.renderSVGElement("digraph { a -> b }", { trustedTypePolicy: fakePolicy });
+
+        assert.ok(wasFakeSanitized);
       });
 
-      viz.renderSVGElement("digraph { a -> b }", { trustedTypePolicy: fakePolicy });
+      it("works with DOMPurify", function() {
+        const trustedTypePolicy = trustedTypes.createPolicy("purify", {
+          createHTML(input) {
+            return DOMPurify.sanitize(input, {
+              RETURN_TRUSTED_TYPE: false,
+              USE_PROFILES: { svg: true }
+            });
+          }
+        });
 
-      assert.ok(wasFakeSanitized);
+        const src = `graph { a[href="javascript:alert(1)"] }`;
+
+        const dirty = viz.renderSVGElement(src);
+        const clean = viz.renderSVGElement(src, { trustedTypePolicy });
+
+        assert.equal(dirty.querySelector("a").getAttributeNS("http://www.w3.org/1999/xlink", "href"), "javascript:alert(1)");
+        assert.equal(clean.querySelector("a").getAttributeNS("http://www.w3.org/1999/xlink", "href"), null);
+      });
     });
   });
 

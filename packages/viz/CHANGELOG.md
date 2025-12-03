@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* Fix that default attributes were added incorrectly, and would appear on the root graph as well as subgraphs.
 * For graph object input, fix that subgraphs without names were given the name "undefined", and reject nodes and edges without names.
 
 ## 3.22.0

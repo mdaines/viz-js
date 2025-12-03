@@ -284,5 +284,44 @@ describe("Viz", function() {
         errors: []
       });
     });
+
+    it("applies subgraph attributes correctly", function() {
+      const result = viz.render({
+        subgraphs: [
+          {
+            graphAttributes: {
+              color: "red"
+            },
+            nodeAttributes: {
+              color: "green"
+            },
+            edgeAttributes: {
+              color: "blue"
+            },
+            nodes: [
+              { name: "a" }
+            ]
+          }
+        ]
+      });
+
+      assert.deepStrictEqual(result, {
+        status: "success",
+        output: `digraph {
+	graph [bb="0,0,54,36"];
+	node [label="\\N"];
+	{
+		graph [color=red];
+		node [color=green];
+		edge [color=blue];
+		a	[height=0.5,
+			pos="27,18",
+			width=0.75];
+	}
+}
+`,
+        errors: []
+      });
+    });
   });
 });

@@ -139,16 +139,25 @@ Agraph_t *viz_add_subgraph(Agraph_t *g, char *name) {
 
 EMSCRIPTEN_KEEPALIVE
 void viz_set_default_graph_attribute(Agraph_t *graph, char *name, char *value) {
+  if (agattr(graph, AGRAPH, name, NULL) == NULL) {
+    agattr(graph, AGRAPH, name, "");
+  }
   agattr(graph, AGRAPH, name, value);
 }
 
 EMSCRIPTEN_KEEPALIVE
 void viz_set_default_node_attribute(Agraph_t *graph, char *name, char *value) {
+  if (agattr(graph, AGNODE, name, NULL) == NULL) {
+    agattr(graph, AGNODE, name, "");
+  }
   agattr(graph, AGNODE, name, value);
 }
 
 EMSCRIPTEN_KEEPALIVE
 void viz_set_default_edge_attribute(Agraph_t *graph, char *name, char *value) {
+  if (agattr(graph, AGEDGE, name, NULL) == NULL) {
+    agattr(graph, AGEDGE, name, "");
+  }
   agattr(graph, AGEDGE, name, value);
 }
 

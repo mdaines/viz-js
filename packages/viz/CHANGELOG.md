@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* For graph object input, fix that subgraphs without names were given the name "undefined", and reject nodes and edges without names.
+
 ## 3.22.0
 
 * Update Graphviz to 14.0.5.

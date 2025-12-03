@@ -211,5 +211,78 @@ describe("Viz", function() {
         errors: []
       });
     });
+
+    it("throws for a node without a name", function() {
+      assert.throws(() => {
+        viz.render({
+          nodes: [
+            {}
+          ]
+        });
+      });
+    });
+
+    it("throws for an edge without tail or head", function() {
+      assert.throws(() => {
+        viz.render({
+          edges: [
+            {}
+          ]
+        });
+      });
+
+      assert.throws(() => {
+        viz.render({
+          edges: [
+            { tail: "a" }
+          ]
+        });
+      });
+
+      assert.throws(() => {
+        viz.render({
+          edges: [
+            { head: "b" }
+          ]
+        });
+      });
+    });
+
+    it("accepts a subgraph without a name", function() {
+      const result = viz.render({
+        subgraphs: [
+          {
+            nodes: [
+              { name: "a" }
+            ]
+          },
+          {
+            nodes: [
+              { name: "b" }
+            ]
+          }
+        ]
+      });
+
+      assert.deepStrictEqual(result, {
+        status: "success",
+        output: `digraph {
+	graph [bb="0,0,126,36"];
+	node [label="\\N"];
+	{
+		a	[height=0.5,
+			pos="27,18",
+			width=0.75];
+	}
+	{
+		b	[height=0.5,
+			pos="99,18",
+			width=0.75];
+	}
+}
+`,
+        errors: []
+      });
+    });
   });
 });

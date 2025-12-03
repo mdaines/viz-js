@@ -195,6 +195,10 @@ function readGraph(module, graphPointer, graphData) {
 
   if (graphData.nodes) {
     graphData.nodes.forEach(nodeData => {
+      if (typeof nodeData.name === "undefined") {
+        throw new Error("nodes must have a name");
+      }
+
       const nodePointer = module.ccall("viz_add_node", "number", ["number", "string"], [graphPointer, String(nodeData.name)]);
 
       if (nodeData.attributes) {
@@ -205,6 +209,14 @@ function readGraph(module, graphPointer, graphData) {
 
   if (graphData.edges) {
     graphData.edges.forEach(edgeData => {
+      if (typeof edgeData.tail === "undefined") {
+        throw new Error("edges must have a tail");
+      }
+
+      if (typeof edgeData.head === "undefined") {
+        throw new Error("edges must have a head");
+      }
+
       const edgePointer = module.ccall("viz_add_edge", "number", ["number", "string", "string"], [graphPointer, String(edgeData.tail), String(edgeData.head)]);
 
       if (edgeData.attributes) {
@@ -215,7 +227,7 @@ function readGraph(module, graphPointer, graphData) {
 
   if (graphData.subgraphs) {
     graphData.subgraphs.forEach(subgraphData => {
-      const subgraphPointer = module.ccall("viz_add_subgraph", "number", ["number", "string"], [graphPointer, String(subgraphData.name)]);
+      const subgraphPointer = module.ccall("viz_add_subgraph", "number", ["number", "string"], [graphPointer, typeof subgraphData.name !== "undefined" ? String(subgraphData.name) : 0]);
 
       readGraph(module, subgraphPointer, subgraphData);
     });

@@ -17,7 +17,7 @@
     "@viz-js/lang-dot": "1.0.5",
     "@viz-js/viz": "3.16.0",
     "codemirror": "^6.0.1",
-    "lodash-es": "^4.17.21",
+    "lodash-es": "^4.17.23",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "utf8": "^3.0.0"

@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Update Graphviz to 14.1.2.
+
 ## 3.24.0
 
 * Update Graphviz to 14.1.1.

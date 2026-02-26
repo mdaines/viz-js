@@ -33,7 +33,7 @@
     "@rollup/plugin-terser": "^0.4.1",
     "jsdom": "^21.1.1",
     "mocha": "^11.7.0",
-    "rollup": "^3.29.5",
+    "rollup": "^3.30.0",
     "typedoc": "^0.28.5",
     "typedoc-plugin-mdn-links": "^5.0.2"
   },

@@ -3,7 +3,7 @@
 ## Unreleased
 
 * Update Expat to 2.7.4.
-* Update Graphviz to 14.1.2.
+* Update Graphviz to 14.1.3.
 
 ## 3.24.0
 

@@ -4,22 +4,22 @@
   "private": true,
   "type": "module",
   "devDependencies": {
-    "mocha": "^11.1.0",
-    "parcel": "^2.12.0",
+    "mocha": "^11.7.5",
+    "parcel": "^2.16.4",
     "plugins": "^0.4.2",
     "process": "^0.11.10"
   },
   "dependencies": {
-    "@codemirror/language": "^6.8.0",
-    "@codemirror/lint": "^6.4.0",
-    "@codemirror/state": "^6.2.1",
-    "@lezer/common": "^1.0.3",
+    "@codemirror/language": "^6.12.2",
+    "@codemirror/lint": "^6.9.5",
+    "@codemirror/state": "^6.5.4",
+    "@lezer/common": "^1.5.1",
     "@viz-js/lang-dot": "1.0.5",
     "@viz-js/viz": "3.16.0",
-    "codemirror": "^6.0.1",
+    "codemirror": "^6.0.2",
     "lodash-es": "^4.17.23",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
     "utf8": "^3.0.0"
   },
   "source": [

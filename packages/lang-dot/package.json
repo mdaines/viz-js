@@ -23,17 +23,17 @@
   "module": "dist/index.js",
   "types": "types/index.d.ts",
   "devDependencies": {
-    "@lezer/generator": "^1.3.0",
-    "@rollup/plugin-node-resolve": "^15.1.0",
-    "mocha": "^11.1.0",
+    "@lezer/generator": "^1.8.0",
+    "@rollup/plugin-node-resolve": "^15.3.1",
+    "mocha": "^11.7.5",
     "rollup": "^3.30.0"
   },
   "dependencies": {
-    "@codemirror/language": "^6.8.0",
-    "@lezer/common": "^1.0.3",
-    "@lezer/highlight": "^1.1.6",
-    "@lezer/lr": "^1.4.2",
-    "@lezer/xml": "^1.0.2"
+    "@codemirror/language": "^6.12.2",
+    "@lezer/common": "^1.5.1",
+    "@lezer/highlight": "^1.2.3",
+    "@lezer/lr": "^1.4.8",
+    "@lezer/xml": "^1.0.6"
   },
   "scripts": {
     "build": "lezer-generator src/dot.grammar -o src/parser && rollup -c",

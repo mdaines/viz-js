@@ -2,8 +2,8 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@viz-js/viz": "../..",
-    "typescript": "^5.1.3"
+    "@viz-js/viz": "file:../..",
+    "typescript": "^5.9.3"
   },
   "scripts": {
     "check-types": "tsc --strict --lib es2015,dom --module esnext --moduleResolution bundler --verbatimModuleSyntax --noEmit *.ts",

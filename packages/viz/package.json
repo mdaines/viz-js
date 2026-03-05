@@ -27,15 +27,15 @@
     "types"
   ],
   "devDependencies": {
-    "@babel/core": "^7.21.4",
-    "@babel/preset-env": "^7.21.4",
-    "@rollup/plugin-babel": "^6.0.3",
-    "@rollup/plugin-terser": "^0.4.1",
-    "jsdom": "^21.1.1",
-    "mocha": "^11.7.0",
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.0",
+    "@rollup/plugin-babel": "^6.1.0",
+    "@rollup/plugin-terser": "^0.4.4",
+    "jsdom": "^21.1.2",
+    "mocha": "^11.7.5",
     "rollup": "^3.30.0",
-    "typedoc": "^0.28.5",
-    "typedoc-plugin-mdn-links": "^5.0.2"
+    "typedoc": "^0.28.17",
+    "typedoc-plugin-mdn-links": "^5.1.1"
   },
   "scripts": {
     "test": "mocha",

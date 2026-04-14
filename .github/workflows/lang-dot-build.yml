@@ -32,7 +32,7 @@ jobs:
           npm run test
         working-directory: packages/lang-dot
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v7
         with:
           name: dist
           path: packages/lang-dot/dist

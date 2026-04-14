@@ -1,7 +1,8 @@
 # Changelog
 
-## Unreleased
+## 3.26.0
 
+* Update emdsk to 5.0.5.
 * Update Expat to 2.7.5.
 * Update Graphviz to 14.1.5.
 

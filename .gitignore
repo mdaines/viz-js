@@ -1,2 +1,5 @@
-node_modules/
+.direnv/
+.envrc
 .parcel-cache/
+node_modules/
+result*

@@ -120,6 +120,7 @@ export interface RenderOptions {
   nodeAttributes?: Attributes
   edgeAttributes?: Attributes
   images?: ImageSize[]
+  textMeasure?: TextMeasure
 }
 
 /**
@@ -165,8 +166,31 @@ export interface SVGRenderOptions {
   nodeAttributes?: Attributes
   edgeAttributes?: Attributes
   images?: ImageSize[]
+  textMeasure?: TextMeasure
   trustedTypePolicy?: object
 }
+
+export interface TextMeasureInput {
+  text: string
+  fontName: string
+  fontSize: number
+  bold: boolean
+  italic: boolean
+  underline: boolean
+  superscript: boolean
+  subscript: boolean
+  strikethrough: boolean
+  overline: boolean
+}
+
+export interface TextMeasureResult {
+  width: number
+  height: number
+  yoffsetLayout?: number
+  yoffsetCenterline?: number
+}
+
+export type TextMeasure = (input: TextMeasureInput) => TextMeasureResult | null | undefined
 
 /**
  * The result object returned by {@link Viz.render}.

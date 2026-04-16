@@ -29,10 +29,12 @@ export function getPluginList(module, kind) {
 
 export function renderInput(module, input, formats, options) {
   let graphPointer, contextPointer, resultPointer, imageFilePaths;
+  const previousTextMeasure = module["vizjsTextMeasure"];
 
   try {
     module["agerrMessages"] = [];
     module["stderrMessages"] = [];
+    module["vizjsTextMeasure"] = resolveTextMeasure(options);
 
     imageFilePaths = createImageFiles(module, options.images);
 
@@ -125,7 +127,80 @@ export function renderInput(module, input, formats, options) {
     if (imageFilePaths) {
       removeImageFiles(module, imageFilePaths);
     }
+
+    module["vizjsTextMeasure"] = previousTextMeasure;
   }
+}
+
+function resolveTextMeasure(options) {
+  if (typeof options.textMeasure === "function") {
+    return options.textMeasure;
+  }
+
+  return getDefaultTextMeasure();
+}
+
+let defaultTextMeasure;
+
+function getDefaultTextMeasure() {
+  if (defaultTextMeasure !== undefined) {
+    return defaultTextMeasure;
+  }
+
+  if (typeof OffscreenCanvas !== "undefined") {
+    const canvas = new OffscreenCanvas(1, 1);
+    const context = canvas.getContext("2d");
+
+    if (context) {
+      defaultTextMeasure = createBrowserTextMeasure(context);
+      return defaultTextMeasure;
+    }
+  }
+
+  if (typeof document !== "undefined" && typeof document.createElement === "function") {
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+
+    if (context) {
+      defaultTextMeasure = createBrowserTextMeasure(context);
+      return defaultTextMeasure;
+    }
+  }
+
+  defaultTextMeasure = null;
+  return defaultTextMeasure;
+}
+
+function createBrowserTextMeasure(context) {
+  const pxPerPoint = 96 / 72;
+  const pointPerPixel = 72 / 96;
+
+  return ({ text, fontName, fontSize, bold, italic }) => {
+    const cssFontSize = fontSize * pxPerPoint;
+    const style = italic ? "italic " : "";
+    const weight = bold ? "bold " : "";
+    const family = JSON.stringify(fontName);
+
+    context.font = `${style}${weight}${cssFontSize}px ${family}`;
+    context.textBaseline = "alphabetic";
+
+    const metrics = context.measureText(text);
+    const ascent =
+      typeof metrics.actualBoundingBoxAscent === "number"
+        ? metrics.actualBoundingBoxAscent
+        : cssFontSize * 0.8;
+    const descent =
+      typeof metrics.actualBoundingBoxDescent === "number"
+        ? metrics.actualBoundingBoxDescent
+        : cssFontSize * 0.2;
+
+    return {
+      width: metrics.width * pointPerPixel,
+      height: (ascent + descent) * pointPerPixel,
+      yoffsetLayout: ascent * pointPerPixel,
+      yoffsetCenterline: descent * 0.5 * pointPerPixel,
+    };
+  };
 }
 
 function parseErrorMessages(module) {

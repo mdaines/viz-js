@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Update Expat to 2.8.0.
+
 ## 3.26.0
 
 * Update emsdk to 5.0.5.

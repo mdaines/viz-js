@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-* Update Expat to 2.8.0.
+* Update Expat to 2.8.1.
 
 ## 3.26.0
 

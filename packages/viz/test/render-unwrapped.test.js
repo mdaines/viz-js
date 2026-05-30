@@ -62,8 +62,19 @@ describe("Viz", function() {
 
     it("returns an SVG element", function() {
       const svg = viz.renderSVGElement("digraph { a -> b }");
+
       assert.deepStrictEqual(svg.querySelector(".node title").textContent, "a");
       assert.deepStrictEqual(svg.querySelector(".edge title").textContent, "a->b");
+    });
+
+    it("renders default node label", function() {
+      const svg = viz.renderSVGElement(`graph {
+        a[id=a]
+        b[id=b, label=test]
+      }`);
+
+      assert.deepStrictEqual(svg.querySelector("#a text").textContent, "a");
+      assert.deepStrictEqual(svg.querySelector("#b text").textContent, "test");
     });
 
     it("uses a trusted type policy if present", function() {

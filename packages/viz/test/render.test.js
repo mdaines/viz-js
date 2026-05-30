@@ -89,53 +89,6 @@ describe("Viz", function() {
       });
     });
 
-    it("accepts default attributes", function() {
-      const result = viz.render("graph {}", {
-        graphAttributes: {
-          a: 123
-        },
-        nodeAttributes: {
-          b: false
-        },
-        edgeAttributes: {
-          c: "test"
-        }
-      });
-
-      assert.deepStrictEqual(result, {
-        status: "success",
-        output: `graph {
-	graph [a=123,
-		bb="0,0,0,0"
-	];
-	node [b=false,
-		label="\\N"
-	];
-	edge [c=test];
-}
-`,
-        errors: []
-      });
-    });
-
-    it("default attribute values can be html strings", function() {
-      const result = viz.render("graph {}", {
-        nodeAttributes: {
-          label: { html: "<b>test</b>" }
-        }
-      });
-
-      assert.deepStrictEqual(result, {
-        status: "success",
-        output: `graph {
-	graph [bb="0,0,0,0"];
-	node [label=<<b>test</b>>];
-}
-`,
-        errors: []
-      });
-    });
-
     it("returns an error for empty input", function() {
       const result = viz.render("");
 
@@ -291,27 +244,6 @@ stop
           { level: "warning", message: "Could not parse \"_background\" attribute in graph %1" },
           { level: "warning", message: "  \"123\"" }
         ]
-      });
-    });
-
-    it("the graph is read with the default node label set", function() {
-      const result = viz.render("graph { a; b[label=test] }");
-
-      assert.deepStrictEqual(result, {
-        status: "success",
-        output: `graph {
-	graph [bb="0,0,126,36"];
-	node [label="\\N"];
-	a	[height=0.5,
-		pos="27,18",
-		width=0.75];
-	b	[height=0.5,
-		label=test,
-		pos="99,18",
-		width=0.75];
-}
-`,
-        errors: []
       });
     });
 

@@ -191,8 +191,6 @@ function readObjectInput(module, object, options) {
 }
 
 function readGraph(module, graphPointer, graphData) {
-  setDefaultAttributes(module, graphPointer, graphData);
-
   if (graphData.nodes) {
     graphData.nodes.forEach(nodeData => {
       if (typeof nodeData.name === "undefined") {
@@ -232,6 +230,8 @@ function readGraph(module, graphPointer, graphData) {
       readGraph(module, subgraphPointer, subgraphData);
     });
   }
+
+  setDefaultAttributes(module, graphPointer, graphData);
 }
 
 function setDefaultAttributes(module, graphPointer, data) {

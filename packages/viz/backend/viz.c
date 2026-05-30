@@ -74,9 +74,11 @@ Agraph_t *viz_read_one_graph(char *string) {
   Agraph_t *graph = NULL;
   Agraph_t *other_graph = NULL;
 
-  // Workaround for #218. Set the global default node label.
+  // Set the global default node label
 
-  agattr(NULL, AGNODE, "label", "\\N");
+  if (!agattr_text(NULL, AGNODE, "label", 0)) {
+    agattr_text(NULL, AGNODE, "label", "\\N");
+  }
 
   // Reset errors
 
@@ -137,28 +139,38 @@ Agraph_t *viz_add_subgraph(Agraph_t *g, char *name) {
   return agsubg(g, name, true);
 }
 
-EMSCRIPTEN_KEEPALIVE
-void viz_set_default_graph_attribute(Agraph_t *graph, char *name, char *value) {
-  if (agattr(graph, AGRAPH, name, NULL) == NULL) {
-    agattr(graph, AGRAPH, name, "");
+// Add an attribute with the name and value if there is none with that name
+void add_attribute(void *obj, char *name, const char *default_value) {
+  char *value = agget(obj, name);
+
+  if (value == NULL || strcmp(value, "") == 0) {
+    agsafeset(obj, name, default_value, "");
   }
-  agattr(graph, AGRAPH, name, value);
 }
 
 EMSCRIPTEN_KEEPALIVE
-void viz_set_default_node_attribute(Agraph_t *graph, char *name, char *value) {
-  if (agattr(graph, AGNODE, name, NULL) == NULL) {
-    agattr(graph, AGNODE, name, "");
+void viz_set_default_graph_attribute(Agraph_t *graph, char *name, char *default_value) {
+  add_attribute(graph, name, default_value);
+
+  for (Agraph_t *subgraph = agfstsubg(graph); subgraph; subgraph = agnxtsubg(subgraph)) {
+    add_attribute(subgraph, name, default_value);
   }
-  agattr(graph, AGNODE, name, value);
 }
 
 EMSCRIPTEN_KEEPALIVE
-void viz_set_default_edge_attribute(Agraph_t *graph, char *name, char *value) {
-  if (agattr(graph, AGEDGE, name, NULL) == NULL) {
-    agattr(graph, AGEDGE, name, "");
+void viz_set_default_node_attribute(Agraph_t *graph, char *name, char *default_value) {
+  for (Agnode_t *node = agfstnode(graph); node; node = agnxtnode(graph, node)) {
+    add_attribute(node, name, default_value);
   }
-  agattr(graph, AGEDGE, name, value);
+}
+
+EMSCRIPTEN_KEEPALIVE
+void viz_set_default_edge_attribute(Agraph_t *graph, char *name, char *default_value) {
+  for (Agnode_t *node = agfstnode(graph); node; node = agnxtnode(graph, node)) {
+    for (Agedge_t *edge = agfstout(graph, node); edge; edge = agnxtout(graph, edge)) {
+      add_attribute(edge, name, default_value);
+    }
+  }
 }
 
 EMSCRIPTEN_KEEPALIVE

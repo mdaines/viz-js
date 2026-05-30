@@ -1,5 +1,10 @@
 import assert from "node:assert/strict";
+import { JSDOM } from "jsdom";
 import * as VizPackage from "../src/index.js";
+
+function textContents(svg, selector) {
+  return Array.from(svg.querySelectorAll(selector)).map(e => e.textContent);
+}
 
 describe("Viz", function() {
   let viz;
@@ -8,101 +13,48 @@ describe("Viz", function() {
     viz = await VizPackage.instance();
   });
 
+  beforeEach(function() {
+    const window = (new JSDOM()).window;
+    global.DOMParser = window.DOMParser;
+  });
+
+  afterEach(function() {
+    delete global.DOMParser;
+  });
+
   describe("rendering graph objects", function() {
     it("empty graph", function() {
-      const result = viz.render({});
+      const svg = viz.renderSVGElement({});
 
-      assert.deepStrictEqual(result, {
-        status: "success",
-        output: `digraph {
-	graph [bb="0,0,0,0"];
-	node [label="\\N"];
-}
-`,
-        errors: []
-      });
-    });
-
-    it("attributes in options override options in input", function() {
-      const result = viz.render(
-        {
-          nodeAttributes: {
-            shape: "rectangle"
-          }
-        },
-        {
-          nodeAttributes: {
-            shape: "circle"
-          }
-        }
-      );
-
-      assert.deepStrictEqual(result, {
-        status: "success",
-        output: `digraph {
-	graph [bb="0,0,0,0"];
-	node [label="\\N",
-		shape=circle
-	];
-}
-`,
-        errors: []
-      });
+      assert.deepStrictEqual(textContents(svg, ".edge title"), []);
+      assert.deepStrictEqual(textContents(svg, ".node text"), []);
     });
 
     it("just edges", function() {
-      const result = viz.render({
+      const svg = viz.renderSVGElement({
         edges: [
           { tail: "a", head: "b" }
         ]
       });
 
-      assert.deepStrictEqual(result, {
-        status: "success",
-        output: `digraph {
-	graph [bb="0,0,54,108"];
-	node [label="\\N"];
-	a	[height=0.5,
-		pos="27,90",
-		width=0.75];
-	b	[height=0.5,
-		pos="27,18",
-		width=0.75];
-	a -> b	[pos="e,27,36.104 27,71.697 27,64.407 27,55.726 27,47.536"];
-}
-`,
-        errors: []
-      });
+      assert.deepStrictEqual(textContents(svg, ".edge title"), ["a->b"]);
+      assert.deepStrictEqual(textContents(svg, ".node text"), ["a", "b"]);
     });
 
     it("undirected graph", function() {
-      const result = viz.render({
+      const svg = viz.renderSVGElement({
         directed: false,
         edges: [
           { tail: "a", head: "b" }
         ]
       });
 
-      assert.deepStrictEqual(result, {
-        status: "success",
-        output: `graph {
-	graph [bb="0,0,54,108"];
-	node [label="\\N"];
-	a	[height=0.5,
-		pos="27,90",
-		width=0.75];
-	b	[height=0.5,
-		pos="27,18",
-		width=0.75];
-	a -- b	[pos="27,71.697 27,60.846 27,46.917 27,36.104"];
-}
-`,
-        errors: []
-      });
+      assert.deepStrictEqual(textContents(svg, ".edge title"), ["a--b"]);
+      assert.deepStrictEqual(textContents(svg, ".node text"), ["a", "b"]);
     });
 
     it("html attributes", function() {
-      const result = viz.render({
+      const svg = viz.renderSVGElement({
         nodes: [
           {
             name: "a",
@@ -113,27 +65,62 @@ describe("Viz", function() {
         ]
       });
 
-      assert.deepStrictEqual(result, {
-        status: "success",
-        output: `digraph {
-	graph [bb="0,0,54,36"];
-	a	[height=0.5,
-		label=<<b>A</b>>,
-		pos="27,18",
-		width=0.75];
-}
-`,
-        errors: []
+      assert.deepStrictEqual(textContents(svg, ".node text[font-weight=bold]"), ["A"]);
+    });
+
+    it("default attributes in graph", function() {
+      const svg = viz.renderSVGElement({
+        nodes: [
+          {
+            name: "a",
+            attributes: {
+              id: "a",
+              shape: "rectangle"
+            }
+          }
+        ],
+        nodeAttributes: {
+          shape: "circle",
+          color: "blue"
+        }
       });
+
+      assert.deepStrictEqual(textContents(svg, ".node text"), ["a"]);
+
+      assert.ok(svg.querySelector("#a polygon[stroke=blue]"));
+    });
+
+    it("default attributes in options", function() {
+      const svg = viz.renderSVGElement({
+        nodes: [
+          {
+            name: "a",
+            attributes: {
+              shape: "rectangle"
+            }
+          }
+        ]
+      },
+      {
+        nodeAttributes: {
+          shape: "circle",
+          color: "blue"
+        }
+      });
+
+      assert.deepStrictEqual(textContents(svg, ".node text"), ["a"]);
+
+      assert.ok(svg.querySelector(".node > polygon[stroke=blue]"));
     });
 
     it("default attributes, nodes, edges, and nested subgraphs", function() {
-      const result = viz.render({
+      const svg = viz.renderSVGElement({
         graphAttributes: {
+          id: "g",
           rankdir: "LR"
         },
         nodeAttributes: {
-          shape: "circle"
+          shape: "rectangle"
         },
         nodes: [
           { name: "a", attributes: { label: "A", color: "red" } },
@@ -164,52 +151,9 @@ describe("Viz", function() {
         ]
       });
 
-      assert.deepStrictEqual(result, {
-        status: "success",
-        output: `digraph {
-	graph [bb="0,0,297.04,84",
-		rankdir=LR
-	];
-	node [shape=circle];
-	subgraph cluster_1 {
-		graph [bb="150.02,8,289.04,76"];
-		subgraph cluster_2 {
-			graph [bb="229.02,16,281.04,68"];
-			d	[color=orange,
-				height=0.50029,
-				label=D,
-				pos="255.03,42",
-				width=0.50029];
-		}
-		c	[color=blue,
-			height=0.5,
-			label=C,
-			pos="176.02,42",
-			width=0.5];
-		c -> d	[label=3,
-			lp="215.52,50.4",
-			pos="e,236.63,42 194.5,42 203.55,42 214.85,42 225.17,42"];
-	}
-	a	[color=red,
-		height=0.50029,
-		label=A,
-		pos="18.01,42",
-		width=0.50029];
-	b	[color=green,
-		height=0.5,
-		label=B,
-		pos="97.021,42",
-		width=0.5];
-	a -> b	[label=1,
-		lp="57.521,50.4",
-		pos="e,78.615,42 36.485,42 45.544,42 56.842,42 67.155,42"];
-	b -> c	[label=2,
-		lp="136.52,50.4",
-		pos="e,157.62,42 115.49,42 124.55,42 135.85,42 146.16,42"];
-}
-`,
-        errors: []
-      });
+      assert.deepStrictEqual(textContents(svg, ".cluster title"), ["cluster_1", "cluster_2"]);
+      assert.deepStrictEqual(textContents(svg, ".edge title"), ["a->b", "b->c", "c->d"]);
+      assert.deepStrictEqual(textContents(svg, ".node title"), ["a", "b", "c", "d"]);
     });
 
     it("throws for a node without a name", function() {
@@ -249,7 +193,7 @@ describe("Viz", function() {
     });
 
     it("accepts a subgraph without a name", function() {
-      const result = viz.render({
+      const svg = viz.renderSVGElement({
         subgraphs: [
           {
             nodes: [
@@ -264,32 +208,19 @@ describe("Viz", function() {
         ]
       });
 
-      assert.deepStrictEqual(result, {
-        status: "success",
-        output: `digraph {
-	graph [bb="0,0,126,36"];
-	node [label="\\N"];
-	{
-		a	[height=0.5,
-			pos="27,18",
-			width=0.75];
-	}
-	{
-		b	[height=0.5,
-			pos="99,18",
-			width=0.75];
-	}
-}
-`,
-        errors: []
-      });
+      assert.deepStrictEqual(textContents(svg, ".node text"), ["a", "b"]);
     });
 
     it("applies subgraph attributes correctly", function() {
-      const result = viz.render({
+      const svg = viz.renderSVGElement({
+        nodes: [
+          { name: "a", attributes: { id: "a" } }
+        ],
         subgraphs: [
           {
             graphAttributes: {
+              cluster: true,
+              id: "subg",
               color: "red"
             },
             nodeAttributes: {
@@ -299,29 +230,21 @@ describe("Viz", function() {
               color: "blue"
             },
             nodes: [
-              { name: "a" }
+              { name: "b", attributes: { id: "b" } },
+              { name: "c", attributes: { id: "c" } }
+            ],
+            edges: [
+              { tail: "b", head: "c", attributes: { id: "e" } }
             ]
           }
         ]
       });
 
-      assert.deepStrictEqual(result, {
-        status: "success",
-        output: `digraph {
-	graph [bb="0,0,54,36"];
-	node [label="\\N"];
-	{
-		graph [color=red];
-		node [color=green];
-		edge [color=blue];
-		a	[height=0.5,
-			pos="27,18",
-			width=0.75];
-	}
-}
-`,
-        errors: []
-      });
+      assert.ok(svg.querySelector("#subg > polygon[stroke=red]"));
+      assert.ok(svg.querySelector("#a > ellipse[stroke=black]"));
+      assert.ok(svg.querySelector("#b > ellipse[stroke=green]"));
+      assert.ok(svg.querySelector("#c > ellipse[stroke=green]"));
+      assert.ok(svg.querySelector("#e > path[stroke=blue]"));
     });
   });
 });

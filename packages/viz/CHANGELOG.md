@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* Fix application of the default attribute options. (#380)
 * Update Expat to 2.8.1.
 
 ## 3.26.0

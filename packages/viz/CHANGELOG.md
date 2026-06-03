@@ -1,8 +1,11 @@
 # Changelog
 
-## 3.27.0
+## Unreleased
 
 * Fix application of the default attribute options. (#380)
+
+## 3.27.0
+
 * Update Expat to 2.8.1.
 
 ## 3.26.0

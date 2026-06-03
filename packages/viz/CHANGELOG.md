@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* Update Graphviz to 15.0.0.
 * Fix application of the default attribute options. (#380)
 
 ## 3.27.0

@@ -14,7 +14,7 @@ RUN cd expat && emconfigure ./configure \
   CXXFLAGS="-Oz"
 RUN cd expat/lib && emmake make all install
 
-ADD "https://gitlab.com/api/v4/projects/4207231/packages/generic/graphviz-releases/14.1.5/graphviz-14.1.5.tar.gz" ./graphviz.tar.gz
+ADD "https://gitlab.com/api/v4/projects/4207231/packages/generic/graphviz-releases/15.0.0/graphviz-15.0.0.tar.gz" ./graphviz.tar.gz
 
 RUN mkdir -p graphviz && tar -zxf ./graphviz.tar.gz --strip-components 1 --directory graphviz
 RUN cd graphviz && emconfigure ./configure \

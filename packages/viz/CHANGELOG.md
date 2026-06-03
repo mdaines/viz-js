@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.28.0
 
 * Update Graphviz to 15.0.0.
 * Fix application of the default attribute options. (#380)

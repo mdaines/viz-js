@@ -47,15 +47,15 @@ describe("Viz", function() {
       const src = "digraph { a -> b }";
       const dotOutput = viz.render(src).output;
 
-      assert.strictEqual(viz.render(src, { engine: "dot" }).output, dotOutput);
-      assert.notStrictEqual(viz.render(src, { engine: "neato" }).output, dotOutput);
-      assert.notStrictEqual(viz.render(src, { engine: "nop2" }).output, dotOutput);
-      assert.notStrictEqual(viz.render(src, { engine: "twopi" }).output, dotOutput);
-      assert.notStrictEqual(viz.render(src, { engine: "circo" }).output, dotOutput);
-      assert.notStrictEqual(viz.render(src, { engine: "fdp" }).output, dotOutput);
-      assert.notStrictEqual(viz.render(src, { engine: "sfdp" }).output, dotOutput);
-      assert.notStrictEqual(viz.render(src, { engine: "patchwork" }).output, dotOutput);
-      assert.notStrictEqual(viz.render(src, { engine: "osage" }).output, dotOutput);
+      assert.deepStrictEqual(viz.render(src, { engine: "dot" }).output, dotOutput);
+      assert.notDeepStrictEqual(viz.render(src, { engine: "neato" }).output, dotOutput);
+      assert.notDeepStrictEqual(viz.render(src, { engine: "nop2" }).output, dotOutput);
+      assert.notDeepStrictEqual(viz.render(src, { engine: "twopi" }).output, dotOutput);
+      assert.notDeepStrictEqual(viz.render(src, { engine: "circo" }).output, dotOutput);
+      assert.notDeepStrictEqual(viz.render(src, { engine: "fdp" }).output, dotOutput);
+      assert.notDeepStrictEqual(viz.render(src, { engine: "sfdp" }).output, dotOutput);
+      assert.notDeepStrictEqual(viz.render(src, { engine: "patchwork" }).output, dotOutput);
+      assert.notDeepStrictEqual(viz.render(src, { engine: "osage" }).output, dotOutput);
     });
 
     it("accepts yInvert option", function() {

@@ -1,5 +1,7 @@
 # Changelog
 
+* Interpret explicit undefined engine option value as "dot". (#386)
+
 ## 3.28.0
 
 * Update Graphviz to 15.0.0.

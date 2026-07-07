@@ -18,19 +18,35 @@ class Viz {
   }
 
   renderFormats(input, formats, options = {}) {
-    return renderInput(this.module, input, formats, { engine: "dot", ...options });
+    let engine;
+
+    if (typeof options.engine === "undefined") {
+      engine = "dot";
+    } else {
+      engine = options.engine;
+    }
+
+    return renderInput(this.module, input, formats, { ...options, engine });
   }
 
   render(input, options = {}) {
     let format;
 
-    if (options.format === void 0) {
+    if (typeof options.format === "undefined") {
       format = "dot";
     } else {
       format = options.format;
     }
 
-    let result = renderInput(this.module, input, [format], { engine: "dot", ...options });
+    let engine;
+
+    if (typeof options.engine === "undefined") {
+      engine = "dot";
+    } else {
+      engine = options.engine;
+    }
+
+    let result = renderInput(this.module, input, [format], { ...options, engine });
 
     if (result.status === "success") {
       result.output = result.output[format];

@@ -58,6 +58,13 @@ describe("Viz", function() {
       assert.notDeepStrictEqual(viz.render(src, { engine: "osage" }).output, dotOutput);
     });
 
+    it("uses the default engine option even if undefined is explicitly given in options", function() {
+      const src = "digraph { a -> b }";
+      const dotOutput = viz.render(src, { engine: "dot" }).output;
+
+      assert.deepStrictEqual(viz.render(src, { engine: undefined }).output, dotOutput);
+    });
+
     it("accepts yInvert option", function() {
       const result1 = viz.render("graph { a }", { yInvert: false });
       const result2 = viz.render("graph { a }", { yInvert: true });

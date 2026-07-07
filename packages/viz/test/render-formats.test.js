@@ -57,6 +57,13 @@ describe("Viz", function() {
       });
     });
 
+    it("uses the default engine option even if undefined is explicitly given in options", function() {
+      const dotResult = viz.renderFormats("graph a { b }", ["dot", "cmapx"], { engine: "dot" });
+      const result = viz.renderFormats("graph a { b }", ["dot", "cmapx"], { engine: undefined });
+
+      assert.deepStrictEqual(result, dotResult);
+    });
+
     it("returns error messages for invalid input", function() {
       const result = viz.renderFormats("invalid", ["dot", "cmapx"]);
 

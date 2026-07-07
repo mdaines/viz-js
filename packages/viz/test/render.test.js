@@ -43,6 +43,13 @@ describe("Viz", function() {
       assert.match(viz.render("digraph { a -> b }", { format: "json" }).output, /"name": "a"/);
     });
 
+    it("uses the default format option even if undefined is explicitly given in options", function() {
+      const src = "digraph { a -> b }";
+      const dotOutput = viz.render(src, { format: "dot" }).output;
+
+      assert.deepStrictEqual(viz.render(src, { format: undefined }).output, dotOutput);
+    });
+
     it("accepts other engine options", function() {
       const src = "digraph { a -> b }";
       const dotOutput = viz.render(src).output;

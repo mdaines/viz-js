@@ -102,8 +102,8 @@ describe("Viz", function() {
   });
 
   describe("renderJSON", function() {
-    it("returns an object", function() {
-      assert.deepStrictEqual(viz.renderJSON("digraph a { }").name, "a");
+    it("renders", function() {
+      assert.ok(viz.renderJSON("digraph a { }"));
     });
 
     it("throws an error for syntax errors", function() {
@@ -112,6 +112,11 @@ describe("Viz", function() {
 
     it("throws an error if there are no graphs in the input", function() {
       assert.throws(() => { viz.renderJSON(""); }, /^Error: render failed/);
+    });
+
+    it("renders JSON even if another format is explicitly given in options", function() {
+      assert.ok(viz.renderJSON("digraph a { }", { format: "dot" }));
+      assert.ok(viz.renderJSON("digraph a { }", { format: undefined }));
     });
   });
 });

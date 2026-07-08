@@ -137,7 +137,7 @@ function createImageFiles(module, images) {
     return [];
   }
 
-  return images.map(image => {
+  for (const image of images) {
     if (typeof image.name !== "string") {
       throw new Error("image name must be a string");
     } else if (typeof image.width !== "number" && typeof image.width !== "string") {
@@ -145,7 +145,9 @@ function createImageFiles(module, images) {
     } else if (typeof image.height !== "number" && typeof image.height !== "string") {
       throw new Error("image height must be a number or string");
     }
+  }
 
+  return images.map(image => {
     const path = module.PATH.join("/", image.name);
     const data = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="${image.width}" height="${image.height}"></svg>

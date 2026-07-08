@@ -1,5 +1,6 @@
 # Changelog
 
+* Don't leave valid images around if there was an invalid image. (#388)
 * Interpret explicit undefined engine option value as "dot". (#386)
 
 ## 3.28.0

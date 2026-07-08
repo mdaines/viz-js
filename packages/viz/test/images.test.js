@@ -8,7 +8,7 @@ describe("Viz", function() {
     viz = await VizPackage.instance();
   });
 
-  describe("render", function() {
+  describe("images", function() {
     it("accepts an images option", function() {
       const result = viz.render("graph { a[image=\"test.png\"] }", {
         images: [
@@ -107,6 +107,24 @@ describe("Viz", function() {
       assert.throws(() => viz.render("...", { images: [{ name: "test.png", height: 123 }] }), /image width/);
       assert.throws(() => viz.render("...", { images: [{ name: "test.png", width: 456 }] }), /image height/);
       assert.throws(() => viz.render("...", { images: ["test.png"] }), /image name/);
+    });
+
+    it("does not leave valid images in place when an error was previously thrown for an invalid image", function() {
+      assert.throws(() => {
+        viz.render("graph { a[image=\"http://example.com/test.png\"] }", {
+          images: [
+            { name: "http://example.com/test.png", width: 300, height: 200 },
+            { name: "http://example.com/test2.png" }
+          ]
+        });
+      });
+
+      const result = viz.render("graph { a[image=\"http://example.com/test.png\"] }");
+
+      assert.deepStrictEqual(result.errors, [
+        { level: "warning", message: `No such file or directory while opening http://example.com/test.png` },
+        { level: "warning", message: `No or improper image="http://example.com/test.png" for node "a"` }
+      ]);
     });
   });
 });

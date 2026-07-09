@@ -19,7 +19,7 @@ export function getPluginList(module, kind) {
   while (stringPointer = module.getValue(itemPointer, "*")) {
     list.push(module.UTF8ToString(stringPointer));
     module.ccall("free", "number", ["number"], [stringPointer]);
-    itemPointer += 4;
+    itemPointer += module.POINTER_SIZE;
   }
 
   module.ccall("free", "number", ["number"], [resultPointer]);

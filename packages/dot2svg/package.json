@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "name": "@viz-js/dot2svg",
+  "description": "Make an SVG image from a description of a graph",
+  "version": "0.0.1",
+  "license": "MIT",
+  "type": "module",
+  "exports": "./src/index.js",
+  "files": [
+    "./src/index.js"
+  ],
+  "dependencies": {
+    "@viz-js/viz": "3.28.0"
+  },
+  "devDependencies": {
+    "mocha": "^11.7.5"
+  },
+  "scripts": {
+    "test": "mocha test/*.test.js"
+  }
+}

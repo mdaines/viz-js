@@ -1,0 +1,80 @@
+name: Test dot2svg package
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches-ignore:
+      - v2
+      - gh-pages
+    paths:
+      - "packages/dot2svg/**"
+      - "package-lock.json"
+  workflow_call: {}
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: docker/setup-buildx-action@v4
+
+      - uses: docker/build-push-action@v7
+        with:
+          context: packages/viz/backend
+          push: false
+          outputs: type=local,dest=packages/viz/lib
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24.x"
+
+      - name: "Build"
+        run: |
+          npm clean-install --ignore-scripts
+          test -f lib/backend.js && touch lib/backend.js
+          make
+        working-directory: packages/viz
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: lib
+          path: packages/viz/lib
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: dist
+          path: packages/viz/dist
+
+  test:
+    name: Test
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: lib
+          path: packages/viz/lib
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: packages/viz/dist
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24.x"
+
+      - name: "Run tests"
+        run: |
+          npm clean-install --ignore-scripts
+          npm run test
+        working-directory: packages/dot2svg

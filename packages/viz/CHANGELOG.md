@@ -1,5 +1,6 @@
 # Changelog
 
+* Update Graphviz to 15.1.1.
 * Don't leave valid images around if there was an invalid image. (#388)
 * Interpret explicit undefined engine option value as "dot". (#386)
 

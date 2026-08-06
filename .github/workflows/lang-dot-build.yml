@@ -8,7 +8,6 @@ on:
       - gh-pages
     paths:
       - "packages/lang-dot/**"
-      - "package-lock.json"
   workflow_call: {}
 
 permissions:

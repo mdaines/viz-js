@@ -10,7 +10,7 @@
     "./src/index.js"
   ],
   "dependencies": {
-    "@viz-js/viz": "../viz"
+    "@viz-js/viz": "3.29.0"
   },
   "devDependencies": {
     "mocha": "^11.7.5"

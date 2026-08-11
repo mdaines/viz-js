@@ -53,6 +53,15 @@ describe("dot2svg", function() {
         await dot2svg(src, { layout: "neato", reduce: true })
       );
     });
+
+    it("recognizes the images option", async function() {
+      const src = "graph { a[image=\"test.png\"] }";
+
+      assert.notStrictEqual(
+        await dot2svg(src),
+        await dot2svg(src, { images: [ { name: "test.png", width: 300, height: 200 } ] })
+      );
+    });
   });
 
   describe("errors", function() {

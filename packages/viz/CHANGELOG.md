@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* Update Graphviz to 16.0.0.
 * Update Expat to 2.8.4.
 * Update emsdk to 5.0.7.
 

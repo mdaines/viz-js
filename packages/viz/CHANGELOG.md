@@ -2,8 +2,8 @@
 
 ## Unreleased
 
+* Update Expat to 2.8.4.
 * Update emsdk to 5.0.7.
-* Update Expat to 2.8.3.
 
 ## 3.29.0
 

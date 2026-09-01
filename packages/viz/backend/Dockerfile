@@ -2,7 +2,7 @@ FROM emscripten/emsdk:5.0.7 AS graphviz
 
 ENV PREFIX=/prefix
 
-ADD "https://github.com/libexpat/libexpat/releases/download/R_2_8_3/expat-2.8.3.tar.gz" ./expat.tar.gz
+ADD "https://github.com/libexpat/libexpat/releases/download/R_2_8_4/expat-2.8.4.tar.gz" ./expat.tar.gz
 
 RUN mkdir -p expat && tar -zxf ./expat.tar.gz --strip-components 1 --directory expat
 RUN cd expat && emconfigure ./configure \

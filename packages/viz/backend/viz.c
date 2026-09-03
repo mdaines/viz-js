@@ -212,17 +212,11 @@ void viz_reset_errors() {
 }
 
 EMSCRIPTEN_KEEPALIVE
-char *viz_render(GVC_t *context, Agraph_t *graph, const char *format) {
-  char *data = NULL;
-  size_t length = 0;
-  int render_error = 0;
+int viz_render(GVC_t *context, Agraph_t *graph, const char *format, char **result, size_t *length) {
+  return gvRenderData(context, graph, format, result, length);
+}
 
-  render_error = gvRenderData(context, graph, format, &data, &length);
-
-  if (render_error) {
-    gvFreeRenderData(data);
-    data = NULL;
-  }
-
-  return data;
+EMSCRIPTEN_KEEPALIVE
+void viz_free_render_data(char *data) {
+  gvFreeRenderData(data);
 }

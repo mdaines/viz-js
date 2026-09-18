@@ -1,13 +1,15 @@
 {
   "private": true,
   "name": "@viz-js/dot2svg",
-  "description": "Make an SVG image from a description of a graph",
   "version": "0.0.1",
+  "description": "A simple way to render graph diagrams as SVG using Graphviz",
   "license": "MIT",
   "type": "module",
   "exports": "./src/index.js",
+  "types": "./types/index.d.ts",
   "files": [
-    "./src/index.js"
+    "./src/index.js",
+    "./types/index.d.ts"
   ],
   "dependencies": {
     "@viz-js/viz": "3.29.0"

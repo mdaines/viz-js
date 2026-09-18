@@ -3,7 +3,7 @@ import { instance } from "@viz-js/viz";
 let viz;
 
 function prepareOptions(options = {}) {
-  const { layout, graphAttributes, nodeAttributes, edgeAttributes, reduce, images } = options;
+  const { layout, graphAttributes, nodeAttributes, edgeAttributes, images, reduce } = options;
 
   return {
     graphAttributes,
@@ -11,8 +11,8 @@ function prepareOptions(options = {}) {
     edgeAttributes,
     engine: layout,
     format: "svg",
-    reduce,
-    images
+    images,
+    reduce
   };
 }
 

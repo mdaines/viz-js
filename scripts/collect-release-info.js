@@ -11,7 +11,7 @@ async function readPackageInfo(directory) {
   const version = object["version"];
 
   const nameMatch = name.match(/^@viz-js\/(.+)$/);
-  const versionMatch = version.match(/^\d+\.\d+\.\d+$/);
+  const versionMatch = version.match(/^\d+\.\d+\.\d+(?:-pre\.\d+)$/);
 
   if (!nameMatch) {
     throw new Error(`name didn't match expected pattern: ${name}`);

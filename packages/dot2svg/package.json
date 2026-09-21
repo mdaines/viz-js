@@ -1,9 +1,13 @@
 {
-  "private": true,
   "name": "@viz-js/dot2svg",
-  "version": "0.0.1",
   "description": "A simple way to render graph diagrams as SVG using Graphviz",
+  "version": "1.0.0-pre.1",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdaines/viz-js.git",
+    "directory": "packages/dot2svg"
+  },
   "type": "module",
   "exports": "./src/index.js",
   "types": "./types/index.d.ts",
@@ -12,7 +16,7 @@
     "./types/index.d.ts"
   ],
   "dependencies": {
-    "@viz-js/viz": "3.29.0"
+    "@viz-js/viz": "^3.29.0"
   },
   "devDependencies": {
     "mocha": "^11.7.5"

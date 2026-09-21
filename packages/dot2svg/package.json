@@ -1,6 +1,6 @@
 {
   "name": "@viz-js/dot2svg",
-  "description": "A simple way to render graph diagrams as SVG using Graphviz",
+  "description": "A simple library for rendering graph diagrams as SVG using Graphviz",
   "version": "1.0.0-pre.1",
   "license": "MIT",
   "repository": {

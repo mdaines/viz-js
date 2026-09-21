@@ -49,7 +49,7 @@ export function dot2svg(src: string, options?: Options): Promise<string>
  * ```
  *
  * @property reduce
- * When using the neato layout engine, prune isolated nodes and peninsulas from the input graph. This corresponds to the {@link https://www.graphviz.org/doc/info/command.html#-x | `-x`} Graphviz command-line option.
+ * When using the "neato" layout engine, prune isolated nodes and peninsulas from the input graph. This corresponds to the {@link https://www.graphviz.org/doc/info/command.html#-x | `-x`} Graphviz command-line option.
  */
 export interface Options {
   layout?: string

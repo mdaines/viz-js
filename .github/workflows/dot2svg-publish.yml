@@ -1,0 +1,39 @@
+name: Publish dot2svg
+
+on: workflow_dispatch
+
+jobs:
+  test:
+    uses: ./.github/workflows/dot2svg-test.yml
+
+  publish:
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24.x"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: "Collect release info"
+        run: |
+          node scripts/collect-release-info.js packages/dot2svg >> "$GITHUB_ENV"
+
+      - name: "Create GitHub release"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "$RELEASE_NOTES" > "${{ runner.temp }}/notes.md"
+          gh release create $RELEASE_TAG --notes-file "${{ runner.temp }}/notes.md" --title "$RELEASE_TITLE"
+
+      - run: npm install -g npm
+
+      - run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        working-directory: packages/dot2svg

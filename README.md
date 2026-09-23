@@ -1,24 +1,25 @@
 # Viz.js
 
-This is a collection of packages for working with <a href="https://graphviz.org">Graphviz</a> in JavaScript. The main package, [viz](./packages/viz), is a WebAssembly build of Graphviz with a simple JavaScript wrapper.
+This is a collection of packages for working with <a href="https://graphviz.org">Graphviz</a> in JavaScript.
 
-With Viz.js, you can easily render a graph diagram as an SVG element to display it in a webpage:
+To render a graph as an SVG string:
 
 ```js
-import * as Viz from "@viz-js/viz";
+import { dot2svg } from "@viz-js/dot2svg";
 
-Viz.instance().then(viz => {
-  document.body.appendChild(viz.renderSVGElement("digraph { a -> b }"))
-});
+const svg = await dot2svg("digraph { a -> b }");
 ```
 
-Other packages:
+Packages:
 
+- [viz](./packages/viz) — WebAssembly build of Graphviz and JavaScript wrapper.
+- [dot2svg](./packages/dot2svg) — Simplified interface for the `viz` package.
 - [lang-dot](./packages/lang-dot) — CodeMirror language support for the Graphviz DOT language.
 
 ## Install
 
-- Viz.js is published on NPM as [`@viz-js/viz`](https://www.npmjs.com/package/@viz-js/viz).
+- viz is published on NPM as [`@viz-js/viz`](https://www.npmjs.com/package/@viz-js/viz).
+- dot2svg is published on NPM as [`@viz-js/viz`](https://www.npmjs.com/package/@viz-js/dot2svg).
 - lang-dot is published on NPM as [`@viz-js/lang-dot`](https://www.npmjs.com/package/@viz-js/lang-dot).
 
 ## API

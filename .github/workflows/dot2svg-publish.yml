@@ -31,9 +31,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "$RELEASE_NOTES" > "${{ runner.temp }}/notes.md"
-          gh release create $RELEASE_TAG --notes-file "${{ runner.temp }}/notes.md" --title "$RELEASE_TITLE"
+          gh release create $RELEASE_TAG --draft --notes-file "${{ runner.temp }}/notes.md" --title "$RELEASE_TITLE"
 
       - run: npm install -g npm
 
-      - run: npm publish --provenance --access public
+      - run: npm stage publish --provenance --access public
         working-directory: packages/dot2svg

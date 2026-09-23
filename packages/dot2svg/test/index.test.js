@@ -2,10 +2,11 @@ import assert from "node:assert/strict";
 import { dot2svg } from "../src/index.js";
 
 describe("dot2svg", function() {
-  it("fulfills with a string", async function() {
-    const svg = await dot2svg("graph { }");
+  it("fulfills with a string containing inline SVG markup", async function() {
+    const svg = await dot2svg("digraph { a -> b }");
 
-    assert.notStrictEqual(svg.indexOf("<svg"), -1);
+    assert.notStrictEqual(svg.indexOf("<svg width=\"62pt\" height=\"116pt\""), -1);
+    assert.strictEqual(svg.indexOf("<?xml"), -1);
   });
 
   describe("options", function() {

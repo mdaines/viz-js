@@ -10,7 +10,7 @@ function prepareOptions(options = {}) {
     nodeAttributes,
     edgeAttributes,
     engine: layout,
-    format: "svg",
+    format: "svg_inline",
     images,
     reduce
   };

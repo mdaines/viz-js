@@ -1,6 +1,6 @@
 # Viz.js
 
-This project builds [Graphviz](http://www.graphviz.org) with [Emscripten](https://emscripten.org) and provides a simple wrapper for using it on the web.
+This project builds [Graphviz](http://www.graphviz.org) with [Emscripten](https://emscripten.org) and provides a wrapper for using it in Node or on the web.
 
 ## Install
 

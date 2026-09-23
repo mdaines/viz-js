@@ -2,19 +2,21 @@
 
 A simple library for rendering graph diagrams as SVG using Graphviz.
 
-It exports a single function which accepts the description of a graph in DOT syntax, and returns a promise which fulfills with the rendered SVG as a string.
+## Install
+
+dot2svg is published on NPM as [`@viz-js/dot2svg`](https://www.npmjs.com/package/@viz-js/dot2svg).
+
+## API
+
+The package exports a single function, `dot2svg`. This accepts the description of a graph in [DOT syntax](https://www.graphviz.org/doc/info/lang.html), and returns a promise which fulfills with the rendered SVG as a string.
 
 ```js
 import { dot2svg } from "@viz-js/dot2svg";
 
 const svg = await dot2svg("digraph { a -> b }");
-
-// parse, insert into your HTML document, etc.
 ```
 
-## Options
-
-The `dot2svg` function accepts the following options:
+### Options
 
 - <code>**layout**: string</code>
 

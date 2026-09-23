@@ -19,7 +19,7 @@ Packages:
 ## Install
 
 - viz is published on NPM as [`@viz-js/viz`](https://www.npmjs.com/package/@viz-js/viz).
-- dot2svg is published on NPM as [`@viz-js/viz`](https://www.npmjs.com/package/@viz-js/dot2svg).
+- dot2svg is published on NPM as [`@viz-js/dot2svg`](https://www.npmjs.com/package/@viz-js/dot2svg).
 - lang-dot is published on NPM as [`@viz-js/lang-dot`](https://www.npmjs.com/package/@viz-js/lang-dot).
 
 ## API

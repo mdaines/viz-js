@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.31.0
 
 * Update emsdk to 6.0.10.
 * Update Graphviz to 16.1.0.

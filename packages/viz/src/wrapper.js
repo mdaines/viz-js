@@ -28,7 +28,7 @@ export function getPluginList(module, kind) {
 }
 
 export function renderInput(module, input, formats, options) {
-  let graphPointer, contextPointer, resultPointer, imageFilePaths;
+  let graphPointer, contextPointer, resultPointer, lengthPointer, imageFilePaths;
 
   try {
     module["agerrMessages"] = [];
@@ -73,20 +73,23 @@ export function renderInput(module, input, formats, options) {
 
     let output = {};
 
-    for (let format of formats) {
-      resultPointer = module.ccall("viz_render", "number", ["number", "number", "string"], [contextPointer, graphPointer, format]);
+    let resultPointer = module.ccall("malloc", "number", ["number"], [4]);
 
-      if (resultPointer === 0) {
+    let lengthPointer = module.ccall("malloc", "number", ["number"], [4]);
+
+    for (let format of formats) {
+      let result = module.ccall("viz_render", "number", ["number", "number", "string", "number", "number"], [contextPointer, graphPointer, format, resultPointer, lengthPointer]);
+
+      if (result === 0) {
+        output[format] = module.UTF8ToString(module.getValue(resultPointer, "*"), module.getValue(lengthPointer, "i32"), true);
+
+        module.ccall("viz_free_render_data", null, ["number"], [module.getValue(resultPointer, "*")]);
+      } else {
         return {
           status: "failure",
           output: undefined,
           errors: parseErrorMessages(module)
         };
-      } else {
-        output[format] = module.UTF8ToString(resultPointer);
-
-        module.ccall("free", "number", ["number"], [resultPointer]);
-        resultPointer = 0;
       }
     }
 
@@ -120,6 +123,10 @@ export function renderInput(module, input, formats, options) {
 
     if (resultPointer) {
       module.ccall("free", "number", ["number"], [resultPointer]);
+    }
+
+    if (lengthPointer) {
+      module.ccall("free", "number", ["number"], [lengthPointer]);
     }
 
     if (imageFilePaths) {

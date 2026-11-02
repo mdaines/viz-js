@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* Update Expat to 2.10.0.
+
 ## 3.31.0
 
 * Update emsdk to 6.0.10.

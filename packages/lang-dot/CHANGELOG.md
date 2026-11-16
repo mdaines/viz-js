@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.0.6
 
 * Use hasOwnProperty to check the keyword map
 

@@ -14,7 +14,7 @@
     "@codemirror/lint": "^6.9.5",
     "@codemirror/state": "^6.5.4",
     "@lezer/common": "^1.5.1",
-    "@viz-js/lang-dot": "1.0.5",
+    "@viz-js/lang-dot": "1.0.6",
     "@viz-js/viz": "3.16.0",
     "codemirror": "^6.0.2",
     "lodash-es": "^4.17.23",

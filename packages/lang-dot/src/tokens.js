@@ -17,6 +17,11 @@ const keywordMap = {
 };
 
 export function keywords(name) {
-  let found = keywordMap[name.toLowerCase()];
-  return found == null ? -1 : found;
+  const lowerCaseName = name.toLowerCase();
+
+  if (!Object.hasOwn(keywordMap, lowerCaseName)) {
+    return -1;
+  }
+
+  return keywordMap[lowerCaseName];
 }

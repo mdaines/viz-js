@@ -1,35 +1,10 @@
 import { fileTests } from "@lezer/generator/test";
-import { buildParser } from "@lezer/generator";
 import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
+import { parser } from "../src/parser.js";
 
 let testDir = path.dirname(fileURLToPath(import.meta.url));
-
-let parser = buildParser(
-  fs.readFileSync(path.join(testDir, "../src/dot.grammar"), "utf8"),
-  {
-    externalSpecializer(name, terms) {
-      if (name == "keywords") {
-        let keywordMap = {
-          strict: terms.strict,
-          graph: terms.graph,
-          digraph: terms.digraph,
-          subgraph: terms.subgraph,
-          node: terms.node,
-          edge: terms.edge
-        };
-
-        return function(value) {
-          let found = keywordMap[value.toLowerCase()];
-          return found == null ? -1 : found;
-        }
-      } else {
-        throw new Error(`Undefined external specializer: ${name}`);
-      }
-    }
-  }
-);
 
 for (let file of fs.readdirSync(testDir)) {
   if (!/\.txt$/.test(file)) {
@@ -45,3 +20,13 @@ for (let file of fs.readdirSync(testDir)) {
     }
   });
 }
+
+describe("case-insensitive keyword specialization", function() {
+  it("parse should not fail for nodes with names that are properties of Object", function() {
+    const strictParser = parser.configure({ strict: true });
+
+    strictParser.parse("digraph { constructor }");
+    strictParser.parse("digraph { __proto__ }");
+    strictParser.parse("digraph { hasOwnProperty }");
+  });
+});

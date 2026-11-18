@@ -10,6 +10,10 @@ describe("Viz", function() {
   });
 
   describe("renderString", function() {
+    it("renders the graph", function() {
+      assert.ok(viz.renderString("digraph { a -> b }"));
+    });
+
     it("returns the output for the first graph, even if subsequent graphs have errors", function() {
       const result = viz.renderString("graph a { } graph {");
 
